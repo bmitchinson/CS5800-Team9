@@ -15,4 +15,7 @@ assignees: ''
 
 What steps does completing this issue involve? database perspective / frontend perspective.
 
-Have you assigned the proper labels for this issue?
+Have you assigned the proper labels for this issue? (Labels should describe the area of the project)
+
+Don't forget to move this issue to the correct column in our project board!
+Even if this issue is a draft/WIP, place it in the "drafting" collumn!

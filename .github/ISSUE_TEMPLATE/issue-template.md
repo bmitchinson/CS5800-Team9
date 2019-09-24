@@ -14,3 +14,5 @@ assignees: ''
 "As a user ..." Ex: (As a user... I should be able to login to the application)"
 
 What steps does completing this issue involve? database perspective / frontend perspective.
+
+Have you assigned the proper labels for this issue?

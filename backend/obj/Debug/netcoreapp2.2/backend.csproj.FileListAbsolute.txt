@@ -1,0 +1,14 @@
+/Users/GMICH/Projects/CS5800-Team9/backend/bin/Debug/netcoreapp2.2/backend.deps.json
+/Users/GMICH/Projects/CS5800-Team9/backend/bin/Debug/netcoreapp2.2/backend.runtimeconfig.json
+/Users/GMICH/Projects/CS5800-Team9/backend/bin/Debug/netcoreapp2.2/backend.runtimeconfig.dev.json
+/Users/GMICH/Projects/CS5800-Team9/backend/bin/Debug/netcoreapp2.2/backend.dll
+/Users/GMICH/Projects/CS5800-Team9/backend/bin/Debug/netcoreapp2.2/backend.pdb
+/Users/GMICH/Projects/CS5800-Team9/backend/obj/Debug/netcoreapp2.2/backend.csprojAssemblyReference.cache
+/Users/GMICH/Projects/CS5800-Team9/backend/obj/Debug/netcoreapp2.2/backend.csproj.CoreCompileInputs.cache
+/Users/GMICH/Projects/CS5800-Team9/backend/obj/Debug/netcoreapp2.2/backend.RazorAssemblyInfo.cache
+/Users/GMICH/Projects/CS5800-Team9/backend/obj/Debug/netcoreapp2.2/backend.RazorAssemblyInfo.cs
+/Users/GMICH/Projects/CS5800-Team9/backend/obj/Debug/netcoreapp2.2/backend.AssemblyInfoInputs.cache
+/Users/GMICH/Projects/CS5800-Team9/backend/obj/Debug/netcoreapp2.2/backend.AssemblyInfo.cs
+/Users/GMICH/Projects/CS5800-Team9/backend/obj/Debug/netcoreapp2.2/backend.RazorTargetAssemblyInfo.cache
+/Users/GMICH/Projects/CS5800-Team9/backend/obj/Debug/netcoreapp2.2/backend.dll
+/Users/GMICH/Projects/CS5800-Team9/backend/obj/Debug/netcoreapp2.2/backend.pdb

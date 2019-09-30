@@ -1,9 +1,10 @@
 import React from 'react';
 
 import { createMuiTheme, responsiveFontSizes } from '@material-ui/core/styles';
+import { ThemeProvider } from '@material-ui/styles';
 
 import Header from './components/Header/Header';
-import { ThemeProvider } from '@material-ui/styles';
+import Demo from './components/Demo/Demo';
 
 const logo = 'https://res.cloudinary.com/dheqbiqti/image/upload/r_max,fl_progressive,w_100,h_100/v1569869260/classroom/GitHub-Mark.png'
 
@@ -23,6 +24,7 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <Header/>
+      <Demo />
     </ThemeProvider>
   );
 }

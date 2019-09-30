@@ -1,25 +1,29 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+
+import { createMuiTheme, responsiveFontSizes } from '@material-ui/core/styles';
+
+import Header from './components/Header/Header';
+import { ThemeProvider } from '@material-ui/styles';
+
+const logo = 'https://res.cloudinary.com/dheqbiqti/image/upload/r_max,fl_progressive,w_100,h_100/v1569869260/classroom/GitHub-Mark.png'
+
+let theme = createMuiTheme({
+  palette: {
+    primary: {
+      main: '#F2E86D'
+    },
+    secondary: {
+      main: '#C2C6A7'
+    },
+  }
+});
+theme = responsiveFontSizes(theme);
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ThemeProvider theme={theme}>
+      <Header/>
+    </ThemeProvider>
   );
 }
 

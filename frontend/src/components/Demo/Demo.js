@@ -1,4 +1,5 @@
 import React, { Component } from 'react'; 
+import { tsConstructSignatureDeclaration } from '@babel/types';
 
 class Demo extends Component {
   constructor(props) {
@@ -15,9 +16,10 @@ class Demo extends Component {
       .then(res => res.json())
       .then(
         (result) => {
+          console.log(result);
           this.setState({
             isLoaded: true,
-            items: result.items
+            items: result
           });
         },
         (error) => {
@@ -39,8 +41,8 @@ class Demo extends Component {
       return (
         <ul>
           {items.map(item => (
-            <li key={item.name}>
-              {item.name} {item.price}
+            <li key={item.studentId}>
+              {item.firstName} {item.lastName}
             </li>
           ))}
         </ul>

@@ -1,0 +1,17 @@
+/Users/GMICH/Projects/CS5800-Team9/backend_tests/bin/Debug/netcoreapp2.2/xunit.runner.visualstudio.dotnetcore.testadapter.dll
+/Users/GMICH/Projects/CS5800-Team9/backend_tests/bin/Debug/netcoreapp2.2/xunit.runner.reporters.netcoreapp10.dll
+/Users/GMICH/Projects/CS5800-Team9/backend_tests/bin/Debug/netcoreapp2.2/xunit.runner.utility.netcoreapp10.dll
+/Users/GMICH/Projects/CS5800-Team9/backend_tests/bin/Debug/netcoreapp2.2/backend_tests.deps.json
+/Users/GMICH/Projects/CS5800-Team9/backend_tests/bin/Debug/netcoreapp2.2/backend_tests.runtimeconfig.json
+/Users/GMICH/Projects/CS5800-Team9/backend_tests/bin/Debug/netcoreapp2.2/backend_tests.runtimeconfig.dev.json
+/Users/GMICH/Projects/CS5800-Team9/backend_tests/bin/Debug/netcoreapp2.2/backend_tests.dll
+/Users/GMICH/Projects/CS5800-Team9/backend_tests/bin/Debug/netcoreapp2.2/backend_tests.pdb
+/Users/GMICH/Projects/CS5800-Team9/backend_tests/bin/Debug/netcoreapp2.2/backend.dll
+/Users/GMICH/Projects/CS5800-Team9/backend_tests/bin/Debug/netcoreapp2.2/backend.pdb
+/Users/GMICH/Projects/CS5800-Team9/backend_tests/obj/Debug/netcoreapp2.2/backend_tests.csprojAssemblyReference.cache
+/Users/GMICH/Projects/CS5800-Team9/backend_tests/obj/Debug/netcoreapp2.2/backend_tests.csproj.CoreCompileInputs.cache
+/Users/GMICH/Projects/CS5800-Team9/backend_tests/obj/Debug/netcoreapp2.2/backend_tests.AssemblyInfoInputs.cache
+/Users/GMICH/Projects/CS5800-Team9/backend_tests/obj/Debug/netcoreapp2.2/backend_tests.AssemblyInfo.cs
+/Users/GMICH/Projects/CS5800-Team9/backend_tests/obj/Debug/netcoreapp2.2/backend_tests.csproj.CopyComplete
+/Users/GMICH/Projects/CS5800-Team9/backend_tests/obj/Debug/netcoreapp2.2/backend_tests.dll
+/Users/GMICH/Projects/CS5800-Team9/backend_tests/obj/Debug/netcoreapp2.2/backend_tests.pdb

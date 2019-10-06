@@ -7,7 +7,7 @@ namespace backend_tests
 {
     public static class InMemoryDatabaseStartupHelpers
     {
-        public static async Task SeedDatabaseThreeStudents(this ApplicationDbContext context)
+        public static async Task SeedDatabaseThreeStudentsAsync(this ApplicationDbContext context)
         {
             var seededStudents = new List<Student>
             {

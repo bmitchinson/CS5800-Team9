@@ -21,15 +21,51 @@ namespace backend_tests.ControllerTests
             using (var context = new ApplicationDbContext(options))
             {
                 await context.Database.EnsureCreatedAsync();
-                await context.SeedDatabaseThreeStudents();
+                await context.SeedDatabaseThreeStudentsAsync();
             }
             using (var context = new ApplicationDbContext(options))
             {
                 var controller = SetUpStudentController(context);
-                var result = await controller.Get();
-                var data = result.Value;
 
-                Assert.Equal(3, data.Count());
+                var targetData = await 
+                    context
+                    .Students
+                    .ToListAsync();
+                
+                var result = await controller.Get();
+                var actionResultData = result.Value;
+
+                Assert.Equal(targetData.Count(), actionResultData.Count());
+            }
+        }
+
+        [Fact]
+        public async Task GET_Returns_Student_With_Supplied_Id()
+        {
+            var options = SqliteInMemory
+                .CreateOptions<ApplicationDbContext>();
+            using (var context = new ApplicationDbContext(options))
+            {
+                await context.Database.EnsureCreatedAsync();
+                await context.SeedDatabaseThreeStudentsAsync();
+            }
+            using (var context = new ApplicationDbContext(options))
+            {
+                var controller = SetUpStudentController(context);
+
+                var targetData = await 
+                    context
+                    .Students
+                    .Where(_ => _.StudentId == 1)
+                    .FirstOrDefaultAsync();
+
+                var actionResult = await controller.Get(1);
+                var actionResultData = actionResult.Value;
+
+                Assert.Equal(targetData.StudentId, actionResultData.StudentId);
+                Assert.Equal(targetData.FirstName, actionResultData.FirstName);
+                Assert.Equal(targetData.LastName, actionResultData.LastName);
+                Assert.Equal(targetData.BirthDate, actionResultData.BirthDate);
             }
         }
 

@@ -44,25 +44,101 @@ namespace backend.Data.Startup
                 {
                     if (!context.Students.Any() && env.IsDevelopment())
                     {
+                        /*
+                        Note that when data is added to an EF Core Context is not neccassary
+                        that you assign the primary key (id). In fact you should almost never
+                        directly manipulate the id since EF Core and the database provider will
+                        manage the keys for you via auto incrementation
+                         */
                         var seededStudents = new List<Student>
                         {
                             new Student
                             {
+                                StudentId = 1,
                                 FirstName = "Greg",
-                                LastName = "Mich"
+                                LastName = "Gallagher",
+                                BirthDate = new DateTime(1993,12,21)
                             },
                             new Student
                             {
+                                StudentId = 2,
                                 FirstName = "John",
-                                LastName = "Smith"
+                                LastName = "Smith",
+                                BirthDate = new DateTime(1997, 7, 23)
                             },
                             new Student
                             {
+                                StudentId = 3,
                                 FirstName = "Laura",
-                                LastName = "Jackson"
+                                LastName = "Jackson",
+                                BirthDate = new DateTime(2001, 1, 13)
                             }
                         };
+
+                        var seededInstructors = new List<Instructor>
+                        {
+                            new Instructor
+                            {
+                                InstructorId = 1,
+                                FirstName = "Jackson",
+                                LastName = "Crawford"
+                            },
+                            new Instructor
+                            {
+                                InstructorId = 2,
+                                FirstName = "Maggie",
+                                LastName = "Ellis"
+                            }
+                        };
+
+                        var seededCourses = new List<Course>
+                        {
+                            new Course
+                            {
+                                CourseId = 1,
+                                CourseName = "Database Systems",
+                                CreditHours = 3,
+                                Section = "00AA",
+                                StartTime = DateTime.Parse("9:00 AM"),
+                                EndTime = DateTime.Parse("10:45 AM")
+                            },
+                            new Course
+                            {
+                                CourseId = 2,
+                                CourseName = "Data Structures",
+                                CreditHours = 4,
+                                Section = "00BB",
+                                StartTime = DateTime.Parse("2:30 PM"),
+                                EndTime = DateTime.Parse("3:20 PM")
+                            }
+                        };
+
+                        var seededRegistrations = new List<Registration>
+                        {
+                            new Registration
+                            {
+                                StudentId = 1,
+                                InstructorId = 1,
+                                CourseId = 1
+                            },
+                            new Registration
+                            {
+                                StudentId = 2,
+                                InstructorId = 1,
+                                CourseId = 1
+                            },
+                            new Registration
+                            {
+                                StudentId = 3,
+                                InstructorId = 1,
+                                CourseId = 2
+                            }
+                        };
+
                         context.AddRange(seededStudents);
+                        context.AddRange(seededCourses);
+                        context.AddRange(seededInstructors);
+                        context.AddRange(seededRegistrations);
                         context.SaveChanges();
                     }
                 }

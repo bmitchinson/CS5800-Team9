@@ -38,7 +38,7 @@ namespace backend_tests.DatabaseTests
             {
                 // now we seed the student data and ensure that the seeding
                 // successfully added the data we wanted
-                await context.SeedDatabaseThreeStudentsAsync();
+                await context.TestingSeedDatabaseThreeStudentsAsync();
 
                 var students = await
                     context

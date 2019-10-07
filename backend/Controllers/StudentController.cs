@@ -36,5 +36,38 @@ namespace backend.Controllers
                 .Where(_ => _.StudentId == id)
                 .FirstOrDefaultAsync();
         }
+
+        [HttpPost]
+        public async Task<ActionResult> Post([FromBody]Student student)
+        {
+            if (ModelState.IsValid)
+            {
+                await _context.AddAsync(student);
+                await _context.SaveChangesAsync();
+                return CreatedAtAction(nameof(Get), new { id = student.StudentId }, student);
+            }
+            return BadRequest();
+        }
+
+        [HttpDelete]
+        public async Task<ActionResult> Delete(int id)
+        {
+            var target = await
+                _context
+                .Students
+                .Where(_ => _.StudentId == id)
+                .FirstOrDefaultAsync();
+            
+            if (target != null)
+            {
+                _context.Remove(target);
+                await _context.SaveChangesAsync();
+                return NoContent();
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
     }
 }

@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using backend.Data.Models;
 using System.Collections.Generic;
 using System.Linq;
+using System;
 
 namespace backend_tests.ControllerTests
 {
@@ -21,7 +22,7 @@ namespace backend_tests.ControllerTests
             using (var context = new ApplicationDbContext(options))
             {
                 await context.Database.EnsureCreatedAsync();
-                await context.SeedDatabaseThreeStudentsAsync();
+                await context.TestingSeedDatabaseThreeStudentsAsync();
             }
             using (var context = new ApplicationDbContext(options))
             {
@@ -47,7 +48,7 @@ namespace backend_tests.ControllerTests
             using (var context = new ApplicationDbContext(options))
             {
                 await context.Database.EnsureCreatedAsync();
-                await context.SeedDatabaseThreeStudentsAsync();
+                await context.TestingSeedDatabaseThreeStudentsAsync();
             }
             using (var context = new ApplicationDbContext(options))
             {
@@ -66,6 +67,78 @@ namespace backend_tests.ControllerTests
                 Assert.Equal(targetData.FirstName, actionResultData.FirstName);
                 Assert.Equal(targetData.LastName, actionResultData.LastName);
                 Assert.Equal(targetData.BirthDate, actionResultData.BirthDate);
+            }
+        }
+
+        [Fact]
+        public async Task POST_Creates_New_Student()
+        {
+            var options = SqliteInMemory
+                .CreateOptions<ApplicationDbContext>();
+            using (var context = new ApplicationDbContext(options))
+            {
+                await context.Database.EnsureCreatedAsync();
+            }
+            using (var context = new ApplicationDbContext(options))
+            {
+                var controller = SetUpStudentController(context);
+
+                var newStudent = new Student
+                {
+                    FirstName = "John",
+                    LastName = "Doe",
+                    BirthDate = DateTime.Now
+                };
+
+                await controller.Post(newStudent);
+            }
+            using (var context = new ApplicationDbContext(options))
+            {
+                var target = await
+                    context
+                    .Students
+                    .Where(_ => _.StudentId == 1)
+                    .FirstOrDefaultAsync();
+
+                Assert.Equal("John", target.FirstName);
+                Assert.Equal("Doe", target.LastName);
+            }
+        }
+
+        [Fact]
+        public async Task DELETE_Deletes_Student()
+        {
+            var options = SqliteInMemory
+                .CreateOptions<ApplicationDbContext>();
+            using (var context = new ApplicationDbContext(options))
+            {
+                await context.Database.EnsureCreatedAsync();
+                await context.TestingSeedDatabaseThreeStudentsAsync();
+            }
+            using (var context = new ApplicationDbContext(options))
+            {
+                var controller = SetUpStudentController(context);
+
+                var targetForDeletion = await 
+                    context
+                    .Students
+                    .Where(_ => _.StudentId == 1)
+                    .FirstOrDefaultAsync();
+
+                await controller.Delete(targetForDeletion.StudentId);
+            }
+            using (var context = new ApplicationDbContext(options))
+            {
+                Assert.Equal(2, 
+                    context
+                    .Students
+                    .Count());
+
+                Assert.Empty(
+                    context
+                    .Students
+                    .Where(_ => _.StudentId == 1)
+                    .ToList());
             }
         }
 

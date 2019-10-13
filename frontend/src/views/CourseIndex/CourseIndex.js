@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid } from '@material-ui/core';
+import { Grid, Typography, Button } from '@material-ui/core';
 
 import Course from '../../components/Course/Course';
 
@@ -22,9 +22,31 @@ const allCourses = [
     }
 ]
 
+
+
 export default function CourseIndex(){
+
+    const addCourse = () => {
+        console.log(`make post request with random course info, then refresh`)
+    };
+
     return (
-        <Grid container spacing={4}>
+        <Grid container spacing={4} alignItems='center'>
+            <Grid item xs={4}>
+                <Typography variant='h2'>
+                    Courses
+                </Typography>
+            </Grid>
+            <Grid item xs={7} />
+            <Grid item xs={1}>
+                <Button 
+                    color='primary' 
+                    variant='contained'
+                    onClick={addCourse}
+                    >
+                        Add Course
+                    </Button>
+            </Grid>
             {allCourses.map(course => 
                 <Grid item xs={12}>
                     <Course code={course.code} title={course.title} id={course.id}/>

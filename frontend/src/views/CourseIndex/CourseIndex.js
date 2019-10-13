@@ -1,23 +1,38 @@
 import React from 'react';
-import { Paper, Typography, Grid } from '@material-ui/core';
+import { Grid } from '@material-ui/core';
 
-import { makeStyles } from '@material-ui/core/styles';
+import Course from '../../components/Course/Course';
 
-const useStyles = makeStyles(theme => ({
-    course: {}
-}));
+// TODO: This will be populated from a central state solution upon login 
+// TODO: For crud demo: this will be populated by fetching all from the
+//                      CourseIndex component itself.
+
+const allCourses = [
+    {
+        code: "ECE:2201",
+        title: "Physics I",
+        id: 1023
+    },
+    {
+        code: "MUS:1003",
+        title: "Into to Piano",
+        id: 1024
+    },
+    {
+        code: "MATH:3044",
+        title: "Matrix Algebra",
+        id: 1025
+    }
+]
 
 export default function CourseIndex(){
-    const classes = useStyles();
-
     return (
         <Grid container spacing={2}>
-            <Grid item xs={12}>
-                <Paper className={classes.course}>course 1</Paper>
-            </Grid>
-            <Grid item xs={12}>
-                <Paper className={classes.course}>course 2</Paper>
-            </Grid>
+            {allCourses.map(course => 
+                <Grid item xs={12}>
+                    <Course code={course.code} title={course.title} id={course.id}/>
+                </Grid>
+            )}
         </Grid>
     )
 }

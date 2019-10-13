@@ -9,7 +9,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function MainView(props){
-    const classes = useStyles();    
+    const classes = useStyles();
 
     return (
         <div className={classes.mainview}>

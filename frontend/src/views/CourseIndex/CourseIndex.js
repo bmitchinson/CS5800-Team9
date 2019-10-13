@@ -11,23 +11,20 @@ const allCourses = [
     {
         code: "ECE:2201",
         title: "Physics I",
-        id: 1023
     },
     {
         code: "MUS:1003",
         title: "Into to Piano",
-        id: 1024
     },
     {
         code: "MATH:3044",
         title: "Matrix Algebra",
-        id: 1025
     }
 ]
 
 export default function CourseIndex(){
     return (
-        <Grid container spacing={2}>
+        <Grid container spacing={4}>
             {allCourses.map(course => 
                 <Grid item xs={12}>
                     <Course code={course.code} title={course.title} id={course.id}/>

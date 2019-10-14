@@ -8,6 +8,7 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
+// TODO: Might want to be utilizng 'theme.spacing()', how does it work?
 export default function MainView(props){
     const classes = useStyles();
 

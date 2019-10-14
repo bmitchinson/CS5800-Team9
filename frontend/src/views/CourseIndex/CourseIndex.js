@@ -5,16 +5,20 @@ import Course from '../../components/Course/Course';
 
 // TODO: This will be populated from a central state solution upon login 
 // TODO: For crud demo: this will be populated by fetching all from the
-//                      CourseIndex component itself.
+//                      CourseIndex component itself. Requires class conver.
 
 const allCourses = [
-    {
+    {   
         code: "ECE:2201",
         title: "Physics I",
     },
     {
         code: "MUS:1003",
         title: "Into to Piano",
+    },
+    {
+        code: "MATH:3044",
+        title: "Matrix Algebra",
     },
     {
         code: "MATH:3044",
@@ -37,7 +41,7 @@ export default function CourseIndex(){
                     Courses
                 </Typography>
             </Grid>
-            <Grid item xs={7} />
+            <div style={{flexGrow: 1}} />
             <Grid item xs={1}>
                 <Button 
                     color='primary' 

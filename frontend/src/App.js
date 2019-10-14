@@ -6,7 +6,7 @@ import { ThemeProvider } from '@material-ui/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 
 import MainView from './views/MainView';
-import CourseIndex from './views/CourseIndex/CourseIndex';
+import StudentIndex from './views/StudentIndex/StudentIndex';
 
 import Header from './components/Header/Header';
 
@@ -30,7 +30,7 @@ function App() {
       <CssBaseline />
       <Header/>
       <MainView>
-        <CourseIndex />
+        <StudentIndex />
       </MainView>
     </ThemeProvider>
   );

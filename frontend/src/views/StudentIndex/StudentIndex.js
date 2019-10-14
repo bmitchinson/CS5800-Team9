@@ -11,7 +11,8 @@ class StudentIndex extends Component {
         this.state = {
             students: null
         }
-        this.refreshStudentIndex = this.refreshStudentIndex.bind(this);
+        this.refreshStudentIndex = this.refreshStudentIndex.bind(this)
+        this.addStudent = this.addStudent.bind(this)
     }
 
     // TODO: Loading
@@ -26,7 +27,7 @@ class StudentIndex extends Component {
             result => {
                 this.setState({
                     students: result
-                }, () => console.log(this.state.students));
+                });
             },
             error => {
                 console.log('error:', error)
@@ -34,14 +35,22 @@ class StudentIndex extends Component {
         );
     }
 
-    addStudent = () => {
-        // axios({
-        //     method: 'post',
-        //     url: 'http://localhost:5000/api/student',
-        //     data: {
-                
-        //     }
-        // })
+    addStudent(){
+        axios({
+            method: 'post',
+            url: 'http://localhost:5000/api/student',
+            data: {
+                FirstName: "Ben",
+                LastName: "Mitchinson",
+                BirthDate: "2000-1-1T00:00:00"
+            }
+        }).then(function (response) {
+            console.log('res', response);
+            this.refreshStudentIndex()
+        }.bind(this))
+        .catch(function (error) {
+            console.log('err', error);
+        })
     }
     
     render() {
@@ -65,7 +74,7 @@ class StudentIndex extends Component {
                         </Button>
                 </Grid>
                 {students && students.map(student => 
-                    <Grid item xs={12}>
+                    <Grid key={student.studentId} item xs={12}>
                         <Student student={student} refreshIndex={this.refreshStudentIndex}/>
                     </Grid>
                 )}

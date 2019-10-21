@@ -18,5 +18,7 @@ namespace backend.Data.Models
         public DateTime EndTime { get; set; }
 
         public ICollection<Registration> Registrations { get; set; }
+        public ICollection<Course> PreRequisites { get; set; }
+        public string level {get; set;}
     }
 }

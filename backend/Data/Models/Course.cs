@@ -18,7 +18,7 @@ namespace backend.Data.Models
 
         public DateTime EndTime { get; set; }
 
-        public TopicLevel Level { get; set; }
+        public TopicLevel level { get; set; }
 
         public ICollection<Registration> Registrations { get; set; }
         public ICollection<Prerequisite> Prerequisites { get; set; }

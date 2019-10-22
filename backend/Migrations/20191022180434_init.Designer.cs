@@ -9,8 +9,8 @@ using backend.Data.Contexts;
 namespace backend.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20191022034443_new enum type for course difficulty level and prerequesite entity")]
-    partial class newenumtypeforcoursedifficultylevelandprerequesiteentity
+    [Migration("20191022180434_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -92,17 +92,22 @@ namespace backend.Migrations
 
             modelBuilder.Entity("backend.Data.Models.Registration", b =>
                 {
-                    b.Property<int>("StudentId");
+                    b.Property<int>("RegistrationId")
+                        .ValueGeneratedOnAdd();
 
-                    b.Property<int>("InstructorId");
+                    b.Property<int?>("CourseId");
 
-                    b.Property<int>("CourseId");
+                    b.Property<int?>("InstructorId");
 
-                    b.HasKey("StudentId", "InstructorId", "CourseId");
+                    b.Property<int?>("StudentId");
+
+                    b.HasKey("RegistrationId");
 
                     b.HasIndex("CourseId");
 
                     b.HasIndex("InstructorId");
+
+                    b.HasIndex("StudentId");
 
                     b.ToTable("Registration");
                 });
@@ -139,18 +144,15 @@ namespace backend.Migrations
                 {
                     b.HasOne("backend.Data.Models.Course", "Course")
                         .WithMany("Registrations")
-                        .HasForeignKey("CourseId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("CourseId");
 
                     b.HasOne("backend.Data.Models.Instructor", "Instructor")
                         .WithMany("Registrations")
-                        .HasForeignKey("InstructorId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("InstructorId");
 
                     b.HasOne("backend.Data.Models.Student", "Student")
                         .WithMany("Registrations")
-                        .HasForeignKey("StudentId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("StudentId");
                 });
 #pragma warning restore 612, 618
         }

@@ -4,11 +4,13 @@ namespace backend.Data.Models
     {
         // StudentId, InstructorId, and Course Id are the foreign key
         // relationships, together they make the primary key
-        public int StudentId { get; set; }
+        public int? StudentId { get; set; }
 
-        public int InstructorId { get; set; }
+        public int? InstructorId { get; set; }
 
-        public int CourseId { get; set; }
+        public int? CourseId { get; set; }
+
+        public int RegistrationId { get; set; }
 
         public Instructor Instructor { get; set ;}
 

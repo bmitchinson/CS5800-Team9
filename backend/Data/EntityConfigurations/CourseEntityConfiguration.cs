@@ -1,6 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using backend.Data.Models;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using backend.Data.Enums;
 
 namespace backend.Data.Configs
 {
@@ -13,6 +15,9 @@ namespace backend.Data.Configs
 
             entity.Property(_ => _.EndTime)
             .HasColumnType("datetime");
+
+            entity.Property(_ => _.Level)
+            .HasConversion(new EnumToStringConverter<TopicLevel>());
         }
     }
 }

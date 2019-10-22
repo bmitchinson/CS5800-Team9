@@ -100,7 +100,14 @@ namespace backend.Data.Startup
                                 CreditHours = 3,
                                 Section = "00AA",
                                 StartTime = DateTime.Parse("9:00 AM"),
-                                EndTime = DateTime.Parse("10:45 AM")
+                                EndTime = DateTime.Parse("10:45 AM"),
+                                Prerequisites = new List<Prerequisite>
+                                {
+                                    new Prerequisite
+                                    {
+                                        CourseId = 2
+                                    }
+                                }
                             },
                             new Course
                             {
@@ -110,6 +117,22 @@ namespace backend.Data.Startup
                                 Section = "00BB",
                                 StartTime = DateTime.Parse("2:30 PM"),
                                 EndTime = DateTime.Parse("3:20 PM")
+                            },
+                            new Course
+                            {
+                                CourseId = 3,
+                                CourseName = "Software Engineering",
+                                CreditHours = 4,
+                                Section = "00AA",
+                                StartTime = DateTime.Parse("5:30 PM"),
+                                EndTime = DateTime.Parse("7:00 PM"),
+                                Prerequisites = new List<Prerequisite>
+                                {
+                                    new Prerequisite
+                                    {
+                                        CourseId = 1
+                                    }
+                                }
                             }
                         };
 

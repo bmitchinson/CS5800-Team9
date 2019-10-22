@@ -14,9 +14,9 @@ namespace backend.Data.Contexts
 
 
         public DbSet<Student> Students { get; set; }
-        public DbSet<Instructor> Instructors { get; set; }
         public DbSet<Course> Courses { get; set; }
-
+        public DbSet<Administrator> Administrators { get; set; }
+        public DbSet<Instructor> Instructors { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new StudentEntityConfiguration());
@@ -24,5 +24,6 @@ namespace backend.Data.Contexts
             modelBuilder.ApplyConfiguration(new CourseEntityConfiguration());
             modelBuilder.ApplyConfiguration(new RegistrationEntityConfiguration());
         }
+
     }
 }

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System;
+using backend.Data.Enums;
 
 namespace backend.Data.Models
 {
@@ -17,6 +18,9 @@ namespace backend.Data.Models
 
         public DateTime EndTime { get; set; }
 
+        public TopicLevel Level { get; set; }
+
         public ICollection<Registration> Registrations { get; set; }
+        public ICollection<Prerequisite> Prerequisites { get; set; }
     }
 }

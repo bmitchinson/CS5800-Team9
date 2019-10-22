@@ -42,7 +42,14 @@ namespace backend.Data.Startup
 
                 using (var context = services.GetRequiredService<ApplicationDbContext>())
                 {
-                    if (!context.Students.Any() && env.IsDevelopment())
+                    if (
+                        !context.Students.Any() 
+                        && !context.Instructors.Any()
+                        && !context.Courses.Any()
+                        && !context.Students
+                            .Select(_ => _.Registrations)
+                            .Any()
+                        && env.IsDevelopment())
                     {
                         /*
                         Note that when data is added to an EF Core Context is not neccassary

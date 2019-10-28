@@ -1,4 +1,4 @@
-import React, { Component } from 'react'; 
+import React, { Component } from "react";
 
 class Demo extends Component {
   constructor(props) {
@@ -14,20 +14,20 @@ class Demo extends Component {
     fetch("http://localhost:5000/api/test")
       .then(res => res.json())
       .then(
-        (result) => {
+        result => {
           console.log(result);
           this.setState({
             isLoaded: true,
             items: result
           });
         },
-        (error) => {
+        error => {
           this.setState({
             isLoaded: true,
             error
           });
         }
-      )
+      );
   }
 
   render() {
@@ -50,4 +50,4 @@ class Demo extends Component {
   }
 }
 
-export default Demo
+export default Demo;

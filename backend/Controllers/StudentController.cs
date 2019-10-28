@@ -21,7 +21,7 @@ namespace backend.Controllers
             _context = context;
         }
 
-        [HttpGet, Authorize]
+        [HttpGet]
         public async Task<ActionResult<IEnumerable<Student>>> Get()
         {
             return await _context
@@ -29,7 +29,7 @@ namespace backend.Controllers
                 .ToListAsync();
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id}"), Authorize]
         public async Task<ActionResult<Student>> Get(int id)
         {
             return await _context

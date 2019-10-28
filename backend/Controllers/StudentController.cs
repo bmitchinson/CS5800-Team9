@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using backend.Data.Contexts;
 using backend.Data.Models;
 using Microsoft.EntityFrameworkCore;
@@ -20,7 +21,7 @@ namespace backend.Controllers
             _context = context;
         }
 
-        [HttpGet]
+        [HttpGet, Authorize]
         public async Task<ActionResult<IEnumerable<Student>>> Get()
         {
             return await _context
@@ -57,7 +58,7 @@ namespace backend.Controllers
                 .Students
                 .Where(_ => _.StudentId == id)
                 .FirstOrDefaultAsync();
-            
+
             if (target != null)
             {
                 _context.Remove(target);
@@ -70,6 +71,6 @@ namespace backend.Controllers
             }
         }
 
-        
+
     }
 }

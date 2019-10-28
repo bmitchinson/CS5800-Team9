@@ -162,6 +162,11 @@ namespace backend.Data.Startup
                                 StudentId = 3,
                                 InstructorId = 1,
                                 CourseId = 2
+                            },
+                            new Registration
+                            {
+                                StudentId = 1,
+                                CourseId = 3
                             }
                         };
 

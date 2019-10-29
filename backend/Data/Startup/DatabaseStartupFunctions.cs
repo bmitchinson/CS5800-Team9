@@ -136,37 +136,9 @@ namespace backend.Data.Startup
                             }
                         };
 
-                        var seededRegistrations = new List<Registration>
-                        {
-                            new Registration
-                            {
-                                StudentId = 1,
-                                InstructorId = 1,
-                                CourseId = 1
-                            },
-                            new Registration
-                            {
-                                StudentId = 2,
-                                InstructorId = 1,
-                                CourseId = 1
-                            },
-                            new Registration
-                            {
-                                StudentId = 3,
-                                InstructorId = 1,
-                                CourseId = 2
-                            },
-                            new Registration
-                            {
-                                StudentId = 1,
-                                CourseId = 3
-                            }
-                        };
-
                         context.AddRange(seededStudents);
                         context.AddRange(seededCourses);
                         context.AddRange(seededInstructors);
-                        context.AddRange(seededRegistrations);
                         context.SaveChanges();
                     }
                 }

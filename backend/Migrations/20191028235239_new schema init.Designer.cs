@@ -9,8 +9,8 @@ using backend.Data.Contexts;
 namespace backend.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20191022180434_init")]
-    partial class init
+    [Migration("20191028235239_new schema init")]
+    partial class newschemainit
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -47,13 +47,13 @@ namespace backend.Migrations
                     b.Property<DateTime>("EndTime")
                         .HasColumnType("datetime");
 
+                    b.Property<string>("Level")
+                        .IsRequired();
+
                     b.Property<string>("Section");
 
                     b.Property<DateTime>("StartTime")
                         .HasColumnType("datetime");
-
-                    b.Property<string>("level")
-                        .IsRequired();
 
                     b.HasKey("CourseId");
 
@@ -97,17 +97,15 @@ namespace backend.Migrations
 
                     b.Property<int?>("CourseId");
 
-                    b.Property<int?>("InstructorId");
+                    b.Property<int>("EnrollmentLimit");
 
-                    b.Property<int?>("StudentId");
+                    b.Property<int?>("InstructorId");
 
                     b.HasKey("RegistrationId");
 
                     b.HasIndex("CourseId");
 
                     b.HasIndex("InstructorId");
-
-                    b.HasIndex("StudentId");
 
                     b.ToTable("Registration");
                 });
@@ -132,6 +130,24 @@ namespace backend.Migrations
                     b.ToTable("Students");
                 });
 
+            modelBuilder.Entity("backend.Data.Models.StudentEnrollment", b =>
+                {
+                    b.Property<int>("StudentEnrollmentId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("RegistrationId");
+
+                    b.Property<int>("StudentId");
+
+                    b.HasKey("StudentEnrollmentId");
+
+                    b.HasIndex("RegistrationId");
+
+                    b.HasIndex("StudentId");
+
+                    b.ToTable("StudentEnrollment");
+                });
+
             modelBuilder.Entity("backend.Data.Models.Prerequisite", b =>
                 {
                     b.HasOne("backend.Data.Models.Course", "Course")
@@ -142,17 +158,26 @@ namespace backend.Migrations
 
             modelBuilder.Entity("backend.Data.Models.Registration", b =>
                 {
-                    b.HasOne("backend.Data.Models.Course", "Course")
+                    b.HasOne("backend.Data.Models.Course")
                         .WithMany("Registrations")
                         .HasForeignKey("CourseId");
 
-                    b.HasOne("backend.Data.Models.Instructor", "Instructor")
+                    b.HasOne("backend.Data.Models.Instructor")
                         .WithMany("Registrations")
                         .HasForeignKey("InstructorId");
+                });
+
+            modelBuilder.Entity("backend.Data.Models.StudentEnrollment", b =>
+                {
+                    b.HasOne("backend.Data.Models.Registration", "Registration")
+                        .WithMany("StudentEnrollments")
+                        .HasForeignKey("RegistrationId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("backend.Data.Models.Student", "Student")
-                        .WithMany("Registrations")
-                        .HasForeignKey("StudentId");
+                        .WithMany("Enrollments")
+                        .HasForeignKey("StudentId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }

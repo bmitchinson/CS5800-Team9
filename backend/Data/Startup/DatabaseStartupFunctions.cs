@@ -42,7 +42,17 @@ namespace backend.Data.Startup
 
                 using (var context = services.GetRequiredService<ApplicationDbContext>())
                 {
-                    if (!context.Students.Any() && env.IsDevelopment())
+                    if (
+                        !context.Students.Any() 
+                        && !context.Instructors.Any()
+                        && !context.Courses.Any()
+                        && !context.Students
+                            .Select(_ => _.Enrollments)
+                            .Any()
+                        && !context.Courses
+                            .Select(_ => _.Registrations)
+                            .Any()
+                        && env.IsDevelopment())
                     {
                         /*
                         Note that when data is added to an EF Core Context is not neccassary
@@ -136,9 +146,60 @@ namespace backend.Data.Startup
                             }
                         };
 
+                        var seededRegistrations = new List<Registration>
+                        {
+                            new Registration
+                            {
+                                RegistrationId = 1,
+                                CourseId = 1,
+                                InstructorId = 1,
+                                EnrollmentLimit = 40,
+                            },
+                            new Registration
+                            {
+                                RegistrationId = 2,
+                                CourseId = 2,
+                                InstructorId = 1,
+                                EnrollmentLimit = 30
+                            },
+                            new Registration
+                            {
+                                RegistrationId = 3,
+                                CourseId = 3,
+                                InstructorId = 2,
+                                EnrollmentLimit = 20
+                            }
+                        };
+
+                        var seededStudentEnrollments = new List<StudentEnrollment>
+                        {
+                            new StudentEnrollment
+                            {
+                                StudentId = 1,
+                                RegistrationId = 1
+                            },
+                            new StudentEnrollment
+                            {
+                                StudentId = 1,
+                                RegistrationId = 2
+                            },
+                            new StudentEnrollment
+                            {
+                                StudentId = 2,
+                                RegistrationId = 1
+                            },
+                            new StudentEnrollment
+                            {
+                                StudentId = 3,
+                                RegistrationId = 3
+                            }
+                        };
+
                         context.AddRange(seededStudents);
                         context.AddRange(seededCourses);
                         context.AddRange(seededInstructors);
+                        context.AddRange(seededRegistrations);
+                        context.AddRange(seededStudentEnrollments);
                         context.SaveChanges();
                     }
                 }

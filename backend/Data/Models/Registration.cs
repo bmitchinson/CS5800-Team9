@@ -15,5 +15,9 @@ namespace backend.Data.Models
         public int EnrollmentLimit { get; set; }
 
         public ICollection<StudentEnrollment> StudentEnrollments { get; set; }
+
+        public Course Course { get; set; }
+
+        public Instructor Instructor { get; set; }
     }
 }

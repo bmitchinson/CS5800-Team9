@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using backend.Data.Contexts;
 using backend.Data.Models;
 using Microsoft.EntityFrameworkCore;
+using backend.Data.QueryObjects;
 
 namespace backend.Controllers
 {
@@ -25,14 +26,17 @@ namespace backend.Controllers
         {
             return await _context
                 .Students
+                .GetStudents()
                 .ToListAsync();
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<Student>> Get(int id)
         {
+            // TODO this should be put into aquery object
             return await _context
                 .Students
+                .GetStudents()
                 .Where(_ => _.StudentId == id)
                 .FirstOrDefaultAsync();
         }

@@ -6,6 +6,8 @@ using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using System.Collections.Generic;
+using Microsoft.Extensions.Logging;
 
 namespace JWT.Controllers
 {
@@ -13,10 +15,14 @@ namespace JWT.Controllers
     public class TokenController : Controller
     {
         private IConfiguration _config;
+        private ILogger<TokenController> _logger;
 
-        public TokenController(IConfiguration config)
+        public TokenController(
+            IConfiguration config,
+            ILogger<TokenController> logger)
         {
             _config = config;
+            _logger = logger;
         }
 
         [AllowAnonymous]
@@ -44,6 +50,11 @@ namespace JWT.Controllers
               _config["Jwt:Issuer"],
               expires: DateTime.Now.AddMinutes(30),
               signingCredentials: creds);
+
+            token.Payload["roles"] = new List<String>
+                {
+                    "Student"
+                };
 
             return new JwtSecurityTokenHandler().WriteToken(token);
         }

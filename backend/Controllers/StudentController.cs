@@ -29,7 +29,7 @@ namespace backend.Controllers
                 .ToListAsync();
         }
 
-        [HttpGet("{id}"), Authorize]
+        [HttpGet("{id}"), Authorize(Roles = "Student")]
         public async Task<ActionResult<Student>> Get(int id)
         {
             return await _context

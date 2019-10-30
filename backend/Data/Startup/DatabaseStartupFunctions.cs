@@ -64,21 +64,27 @@ namespace backend.Data.Startup
                                 StudentId = 1,
                                 FirstName = "Greg",
                                 LastName = "Gallagher",
-                                BirthDate = new DateTime(1993,12,21)
+                                BirthDate = new DateTime(1993,12,21),
+                                Email = "email@gmail.com",
+                                Password = "secret"
                             },
                             new Student
                             {
                                 StudentId = 2,
                                 FirstName = "John",
                                 LastName = "Smith",
-                                BirthDate = new DateTime(1997, 7, 23)
+                                BirthDate = new DateTime(1997, 7, 23),
+                                Email = "email@gmail.com",
+                                Password = "secret"
                             },
                             new Student
                             {
                                 StudentId = 3,
                                 FirstName = "Laura",
                                 LastName = "Jackson",
-                                BirthDate = new DateTime(2001, 1, 13)
+                                BirthDate = new DateTime(2001, 1, 13),
+                                Email = "email@gmail.com",
+                                Password = "secret"
                             }
                         };
 

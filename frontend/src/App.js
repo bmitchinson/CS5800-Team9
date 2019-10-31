@@ -10,6 +10,7 @@ import MainView from "./views/MainView";
 import StudentIndex from "./views/StudentIndex/StudentIndex";
 
 import Header from "./components/Header/Header";
+import SignIn from "./components/SignIn/SignIn";
 
 let theme = createMuiTheme({
   palette: {
@@ -34,7 +35,7 @@ const useStateWithLocalStorage = localStorageKey => {
 };
 
 // include this line if you'd like to clear JWT data
-// localStorage.removeItem("userJWT");
+localStorage.removeItem("userJWT");
 
 const setDummyJWT = (userJWT, setUserJWT) => {
   if (!userJWT) {
@@ -51,24 +52,26 @@ function App() {
     <Router>
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        <Header />
-        <MainView>
-          {!userJWT && (
-            <Switch>
-              <h2>gotta sign in</h2>
-            </Switch>
-          )}
-          {userJWT && (
-            <Switch>
-              <Route path="/students">
-                <StudentIndex />
-              </Route>
-              <Route>
-                <h2>Home</h2>
-              </Route>
-            </Switch>
-          )}
-        </MainView>
+        {!userJWT && (
+          <Switch>
+            <SignIn />
+          </Switch>
+        )}
+        {userJWT && (
+          <>
+            <Header />
+            <MainView>
+              <Switch>
+                <Route path="/students">
+                  <StudentIndex />
+                </Route>
+                <Route>
+                  <h2>Home</h2>
+                </Route>
+              </Switch>
+            </MainView>
+          </>
+        )}
       </ThemeProvider>
     </Router>
   );

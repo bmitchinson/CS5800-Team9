@@ -51,6 +51,7 @@ namespace JWT.Controllers
               expires: DateTime.Now.AddMinutes(30),
               signingCredentials: creds);
 
+            // TODO: assign the proper load based on interpreting the db
             token.Payload["roles"] = new List<String>
                 {
                     "Student"
@@ -63,16 +64,16 @@ namespace JWT.Controllers
         {
             UserModel user = null;
 
-            if (login.Username == "Ben" && login.Password == "secret")
+            if (login.Email == "test@gmail.com" && login.Password == "secret")
             {
-                user = new UserModel { Name = "Ben", Email = "mitchinson.dev@gmail.com" };
+                user = new UserModel { Name = "Test", Email = login.Email };
             }
             return user;
         }
 
         public class LoginModel
         {
-            public string Username { get; set; }
+            public string Email { get; set; }
             public string Password { get; set; }
         }
 

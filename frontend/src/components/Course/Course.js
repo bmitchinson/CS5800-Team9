@@ -31,7 +31,6 @@ export default function Course(props) {
     setAnchorEl(null);
   };
   const handleDelete = () => {
-    console.log(`make delete request for ${props.title}!`);
     setAnchorEl(null);
   };
 

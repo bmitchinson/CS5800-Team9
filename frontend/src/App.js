@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 import { createMuiTheme, responsiveFontSizes } from "@material-ui/core/styles";
 import { ThemeProvider } from "@material-ui/styles";
@@ -11,6 +11,10 @@ import StudentIndex from "./views/StudentIndex/StudentIndex";
 
 import Header from "./components/Header/Header";
 import SignIn from "./components/SignIn/SignIn";
+
+// include this line if you'd like to clear JWT data
+// remove if you'd like sign in to persist
+// localStorage.removeItem("userJWT");
 
 let theme = createMuiTheme({
   palette: {
@@ -24,6 +28,25 @@ let theme = createMuiTheme({
 });
 theme = responsiveFontSizes(theme);
 
+function getRolesFromJwt(token) {
+  if (!token) {
+    return [];
+  }
+
+  var base64Url = token.split(".")[1];
+  var base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+  var jsonPayload = decodeURIComponent(
+    atob(base64)
+      .split("")
+      .map(function(c) {
+        return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
+      })
+      .join("")
+  );
+
+  return JSON.parse(jsonPayload).roles;
+}
+
 const useStateWithLocalStorage = localStorageKey => {
   const [value, setValue] = React.useState(
     localStorage.getItem(localStorageKey) || ""
@@ -31,42 +54,30 @@ const useStateWithLocalStorage = localStorageKey => {
   React.useEffect(() => {
     localStorage.setItem(localStorageKey, value);
   }, [value]);
-  return [value, setValue];
-};
-
-// include this line if you'd like to clear JWT data
-localStorage.removeItem("userJWT");
-
-const setDummyJWT = (userJWT, setUserJWT) => {
-  if (!userJWT) {
-    setUserJWT("active-jwt-here");
-  }
+  return [value, setValue, getRolesFromJwt(value)];
 };
 
 function App() {
-  const [userJWT, setUserJWT] = useStateWithLocalStorage("userJWT");
-
-  // setDummyJWT(userJWT, setUserJWT);
+  const [userJWT, setUserJWT, roles] = useStateWithLocalStorage("userJWT");
+  const clearJWT = () => {
+    setUserJWT(null);
+  };
 
   return (
     <Router>
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        {!userJWT && (
-          <Switch>
-            <SignIn />
-          </Switch>
-        )}
+        {!userJWT && <SignIn setUserJWT={setUserJWT} />}
         {userJWT && (
           <>
-            <Header />
+            <Header clearJWT={clearJWT} />
             <MainView>
               <Switch>
                 <Route path="/students">
                   <StudentIndex />
                 </Route>
                 <Route>
-                  <h2>Home</h2>
+                  <h2>Signed in with role(s): [{roles}]</h2>
                 </Route>
               </Switch>
             </MainView>

@@ -11,10 +11,6 @@ import SchoolIcon from "@material-ui/icons/School";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 
-const handleFormChange = (event, setState) => {
-  console.log(event);
-};
-
 const useStyles = makeStyles(theme => ({
   root: {
     height: "100vh"
@@ -46,7 +42,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function SignInSide() {
+export default function SignIn(props) {
   const classes = useStyles();
 
   const postLogin = () => {
@@ -59,11 +55,10 @@ export default function SignInSide() {
       }
     })
       .then(function(response) {
-        // TODO: Logic to Save JWT
-        console.log("res", response);
+        props.setUserJWT(response.data.token);
       })
       .catch(function(error) {
-        console.log("err", error);
+        // TODO: "Bad username / password message"
       });
   };
 

@@ -8,6 +8,11 @@ using System.Security.Claims;
 using System.Text;
 using System.Collections.Generic;
 using Microsoft.Extensions.Logging;
+using backend.Models;
+using backend.Data.Contexts;
+using System.Linq;
+using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
 
 namespace JWT.Controllers
 {
@@ -16,32 +21,34 @@ namespace JWT.Controllers
     {
         private IConfiguration _config;
         private ILogger<TokenController> _logger;
+        private readonly ApplicationDbContext _context;
 
         public TokenController(
             IConfiguration config,
-            ILogger<TokenController> logger)
+            ILogger<TokenController> logger,
+            ApplicationDbContext context)
         {
             _config = config;
             _logger = logger;
+            _context = context;
         }
 
         [AllowAnonymous]
         [HttpPost]
-        public IActionResult CreateToken([FromBody]LoginModel login)
+        public async Task<IActionResult> CreateToken([FromBody]LoginModel login)
         {
-            IActionResult response = Unauthorized();
-            var user = Authenticate(login);
+            var user = await Authenticate(login);
 
-            if (user != null)
+            if (user.IsAuthenticated)
             {
-                var tokenString = BuildToken(user);
-                response = Ok(new { token = tokenString });
+                var tokenString = BuildToken(user, user.Roles);
+                return Ok(new { token = tokenString });
             }
 
-            return response;
+            return Unauthorized();
         }
 
-        private string BuildToken(UserModel user)
+        private string BuildToken(UserModel user, ICollection<string> roles)
         {
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
@@ -52,29 +59,54 @@ namespace JWT.Controllers
               signingCredentials: creds);
 
             // TODO: assign the proper load based on interpreting the db
-            token.Payload["roles"] = new List<String>
-                {
-                    "Student"
-                };
+            token.Payload["roles"] = roles;
 
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
-        private UserModel Authenticate(LoginModel login)
+        private async Task<UserModel> Authenticate(LoginModel login)
         {
-            UserModel user = null;
-
-            if (login.Email == "test@gmail.com" && login.Password == "secret")
+            UserModel user = new UserModel
             {
-                user = new UserModel { Name = "Test", Email = login.Email };
+                Name = "Test",
+                Email = login.Email,
+                IsAuthenticated = false,
+                Roles = new List<string>()
+            };
+
+            // we query the database for the following "claims", which just means
+            // that we are querying to see what kind of user the email pertains to
+            // which is important for distuinguishing their role and what kind of
+            // table relationships can exist for them.
+            var studentClaim = await 
+                _context
+                .Students
+                .Where(_ => _.Email == login.Email)
+                .FirstOrDefaultAsync();
+
+            var instructorClaim = await
+                _context
+                .Instructors
+                .Where(_ => _.Email == login.Email)
+                .FirstOrDefaultAsync();
+
+            if (studentClaim != null)
+            {
+                if (studentClaim.Password == login.Password)
+                {
+                    user.Roles.Add("Student");
+                    user.IsAuthenticated = true;
+                }
+            }
+            else if (instructorClaim != null)
+            {
+                if (instructorClaim.Password == login.Password)
+                {
+                    user.Roles.Add("Instructor");
+                    user.IsAuthenticated = true;
+                }
             }
             return user;
-        }
-
-        public class LoginModel
-        {
-            public string Email { get; set; }
-            public string Password { get; set; }
         }
 
         private class UserModel
@@ -82,6 +114,8 @@ namespace JWT.Controllers
             public string Name { get; set; }
             public string Email { get; set; }
             public DateTime Birthdate { get; set; }
+            public ICollection<string> Roles { get; set; }
+            public bool IsAuthenticated { get; set; }
         }
     }
 }

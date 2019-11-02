@@ -94,13 +94,17 @@ namespace backend.Data.Startup
                             {
                                 InstructorId = 1,
                                 FirstName = "Jackson",
-                                LastName = "Crawford"
+                                LastName = "Crawford",
+                                Email = "jcrawford@test.com",
+                                Password = "secret"
                             },
                             new Instructor
                             {
                                 InstructorId = 2,
                                 FirstName = "Maggie",
-                                LastName = "Ellis"
+                                LastName = "Ellis",
+                                Email = "mellis@secret.com",
+                                Password = "secret"
                             }
                         };
 

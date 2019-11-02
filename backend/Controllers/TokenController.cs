@@ -13,6 +13,7 @@ using backend.Data.Contexts;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
+using backend.Infrastructure.PasswordSecurity;
 
 namespace JWT.Controllers
 {
@@ -60,6 +61,8 @@ namespace JWT.Controllers
 
             // TODO: assign the proper load based on interpreting the db
             token.Payload["roles"] = roles;
+            token.Payload["email"] = user.Email;
+            token.Payload["uId"] = user.Id;
 
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
@@ -92,10 +95,12 @@ namespace JWT.Controllers
 
             if (studentClaim != null)
             {
-                if (studentClaim.Password == login.Password)
+                // if (studentClaim.Password == login.Password)
+                if (PasswordSecurity.CompareHashedPasswords(login.Password, studentClaim.Password))
                 {
                     user.Roles.Add("Student");
                     user.IsAuthenticated = true;
+                    user.Id = studentClaim.StudentId;
                 }
             }
             else if (instructorClaim != null)
@@ -104,6 +109,7 @@ namespace JWT.Controllers
                 {
                     user.Roles.Add("Instructor");
                     user.IsAuthenticated = true;
+                    user.Id = instructorClaim.InstructorId;
                 }
             }
             return user;
@@ -116,6 +122,8 @@ namespace JWT.Controllers
             public DateTime Birthdate { get; set; }
             public ICollection<string> Roles { get; set; }
             public bool IsAuthenticated { get; set; }
+
+            public int Id { get; set; }
         }
     }
 }

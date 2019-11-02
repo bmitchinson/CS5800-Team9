@@ -6,6 +6,7 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using backend.Data.Models;
+using backend.Infrastructure.PasswordSecurity;
 using System.Threading.Tasks;
 
 namespace backend.Data.Startup
@@ -65,8 +66,8 @@ namespace backend.Data.Startup
                                 FirstName = "Greg",
                                 LastName = "Gallagher",
                                 BirthDate = new DateTime(1993,12,21),
-                                Email = "email@gmail.com",
-                                Password = "secret"
+                                Email = "email1@gmail.com",
+                                Password = PasswordSecurity.HashPassword("secret")
                             },
                             new Student
                             {
@@ -74,8 +75,8 @@ namespace backend.Data.Startup
                                 FirstName = "John",
                                 LastName = "Smith",
                                 BirthDate = new DateTime(1997, 7, 23),
-                                Email = "email@gmail.com",
-                                Password = "secret"
+                                Email = "email2@gmail.com",
+                                Password = PasswordSecurity.HashPassword("secret")
                             },
                             new Student
                             {
@@ -83,8 +84,8 @@ namespace backend.Data.Startup
                                 FirstName = "Laura",
                                 LastName = "Jackson",
                                 BirthDate = new DateTime(2001, 1, 13),
-                                Email = "email@gmail.com",
-                                Password = "secret"
+                                Email = "email3@gmail.com",
+                                Password = PasswordSecurity.HashPassword("secret")
                             }
                         };
 
@@ -96,7 +97,7 @@ namespace backend.Data.Startup
                                 FirstName = "Jackson",
                                 LastName = "Crawford",
                                 Email = "jcrawford@test.com",
-                                Password = "secret"
+                                Password = PasswordSecurity.HashPassword("secret")
                             },
                             new Instructor
                             {
@@ -104,7 +105,7 @@ namespace backend.Data.Startup
                                 FirstName = "Maggie",
                                 LastName = "Ellis",
                                 Email = "mellis@secret.com",
-                                Password = "secret"
+                                Password = PasswordSecurity.HashPassword("secret")
                             }
                         };
 

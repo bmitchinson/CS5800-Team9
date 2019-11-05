@@ -14,7 +14,7 @@ import SignIn from "./components/SignIn/SignIn";
 
 // include this line if you'd like to clear JWT data
 // remove if you'd like sign in to persist
-// localStorage.removeItem("userJWT");
+localStorage.removeItem("userJWT");
 
 let theme = createMuiTheme({
   palette: {

@@ -11,6 +11,7 @@ import SchoolIcon from "@material-ui/icons/School";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 
+
 const useStyles = makeStyles(theme => ({
   root: {
     height: "100vh"
@@ -42,10 +43,21 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
+
 export default function SignIn(props) {
   const classes = useStyles();
+  const [signUp, setSignUp] = React.useState(false);
 
+  const openSignUp = () => {
+    setSignUp(true);
+  }; 
+
+  const postSignUp = () => {
+    setSignUp(false);
+  };
+  
   const postLogin = () => {
+    
     axios({
       method: "post",
       url: "http://localhost:5000/api/token",
@@ -70,54 +82,159 @@ export default function SignIn(props) {
           <Avatar className={classes.avatar}>
             <SchoolIcon />
           </Avatar>
-          <Typography component="h1" variant="h5">
-            Sign in
-          </Typography>
-          <form className={classes.form} noValidate>
-            <TextField
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              id="email"
-              label="Email Address"
-              name="email"
-              autoComplete="email"
-              autoFocus
-            />
-            <TextField
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label="Password"
-              type="password"
-              id="password"
-              autoComplete="current-password"
-            />
-            <Button
-              fullWidth
-              variant="contained"
-              color="primary"
-              className={classes.submit}
-              onClick={postLogin}
-            >
-              Sign In
-            </Button>
-            <Grid container>
-              <Grid item xs>
+          {!signUp && (
+            <>
+              <Typography component="h1" variant="h5">
+                Sign in
+              </Typography>
+              <form className={classes.form} noValidate>
+                <TextField
+                  variant="outlined"
+                  margin="normal"
+                  required
+                  fullWidth
+                  id="email"
+                  label="Email Address"
+                  name="email"
+                  autoComplete="email"
+                  autoFocus
+                />
+                <TextField
+                  variant="outlined"
+                  margin="normal"
+                  required
+                  fullWidth
+                  name="password"
+                  label="Password"
+                  type="password"
+                  id="password"
+                  autoComplete="current-password"
+                />
+                <Button
+                  fullWidth
+                  variant="contained"
+                  color="primary"
+                  className={classes.submit}
+                  onClick={postLogin}
+                >
+                  Sign In
+                </Button>
+                <Button
+                  fullWidth
+                  variant="contained"
+                  color="primary"
+                  className={classes.submit}
+                  onClick={openSignUp}
+                >
+                  Sign Up
+                </Button>
                 <Link href="#" variant="body2" color="textPrimary">
                   Forgot password?
                 </Link>
-              </Grid>
-              <Grid item>
-                <Link href="#" variant="body2" color="textPrimary">
-                  {"Don't have an account? Sign Up"}
-                </Link>
-              </Grid>
-            </Grid>
-          </form>
+                </form>
+              </>
+          )}
+          {signUp && (
+            <>
+              <Typography component="h1" variant="h5">
+                Sign Up
+              </Typography>
+              <form className={classes.form} noValidate>
+              <TextField
+                  variant="outlined"
+                  margin="normal"
+                  required
+                  fullWidth
+                  id="firstname"
+                  label="First Name"
+                  name="first name"
+                  autoComplete="first name"
+                  autoFocus
+                />
+                <TextField
+                  variant="outlined"
+                  margin="normal"
+                  required
+                  fullWidth
+                  id="lastname"
+                  label="Last Name"
+                  name="last name"
+                  autoComplete="last name"
+                />
+                <TextField
+                  variant="outlined"
+                  margin="normal"
+                  required
+                  fullWidth
+                  id="email"
+                  label="Email Address"
+                  name="email"
+                  autoComplete="email"
+                />
+                <TextField
+                  variant="outlined"
+                  margin="normal"
+                  required
+                  fullWidth
+                  name="password"
+                  label="Password"
+                  type="password"
+                  id="password"
+                  autoComplete="current-password"
+                />
+                <Typography component="h2" variant="subtitle1" >
+                  Date of birth
+                </Typography>
+                <Grid container spacing={1}>
+                  <Grid item xs>
+                    <TextField
+                      variant="outlined"
+                      margin="normal"
+                      required
+                      fullWidth
+                      name="month"
+                      label="Month"
+                      id="month"
+                      autoComplete="month"
+                    />
+                  </Grid>
+                  <Grid item xs>
+                    <TextField
+                      variant="outlined"
+                      margin="normal"
+                      required
+                      fullWidth
+                      name="day"
+                      label="Day"
+                      id="day"
+                      autoComplete="day"
+                    />
+                  </Grid>
+                  <Grid item xs>
+                    <TextField
+                      variant="outlined"
+                      margin="normal"
+                      required
+                      fullWidth
+                      name="year"
+                      label="Year"
+                      id="year"
+                      autoComplete="year"
+                    />
+                  </Grid>
+                </Grid>
+                <Button
+                  fullWidth
+                  variant="contained"
+                  color="primary"
+                  className={classes.submit}
+                  onClick={postSignUp}
+                >
+                  Sign Up
+                </Button>
+              </form>
+            </>
+          )}
         </div>
       </Grid>
     </Grid>

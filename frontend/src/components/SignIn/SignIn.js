@@ -119,18 +119,18 @@ export default function SignIn(props) {
                 >
                   Sign In
                 </Button>
-                <Button
-                  fullWidth
-                  variant="contained"
-                  color="primary"
-                  className={classes.submit}
-                  onClick={openSignUp}
-                >
-                  Sign Up
-                </Button>
-                <Link href="#" variant="body2" color="textPrimary">
-                  Forgot password?
-                </Link>
+                <Grid container>
+                  <Grid item xs>
+                    <Link href="#" variant="body2" color="textPrimary">
+                      Forgot password?
+                    </Link>
+                  </Grid>
+                  <Grid item>
+                    <Link href="#" variant="body2" color="textPrimary" onClick={openSignUp}>
+                      {"Don't have an account? Sign Up"}
+                    </Link>
+                  </Grid>
+                </Grid>
                 </form>
               </>
           )}

@@ -53,16 +53,22 @@ namespace JWT.Controllers
         {
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+            var claims = new List<Claim>
+            {
+                new Claim("Email", user.Email),
+                new Claim("UserId", user.Id.ToString())
+            };
 
             var token = new JwtSecurityToken(_config["Jwt:Issuer"],
               _config["Jwt:Issuer"],
               expires: DateTime.Now.AddMinutes(30),
-              signingCredentials: creds);
+              signingCredentials: creds,
+              claims: claims);
 
             // TODO: assign the proper load based on interpreting the db
             token.Payload["roles"] = roles;
-            token.Payload["email"] = user.Email;
-            token.Payload["uId"] = user.Id;
+            // token.Payload["email"] = user.Email;
+            // token.Payload["uId"] = user.Id;
 
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
@@ -93,9 +99,14 @@ namespace JWT.Controllers
                 .Where(_ => _.Email == login.Email)
                 .FirstOrDefaultAsync();
 
+            var adminClaim = await
+                _context
+                .Administrators
+                .Where(_ => _.Email == login.Email)
+                .FirstOrDefaultAsync();
+
             if (studentClaim != null)
             {
-                // if (studentClaim.Password == login.Password)
                 if (PasswordSecurity.CompareHashedPasswords(login.Password, studentClaim.Password))
                 {
                     user.Roles.Add("Student");
@@ -105,13 +116,23 @@ namespace JWT.Controllers
             }
             else if (instructorClaim != null)
             {
-                if (instructorClaim.Password == login.Password)
+                if (PasswordSecurity.CompareHashedPasswords(login.Password, instructorClaim.Password))
                 {
                     user.Roles.Add("Instructor");
                     user.IsAuthenticated = true;
                     user.Id = instructorClaim.InstructorId;
                 }
             }
+            else if(adminClaim != null)
+            {
+                if (PasswordSecurity.CompareHashedPasswords(login.Password, adminClaim.Password))
+                {
+                    user.Roles.Add("Admin");
+                    user.IsAuthenticated = true;
+                    user.Id = adminClaim.AdministratorId;
+                }
+            }
+
             return user;
         }
 

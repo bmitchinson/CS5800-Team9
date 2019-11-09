@@ -44,9 +44,12 @@ namespace backend.Data.Startup
                 using (var context = services.GetRequiredService<ApplicationDbContext>())
                 {
                     if (
+                        // need to check that ALL entities are empty
+                        // before we decide that we want to seed the db
                         !context.Students.Any() 
                         && !context.Instructors.Any()
                         && !context.Courses.Any()
+                        && !context.Administrators.Any()
                         && !context.Students
                             .Select(_ => _.Enrollments)
                             .Any()
@@ -69,7 +72,7 @@ namespace backend.Data.Startup
                                 FirstName = "Greg",
                                 LastName = "Gallagher",
                                 BirthDate = new DateTime(1993,12,21),
-                                Email = "email1@gmail.com",
+                                Email = "email1@test.com",
                                 Password = PasswordSecurity.HashPassword("secret")
                             },
                             new Student
@@ -78,7 +81,7 @@ namespace backend.Data.Startup
                                 FirstName = "John",
                                 LastName = "Smith",
                                 BirthDate = new DateTime(1997, 7, 23),
-                                Email = "email2@gmail.com",
+                                Email = "email2@test.com",
                                 Password = PasswordSecurity.HashPassword("secret")
                             },
                             new Student
@@ -87,7 +90,7 @@ namespace backend.Data.Startup
                                 FirstName = "Laura",
                                 LastName = "Jackson",
                                 BirthDate = new DateTime(2001, 1, 13),
-                                Email = "email3@gmail.com",
+                                Email = "email3@test.com",
                                 Password = PasswordSecurity.HashPassword("secret")
                             }
                         };
@@ -107,8 +110,19 @@ namespace backend.Data.Startup
                                 InstructorId = 2,
                                 FirstName = "Maggie",
                                 LastName = "Ellis",
-                                Email = "mellis@secret.com",
+                                Email = "mellis@test.com",
                                 Password = PasswordSecurity.HashPassword("secret")
+                            }
+                        };
+
+                        var seededAdmins = new List<Administrator>
+                        {
+                            new Administrator
+                            {
+                                FirstName = "Marcus",
+                                LastName = "Weiss",
+                                Email = "admin@test.com",
+                                Password = PasswordSecurity.HashPassword("admin")
                             }
                         };
 
@@ -209,6 +223,7 @@ namespace backend.Data.Startup
                         context.AddRange(seededStudents);
                         context.AddRange(seededCourses);
                         context.AddRange(seededInstructors);
+                        context.AddRange(seededAdmins);
                         context.AddRange(seededRegistrations);
                         context.AddRange(seededStudentEnrollments);
                         context.SaveChanges();

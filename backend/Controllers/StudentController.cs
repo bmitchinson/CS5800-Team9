@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using backend.Data.Contexts;
 using backend.Data.Models;
 using Microsoft.EntityFrameworkCore;
@@ -30,7 +31,7 @@ namespace backend.Controllers
                 .ToListAsync();
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id}"), Authorize(Roles = "Student")]
         public async Task<ActionResult<Student>> Get(int id)
         {
             // TODO this should be put into aquery object
@@ -61,7 +62,7 @@ namespace backend.Controllers
                 .Students
                 .Where(_ => _.StudentId == id)
                 .FirstOrDefaultAsync();
-            
+
             if (target != null)
             {
                 _context.Remove(target);
@@ -74,6 +75,6 @@ namespace backend.Controllers
             }
         }
 
-        
+
     }
 }

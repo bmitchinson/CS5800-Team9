@@ -20,6 +20,12 @@ namespace backend.Data.Models
         [Required]
         public DateTime? BirthDate { get; set; }
 
+        [Required]
+        public string Email { get; set; }
+
+        [Required]
+        public string Password { get; set; }
+
         public ICollection<StudentEnrollment> Enrollments { get; set; }
     }
 }

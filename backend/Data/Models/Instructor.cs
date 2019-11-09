@@ -10,6 +10,10 @@ namespace backend.Data.Models
 
         public string LastName { get; set; }
 
+        public string Email { get; set; }
+
+        public string Password { get; set; }
+
         public ICollection<Registration> Registrations { get; set; }
     }
 }

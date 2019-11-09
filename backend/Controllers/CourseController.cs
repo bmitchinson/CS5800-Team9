@@ -25,6 +25,7 @@ namespace backend.Controllers
         {
             return await _context
                 .Courses
+                .Include(_ => _.Registrations)
                 .ToListAsync();
         }
 
@@ -34,6 +35,7 @@ namespace backend.Controllers
             return await _context
                 .Courses
                 .Where(_ => _.CourseId == id)
+                .Include(_ => _.Registrations)
                 .FirstOrDefaultAsync();
         }
 

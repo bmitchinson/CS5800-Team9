@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace backend.Migrations
 {
-    public partial class init : Migration
+    public partial class newschemainit : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -34,7 +34,7 @@ namespace backend.Migrations
                     Section = table.Column<string>(nullable: true),
                     StartTime = table.Column<DateTime>(type: "datetime", nullable: false),
                     EndTime = table.Column<DateTime>(type: "datetime", nullable: false),
-                    level = table.Column<string>(nullable: false)
+                    Level = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -96,9 +96,9 @@ namespace backend.Migrations
                 {
                     RegistrationId = table.Column<int>(nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    StudentId = table.Column<int>(nullable: true),
+                    CourseId = table.Column<int>(nullable: true),
                     InstructorId = table.Column<int>(nullable: true),
-                    CourseId = table.Column<int>(nullable: true)
+                    EnrollmentLimit = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -115,12 +115,32 @@ namespace backend.Migrations
                         principalTable: "Instructors",
                         principalColumn: "InstructorId",
                         onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "StudentEnrollment",
+                columns: table => new
+                {
+                    StudentEnrollmentId = table.Column<int>(nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    StudentId = table.Column<int>(nullable: false),
+                    RegistrationId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_StudentEnrollment", x => x.StudentEnrollmentId);
                     table.ForeignKey(
-                        name: "FK_Registration_Students_StudentId",
+                        name: "FK_StudentEnrollment_Registration_RegistrationId",
+                        column: x => x.RegistrationId,
+                        principalTable: "Registration",
+                        principalColumn: "RegistrationId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_StudentEnrollment_Students_StudentId",
                         column: x => x.StudentId,
                         principalTable: "Students",
                         principalColumn: "StudentId",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -139,8 +159,13 @@ namespace backend.Migrations
                 column: "InstructorId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Registration_StudentId",
-                table: "Registration",
+                name: "IX_StudentEnrollment_RegistrationId",
+                table: "StudentEnrollment",
+                column: "RegistrationId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_StudentEnrollment_StudentId",
+                table: "StudentEnrollment",
                 column: "StudentId");
         }
 
@@ -153,16 +178,19 @@ namespace backend.Migrations
                 name: "Prerequisite");
 
             migrationBuilder.DropTable(
+                name: "StudentEnrollment");
+
+            migrationBuilder.DropTable(
                 name: "Registration");
+
+            migrationBuilder.DropTable(
+                name: "Students");
 
             migrationBuilder.DropTable(
                 name: "Courses");
 
             migrationBuilder.DropTable(
                 name: "Instructors");
-
-            migrationBuilder.DropTable(
-                name: "Students");
         }
     }
 }

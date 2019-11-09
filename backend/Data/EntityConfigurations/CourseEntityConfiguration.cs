@@ -16,7 +16,7 @@ namespace backend.Data.Configs
             entity.Property(_ => _.EndTime)
             .HasColumnType("datetime");
 
-            entity.Property(_ => _.level)
+            entity.Property(_ => _.Level)
             .HasConversion(new EnumToStringConverter<TopicLevel>());
         }
     }

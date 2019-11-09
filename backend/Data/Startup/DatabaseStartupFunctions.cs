@@ -48,6 +48,9 @@ namespace backend.Data.Startup
                         && !context.Instructors.Any()
                         && !context.Courses.Any()
                         && !context.Students
+                            .Select(_ => _.Enrollments)
+                            .Any()
+                        && !context.Courses
                             .Select(_ => _.Registrations)
                             .Any()
                         && env.IsDevelopment())
@@ -158,26 +161,48 @@ namespace backend.Data.Startup
                         {
                             new Registration
                             {
-                                StudentId = 1,
+                                RegistrationId = 1,
+                                CourseId = 1,
                                 InstructorId = 1,
-                                CourseId = 1
+                                EnrollmentLimit = 40,
                             },
                             new Registration
+                            {
+                                RegistrationId = 2,
+                                CourseId = 2,
+                                InstructorId = 1,
+                                EnrollmentLimit = 30
+                            },
+                            new Registration
+                            {
+                                RegistrationId = 3,
+                                CourseId = 3,
+                                InstructorId = 2,
+                                EnrollmentLimit = 20
+                            }
+                        };
+
+                        var seededStudentEnrollments = new List<StudentEnrollment>
+                        {
+                            new StudentEnrollment
+                            {
+                                StudentId = 1,
+                                RegistrationId = 1
+                            },
+                            new StudentEnrollment
+                            {
+                                StudentId = 1,
+                                RegistrationId = 2
+                            },
+                            new StudentEnrollment
                             {
                                 StudentId = 2,
-                                InstructorId = 1,
-                                CourseId = 1
+                                RegistrationId = 1
                             },
-                            new Registration
+                            new StudentEnrollment
                             {
                                 StudentId = 3,
-                                InstructorId = 1,
-                                CourseId = 2
-                            },
-                            new Registration
-                            {
-                                StudentId = 1,
-                                CourseId = 3
+                                RegistrationId = 3
                             }
                         };
 
@@ -185,6 +210,7 @@ namespace backend.Data.Startup
                         context.AddRange(seededCourses);
                         context.AddRange(seededInstructors);
                         context.AddRange(seededRegistrations);
+                        context.AddRange(seededStudentEnrollments);
                         context.SaveChanges();
                     }
                 }

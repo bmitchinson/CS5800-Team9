@@ -26,6 +26,6 @@ namespace backend.Data.Models
         [Required]
         public string Password { get; set; }
 
-        public ICollection<Registration> Registrations { get; set; }
+        public ICollection<StudentEnrollment> Enrollments { get; set; }
     }
 }

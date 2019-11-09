@@ -2,19 +2,21 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using backend.Data.Contexts;
 
 namespace backend.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20191028235239_new schema init")]
+    partial class newschemainit
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.2.6-servicing-10079")
+                .HasAnnotation("ProductVersion", "2.2.4-servicing-10062")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             modelBuilder.Entity("backend.Data.Models.Administrator", b =>
@@ -63,13 +65,9 @@ namespace backend.Migrations
                     b.Property<int>("InstructorId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Email");
-
                     b.Property<string>("FirstName");
 
                     b.Property<string>("LastName");
-
-                    b.Property<string>("Password");
 
                     b.HasKey("InstructorId");
 
@@ -121,16 +119,10 @@ namespace backend.Migrations
                         .IsRequired()
                         .HasColumnType("date");
 
-                    b.Property<string>("Email")
-                        .IsRequired();
-
                     b.Property<string>("FirstName")
                         .IsRequired();
 
                     b.Property<string>("LastName")
-                        .IsRequired();
-
-                    b.Property<string>("Password")
                         .IsRequired();
 
                     b.HasKey("StudentId");
@@ -166,11 +158,11 @@ namespace backend.Migrations
 
             modelBuilder.Entity("backend.Data.Models.Registration", b =>
                 {
-                    b.HasOne("backend.Data.Models.Course", "Course")
+                    b.HasOne("backend.Data.Models.Course")
                         .WithMany("Registrations")
                         .HasForeignKey("CourseId");
 
-                    b.HasOne("backend.Data.Models.Instructor", "Instructor")
+                    b.HasOne("backend.Data.Models.Instructor")
                         .WithMany("Registrations")
                         .HasForeignKey("InstructorId");
                 });
@@ -182,7 +174,7 @@ namespace backend.Migrations
                         .HasForeignKey("RegistrationId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("backend.Data.Models.Student")
+                    b.HasOne("backend.Data.Models.Student", "Student")
                         .WithMany("Enrollments")
                         .HasForeignKey("StudentId")
                         .OnDelete(DeleteBehavior.Cascade);

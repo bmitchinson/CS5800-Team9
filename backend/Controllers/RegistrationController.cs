@@ -5,6 +5,8 @@ using backend.Data.Models;
 using backend.Data.Contexts;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+using backend.Data.QueryObjects;
 
 namespace backend.Controllers
 {
@@ -19,25 +21,25 @@ namespace backend.Controllers
             _context = context;
         }
 
-        // public async Task<ActionResult> Get()
+        [HttpGet, Authorize(Roles = "Student, Admin, Instructor")]
+        public ActionResult GetRegistrations()
+        {
+            var registrations = _context
+                .Instructors
+                .GetRegistrations()
+                .ToList();
+            // var registrations = _context
+            //     .Instructors
+            //     .Select(_ => _.Registrations)
+            //     .ToList();
+
+            return Ok(registrations);
+        }
+
+        // [HttpPost, Authorize(Roles = "Instructor, Admin")]
+        // public async Task<ActionResult> CreateRegistration()
         // {
-        //     var data =                 _context
-        //         .Students
-        //         .Include(_ => _.Registrations)
-        //         .ThenInclude(r => r.Course)
-        //         .ToList();
-
-        //     return Ok(data);
-        // }
-
-        // public async Task<ActionResult> Get([FromQuery]int? studentId, [FromQuery]int? courseId, [FromQuery]int? instructorId)
-        // {
-        //     var registrations =  await _context
-        //         .Students
-        //         .QueryForRegistrations(studentId, instructorId, courseId)
-        //         .FirstOrDefaultAsync();
-
-        //     return Ok(registrations);
+        //     return Ok();
         // }
     }
 }

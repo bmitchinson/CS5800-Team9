@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using backend.Data.Contexts;
 
 namespace backend.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20191110022352_testing new dbset for registrations")]
+    partial class testingnewdbsetforregistrations
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -87,13 +89,9 @@ namespace backend.Migrations
 
                     b.Property<bool>("IsMandatory");
 
-                    b.Property<int?>("RegistrationId");
-
                     b.HasKey("PrerequisiteId");
 
                     b.HasIndex("CourseId");
-
-                    b.HasIndex("RegistrationId");
 
                     b.ToTable("Prerequisite");
                 });
@@ -165,13 +163,9 @@ namespace backend.Migrations
             modelBuilder.Entity("backend.Data.Models.Prerequisite", b =>
                 {
                     b.HasOne("backend.Data.Models.Course", "Course")
-                        .WithMany()
+                        .WithMany("Prerequisites")
                         .HasForeignKey("CourseId")
                         .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("backend.Data.Models.Registration")
-                        .WithMany("Prerequisites")
-                        .HasForeignKey("RegistrationId");
                 });
 
             modelBuilder.Entity("backend.Data.Models.Registration", b =>

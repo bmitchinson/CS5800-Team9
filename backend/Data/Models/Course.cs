@@ -25,6 +25,5 @@ namespace backend.Data.Models
         public TopicLevel Level { get; set; }
 
         public ICollection<Registration> Registrations { get; set; }
-        public ICollection<Prerequisite> Prerequisites { get; set; }
     }
 }

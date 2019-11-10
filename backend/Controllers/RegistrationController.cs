@@ -22,16 +22,24 @@ namespace backend.Controllers
         }
 
         [HttpGet, Authorize(Roles = "Student, Admin, Instructor")]
-        public ActionResult GetRegistrations()
+        public async Task<ActionResult> GetRegistrations()
         {
-            var registrations = _context
-                .Instructors
+            var registrations = await _context
+                .Registrations
                 .GetRegistrations()
-                .ToList();
-            // var registrations = _context
-            //     .Instructors
-            //     .Select(_ => _.Registrations)
-            //     .ToList();
+                .ToListAsync();
+
+            return Ok(registrations);
+        }
+
+        [HttpGet("{id}"), Authorize(Roles = "Student, Admin, Instructor")]
+        public async Task<ActionResult> GetRegistration(int id)
+        {
+            var registrations = await _context
+                .Registrations
+                .GetRegistrations()
+                .Where(_ => _.RegistrationId == id)
+                .ToListAsync();
 
             return Ok(registrations);
         }

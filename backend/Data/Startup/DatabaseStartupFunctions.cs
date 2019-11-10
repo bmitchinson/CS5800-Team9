@@ -135,14 +135,7 @@ namespace backend.Data.Startup
                                 CreditHours = 3,
                                 Section = "00AA",
                                 StartTime = DateTime.Parse("9:00 AM"),
-                                EndTime = DateTime.Parse("10:45 AM"),
-                                Prerequisites = new List<Prerequisite>
-                                {
-                                    new Prerequisite
-                                    {
-                                        CourseId = 2
-                                    }
-                                }
+                                EndTime = DateTime.Parse("10:45 AM")
                             },
                             new Course
                             {
@@ -160,14 +153,7 @@ namespace backend.Data.Startup
                                 CreditHours = 4,
                                 Section = "00AA",
                                 StartTime = DateTime.Parse("5:30 PM"),
-                                EndTime = DateTime.Parse("7:00 PM"),
-                                Prerequisites = new List<Prerequisite>
-                                {
-                                    new Prerequisite
-                                    {
-                                        CourseId = 1
-                                    }
-                                }
+                                EndTime = DateTime.Parse("7:00 PM")
                             }
                         };
 
@@ -179,13 +165,27 @@ namespace backend.Data.Startup
                                 CourseId = 1,
                                 InstructorId = 1,
                                 EnrollmentLimit = 40,
+                                Prerequisites = new List<Prerequisite>
+                                {
+                                    new Prerequisite
+                                    {
+                                        CourseId = 2
+                                    }
+                                }
                             },
                             new Registration
                             {
                                 RegistrationId = 2,
                                 CourseId = 2,
                                 InstructorId = 1,
-                                EnrollmentLimit = 30
+                                EnrollmentLimit = 30,
+                                Prerequisites = new List<Prerequisite>
+                                {
+                                    new Prerequisite
+                                    {
+                                        CourseId = 1
+                                    }
+                                }
                             },
                             new Registration
                             {

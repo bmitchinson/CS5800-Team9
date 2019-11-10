@@ -19,5 +19,7 @@ namespace backend.Data.Models
         public Course Course { get; set; }
 
         public Instructor Instructor { get; set; }
+
+        public ICollection<Prerequisite> Prerequisites { get; set; }
     }
 }

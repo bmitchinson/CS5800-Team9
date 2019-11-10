@@ -1,0 +1,180 @@
+{
+	"info": {
+		"_postman_id": "78089405-a88b-412b-bfaf-714c9f6778e3",
+		"name": "backend_cs5800",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "auth_test",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": ""
+				},
+				"description": "Test authentication"
+			},
+			"response": []
+		},
+		{
+			"name": "get_registration",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJFbWFpbCI6ImpjcmF3Zm9yZEB0ZXN0LmNvbSIsIlVzZXJJZCI6IjEiLCJleHAiOjE1NzMzNjA2NTMsImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjUwMDEiLCJhdWQiOiJodHRwczovL2xvY2FsaG9zdDo1MDAxIiwicm9sZXMiOlsiSW5zdHJ1Y3RvciJdfQ.WmsRXdpKm6TwnDuYUccfGqN8T4iMSKF1MTEmvrCTMBM",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://localhost:5001/api/registration/6",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "5001",
+					"path": [
+						"api",
+						"registration",
+						"6"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": "",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "post_registration",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJFbWFpbCI6ImpjcmF3Zm9yZEB0ZXN0LmNvbSIsIlVzZXJJZCI6IjEiLCJleHAiOjE1NzMzNjA2NTMsImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjUwMDEiLCJhdWQiOiJodHRwczovL2xvY2FsaG9zdDo1MDAxIiwicm9sZXMiOlsiSW5zdHJ1Y3RvciJdfQ.WmsRXdpKm6TwnDuYUccfGqN8T4iMSKF1MTEmvrCTMBM",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t        \"course\": {\n            \"courseId\": 1,\n            \"courseName\": \"Database Systems\",\n            \"creditHours\": 3,\n            \"section\": \"00AA\",\n            \"startTime\": \"2019-11-09T09:00:00\",\n            \"endTime\": \"2019-11-09T10:45:00\",\n            \"level\": \"Beginner\",\n            \"registrations\": null\n        },\n        \"instructor\": {\n            \"instructorId\": 2,\n            \"firstName\": \"Maggie\",\n            \"lastName\": \"Ellis\",\n            \"email\": \"mellis@test.com\",\n            \"password\": null,\n            \"registrations\": null\n        }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:5001/api/registration/",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "5001",
+					"path": [
+						"api",
+						"registration",
+						""
+					],
+					"query": [
+						{
+							"key": "Content-Type",
+							"value": "application/json",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete_registration",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJFbWFpbCI6ImFkbWluQHRlc3QuY29tIiwiVXNlcklkIjoiMSIsImV4cCI6MTU3MzM2MTk4NiwiaXNzIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NTAwMSIsImF1ZCI6Imh0dHBzOi8vbG9jYWxob3N0OjUwMDEiLCJyb2xlcyI6WyJBZG1pbiJdfQ.txl76HrzrhxpJQotez06MTqAglNEJsCvxsR588nkjnw",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://localhost:5001/api/registration/6",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "5001",
+					"path": [
+						"api",
+						"registration",
+						"6"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get_enrollment",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJFbWFpbCI6ImFkbWluQHRlc3QuY29tIiwiVXNlcklkIjoiMSIsImV4cCI6MTU3MzQxNjcxMSwiaXNzIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NTAwMSIsImF1ZCI6Imh0dHBzOi8vbG9jYWxob3N0OjUwMDEiLCJyb2xlcyI6WyJBZG1pbiJdfQ.UgC_rtzhe1R31jaUVhw8Xy-e84WeXnEvgGuQ7Gjkox8",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://localhost:5001/api/studentenrollment",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "5001",
+					"path": [
+						"api",
+						"studentenrollment"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": "",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

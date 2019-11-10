@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace backend.Data.Models
 {
@@ -12,12 +13,15 @@ namespace backend.Data.Models
 
         public int? InstructorId { get; set; }
 
+        [Required]
         public int EnrollmentLimit { get; set; }
 
         public ICollection<StudentEnrollment> StudentEnrollments { get; set; }
 
+        [Required]
         public Course Course { get; set; }
 
+        [Required]
         public Instructor Instructor { get; set; }
 
         public ICollection<Prerequisite> Prerequisites { get; set; }

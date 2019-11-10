@@ -7,6 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using backend.Data.QueryObjects;
+using System.Collections.Generic;
 
 namespace backend.Controllers
 {
@@ -44,10 +45,64 @@ namespace backend.Controllers
             return Ok(registrations);
         }
 
-        // [HttpPost, Authorize(Roles = "Instructor, Admin")]
-        // public async Task<ActionResult> CreateRegistration()
-        // {
-        //     return Ok();
-        // }
+        [HttpPost, Authorize(Roles = "Instructor, Admin")]
+        public async Task<ActionResult> CreateRegistration([FromBody]Registration registration)
+            {
+                if (ModelState.IsValid)
+                {
+                    var course = await _context
+                        .Courses
+                        .Where(_ => _.CourseId == registration.Course.CourseId)
+                        .FirstOrDefaultAsync();
+
+                    var instructor = await _context
+                        .Instructors
+                        .Where(_ => _.InstructorId == registration.Instructor.InstructorId)
+                        .FirstOrDefaultAsync();
+                    
+                    if (course != null && instructor != null)
+                    {
+                        var newRegistration = new Registration
+                        {
+                            Course = course,
+                            Instructor = instructor,
+                            // Prerequisites = registration.Prerequisites
+                        };
+
+                        await _context.AddAsync(newRegistration);
+                        await _context.SaveChangesAsync();
+                        return CreatedAtAction(
+                            nameof(GetRegistration), 
+                            new { id = newRegistration.RegistrationId }, 
+                            newRegistration);
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("", "Instructor or course does not exist");
+                    }
+                }
+
+                return BadRequest(ModelState);
+            }
+        
+        [HttpDelete("{id}"), Authorize(Roles = "Admin")]
+        public async Task<ActionResult> DeleteRegistration(int id)
+        {
+            var target = await _context
+                .Registrations
+                .Where(_ => _.RegistrationId == id)
+                .FirstOrDefaultAsync();
+
+            if (target != null)
+            {
+                _context.Remove(target);
+                await _context.SaveChangesAsync();
+                return NoContent();
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
     }
 }

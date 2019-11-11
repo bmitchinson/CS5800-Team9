@@ -59,6 +59,7 @@ namespace backend.Controllers
                 // contained within student enrollments linked to a registration that an instructor owns
                 case "Instructor":
                     break;
+
                 case "Admin":
 
                     enrollments = await _context
@@ -73,10 +74,16 @@ namespace backend.Controllers
 
         // TODO for admin can get any student enrollment, for student can only
         // get the enrollment if they posess the enrollment
-        [HttpGet("{id}"), Authorize(Roles = "Student, Admin")]
+        [HttpGet("{studentId}"), Authorize(Roles = "Student, Admin")]
         public async Task<ActionResult> GetEnrollmentsById(int studentId)
         {
-            return Ok();
+            var enrollments = await _context
+                .Students
+                .Where(_ => _.StudentId == studentId)
+                .GetStudentEnrollments()
+                .ToListAsync();
+
+            return Ok(enrollments);
         }
 
         // TODO student should be able to enroll into a course provided they meet the prereqs and

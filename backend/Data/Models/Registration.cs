@@ -25,5 +25,9 @@ namespace backend.Data.Models
         public Instructor Instructor { get; set; }
 
         public ICollection<Prerequisite> Prerequisites { get; set; }
+
+        public ICollection<Document> Documents { get; set; }
+
+        public ICollection<Assessment> Assessments { get; set; }
     }
 }

@@ -10,8 +10,6 @@ namespace backend.Data.Models
 
         public string Answer { get; set; }
 
-        public Assessment Assessment { get; set; }
-
         public ICollection<MultipleChoiceQuestionChoice> Choices { get; set; }
     }
 }

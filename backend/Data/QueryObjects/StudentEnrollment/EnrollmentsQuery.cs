@@ -6,7 +6,7 @@ namespace backend.Data.QueryObjects
 {
     public static class EnrollmentsQuery
     {
-        public static IQueryable<IEnumerable<StudentEnrollment>> GetStudentEnrollments(
+        public static IQueryable<IEnumerable<StudentEnrollment>> GetStudentEnrollmentsFromStudent(
             this IQueryable<Student> students) =>
             students
             .Select(st => st.Enrollments
@@ -57,6 +57,11 @@ namespace backend.Data.QueryObjects
                             }).ToList()
                     }
                 }));
+
+        // public static IQueryable<IEnumerable<StudentEnrollment>> GetStudentEnrollmentsFromInstructor(
+        //     this IQueryable<Instructor> instructors) =>
+        //     instructors
+        //     .Select(_ => _.Registrations)
 
     }
 }

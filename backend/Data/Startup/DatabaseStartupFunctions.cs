@@ -210,6 +210,11 @@ namespace backend.Data.Startup
                             },
                             new StudentEnrollment
                             {
+                                StudentId = 1,
+                                RegistrationId = 3
+                            },
+                            new StudentEnrollment
+                            {
                                 StudentId = 2,
                                 RegistrationId = 1
                             },

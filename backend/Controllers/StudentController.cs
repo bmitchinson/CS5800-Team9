@@ -9,6 +9,7 @@ using backend.Data.Models;
 using Microsoft.EntityFrameworkCore;
 using backend.Data.QueryObjects;
 using System.Web;
+using backend.Infrastructure.PasswordSecurity;
 
 namespace backend.Controllers
 {
@@ -80,6 +81,13 @@ namespace backend.Controllers
         {
             if (ModelState.IsValid)
             {
+                if (!PasswordSecurity.CheckPasswordPolicy(student.Password))
+                {
+                    ModelState.AddModelError("", "PASSWORD INVALID");
+                    return BadRequest(ModelState);
+                }
+                student.Password = PasswordSecurity
+                    .HashPassword(student.Password);
                 await _context.AddAsync(student);
                 await _context.SaveChangesAsync();
                 return CreatedAtAction(nameof(Get), new { id = student.StudentId }, student);

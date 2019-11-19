@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using backend.Data.Contexts;
 using backend.Data.Models;
 using Microsoft.EntityFrameworkCore;
+using backend.Infrastructure.PasswordSecurity;
 
 namespace backend.Controllers
 {
@@ -42,6 +43,13 @@ namespace backend.Controllers
         {
             if (ModelState.IsValid)
             {
+                if (!PasswordSecurity.CheckPasswordPolicy(administrator.Password))
+                {
+                    ModelState.AddModelError("", "PASSWORD INVALID");
+                    return BadRequest(ModelState);
+                }
+                administrator.Password = PasswordSecurity
+                    .HashPassword(administrator.Password);
                 await _context.AddAsync(administrator);
                 await _context.SaveChangesAsync();
                 return CreatedAtAction(nameof(Get), new { id = administrator.AdministratorId }, administrator);

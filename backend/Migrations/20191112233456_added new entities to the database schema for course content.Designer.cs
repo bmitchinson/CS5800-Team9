@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using backend.Data.Contexts;
 
 namespace backend.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20191112233456_added new entities to the database schema for course content")]
+    partial class addednewentitiestothedatabaseschemaforcoursecontent
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -115,9 +117,13 @@ namespace backend.Migrations
 
                     b.Property<string>("Answer");
 
+                    b.Property<int?>("AssessmentId");
+
                     b.Property<int>("QuestionId");
 
                     b.HasKey("MultipleChoiceQuestionId");
+
+                    b.HasIndex("AssessmentId");
 
                     b.HasIndex("QuestionId")
                         .IsUnique();
@@ -278,6 +284,10 @@ namespace backend.Migrations
 
             modelBuilder.Entity("backend.Data.Models.MultipleChoiceQuestion", b =>
                 {
+                    b.HasOne("backend.Data.Models.Assessment", "Assessment")
+                        .WithMany()
+                        .HasForeignKey("AssessmentId");
+
                     b.HasOne("backend.Data.Models.Question")
                         .WithOne("MultipleChoiceQuestion")
                         .HasForeignKey("backend.Data.Models.MultipleChoiceQuestion", "QuestionId")

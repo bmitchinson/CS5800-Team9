@@ -5,6 +5,9 @@ using backend.Data.Models;
 using backend.Data.Contexts;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+using backend.Data.QueryObjects;
+using System.Collections.Generic;
 
 namespace backend.Controllers
 {
@@ -19,25 +22,87 @@ namespace backend.Controllers
             _context = context;
         }
 
-        // public async Task<ActionResult> Get()
-        // {
-        //     var data =                 _context
-        //         .Students
-        //         .Include(_ => _.Registrations)
-        //         .ThenInclude(r => r.Course)
-        //         .ToList();
+        [HttpGet, Authorize(Roles = "Student, Admin, Instructor")]
+        public async Task<ActionResult> GetRegistrations()
+        {
+            var registrations = await _context
+                .Registrations
+                .GetRegistrations()
+                .ToListAsync();
 
-        //     return Ok(data);
-        // }
+            return Ok(registrations);
+        }
 
-        // public async Task<ActionResult> Get([FromQuery]int? studentId, [FromQuery]int? courseId, [FromQuery]int? instructorId)
-        // {
-        //     var registrations =  await _context
-        //         .Students
-        //         .QueryForRegistrations(studentId, instructorId, courseId)
-        //         .FirstOrDefaultAsync();
+        [HttpGet("{id}"), Authorize(Roles = "Student, Admin, Instructor")]
+        public async Task<ActionResult> GetRegistration(int id)
+        {
+            var registrations = await _context
+                .Registrations
+                .GetRegistrations()
+                .Where(_ => _.RegistrationId == id)
+                .ToListAsync();
 
-        //     return Ok(registrations);
-        // }
+            return Ok(registrations);
+        }
+
+        [HttpPost, Authorize(Roles = "Instructor, Admin")]
+        public async Task<ActionResult> CreateRegistration([FromBody]Registration registration)
+            {
+                if (ModelState.IsValid)
+                {
+                    var course = await _context
+                        .Courses
+                        .Where(_ => _.CourseId == registration.Course.CourseId)
+                        .FirstOrDefaultAsync();
+
+                    var instructor = await _context
+                        .Instructors
+                        .Where(_ => _.InstructorId == registration.Instructor.InstructorId)
+                        .FirstOrDefaultAsync();
+                    
+                    if (course != null && instructor != null)
+                    {
+                        var newRegistration = new Registration
+                        {
+                            Course = course,
+                            Instructor = instructor,
+                            // Prerequisites = registration.Prerequisites
+                        };
+
+                        await _context.AddAsync(newRegistration);
+                        await _context.SaveChangesAsync();
+                        return CreatedAtAction(
+                            nameof(GetRegistration), 
+                            new { id = newRegistration.RegistrationId }, 
+                            newRegistration);
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("", "Instructor or course does not exist");
+                    }
+                }
+
+                return BadRequest(ModelState);
+            }
+        
+        [HttpDelete("{id}"), Authorize(Roles = "Admin")]
+        public async Task<ActionResult> DeleteRegistration(int id)
+        {
+            var target = await _context
+                .Registrations
+                .Where(_ => _.RegistrationId == id)
+                .FirstOrDefaultAsync();
+
+            if (target != null)
+            {
+                _context.Remove(target);
+                await _context.SaveChangesAsync();
+                return NoContent();
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
     }
 }

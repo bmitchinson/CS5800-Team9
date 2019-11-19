@@ -1,7 +1,5 @@
 using System.Linq;
-using Microsoft.AspNetCore;
 using backend.Data.Models;
-using backend.Data.Contexts;
 
 namespace backend.Data.QueryObjects
 {

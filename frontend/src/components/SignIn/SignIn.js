@@ -51,9 +51,25 @@ export default function SignIn(props) {
   const openSignUp = () => {
     setSignUp(true);
   }; 
-
+  
   const postSignUp = () => {
-    setSignUp(false);
+    axios({
+      method: "post",
+      url: "http://localhost:5000/api/student",
+      data: {
+        FirstName: document.getElementById("firstname").value,
+        LastName: document.getElementById("lastname").value,
+        BirthDate: "2000-1-1T00:00:00",
+        Email: document.getElementById("signUpEmail").value,
+        Password: document.getElementById("signUpPassword").value
+      }
+    })
+      .then(function() {
+        setSignUp(false)
+      })
+      .catch(function(error) {
+        // TODO: "Bad username / password message"
+      });
   };
   
   const postLogin = () => {
@@ -166,7 +182,7 @@ export default function SignIn(props) {
                   margin="normal"
                   required
                   fullWidth
-                  id="email"
+                  id="signUpEmail"
                   label="Email Address"
                   name="email"
                   autoComplete="email"
@@ -179,7 +195,7 @@ export default function SignIn(props) {
                   name="password"
                   label="Password"
                   type="password"
-                  id="password"
+                  id="signUpPassword"
                   autoComplete="current-password"
                 />
                 <Typography component="h2" variant="subtitle1" >

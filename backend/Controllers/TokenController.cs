@@ -95,8 +95,8 @@ namespace JWT.Controllers
 
             if (studentClaim != null)
             {
-                // if (studentClaim.Password == login.Password)
-                if (PasswordSecurity.CompareHashedPasswords(login.Password, studentClaim.Password))
+                if (studentClaim.Password == login.Password)
+                //if (PasswordSecurity.CompareHashedPasswords(login.Password, studentClaim.Password))
                 {
                     user.Roles.Add("Student");
                     user.IsAuthenticated = true;

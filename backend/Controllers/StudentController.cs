@@ -7,6 +7,9 @@ using Microsoft.AspNetCore.Authorization;
 using backend.Data.Contexts;
 using backend.Data.Models;
 using Microsoft.EntityFrameworkCore;
+using backend.Data.QueryObjects;
+using System.Web;
+using backend.Infrastructure.PasswordSecurity;
 
 namespace backend.Controllers
 {
@@ -26,16 +29,51 @@ namespace backend.Controllers
         {
             return await _context
                 .Students
+                .GetStudents()
                 .ToListAsync();
         }
 
-        [HttpGet("{id}"), Authorize(Roles = "Student")]
+        [HttpGet("{id}"), Authorize(Roles = "Student, Instructor")]
         public async Task<ActionResult<Student>> Get(int id)
         {
-            return await _context
+            // TODO this should be put into aquery object
+            var claimsDict = new Dictionary<string, string>();
+
+            HttpContext.User.Claims.ToList()
+                .ForEach(_ => claimsDict.Add(_.Type, _.Value));
+
+            // TODO move some of this stuff into its own files/methods so that controller actions
+            // are not cluttered with garbage
+            var userEmail = 
+                claimsDict["Email"];
+            var userRole =
+                claimsDict["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"];
+            var userId =
+                int.Parse(claimsDict["UserId"]);
+
+            var student = await _context
                 .Students
+                .GetStudents()
                 .Where(_ => _.StudentId == id)
                 .FirstOrDefaultAsync();
+
+            switch (userRole)
+            {
+                case "Student":
+                    if (student.StudentId == userId)
+                    {
+                        return student;
+                    }
+                    else
+                    {
+                        return Unauthorized();
+                    }
+                case "Instructor":
+                    return student;
+                case "Administrator":
+                    return student;
+            }
+            return Unauthorized();
         }
 
         [HttpPost]
@@ -43,6 +81,13 @@ namespace backend.Controllers
         {
             if (ModelState.IsValid)
             {
+                if (!PasswordSecurity.CheckPasswordPolicy(student.Password))
+                {
+                    ModelState.AddModelError("", "PASSWORD INVALID");
+                    return BadRequest(ModelState);
+                }
+                student.Password = PasswordSecurity
+                    .HashPassword(student.Password);
                 await _context.AddAsync(student);
                 await _context.SaveChangesAsync();
                 return CreatedAtAction(nameof(Get), new { id = student.StudentId }, student);

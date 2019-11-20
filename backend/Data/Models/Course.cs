@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using System;
 using backend.Data.Enums;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace backend.Data.Models
 {
@@ -18,9 +20,10 @@ namespace backend.Data.Models
 
         public DateTime EndTime { get; set; }
 
-        public TopicLevel level { get; set; }
+        // this tag converts the enum value into a string to the frontend
+        [JsonConverter(typeof(StringEnumConverter))]
+        public TopicLevel Level { get; set; }
 
         public ICollection<Registration> Registrations { get; set; }
-        public ICollection<Prerequisite> Prerequisites { get; set; }
     }
 }

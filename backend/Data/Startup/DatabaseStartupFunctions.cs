@@ -44,10 +44,16 @@ namespace backend.Data.Startup
                 using (var context = services.GetRequiredService<ApplicationDbContext>())
                 {
                     if (
+                        // need to check that ALL entities are empty
+                        // before we decide that we want to seed the db
                         !context.Students.Any() 
                         && !context.Instructors.Any()
                         && !context.Courses.Any()
+                        && !context.Administrators.Any()
                         && !context.Students
+                            .Select(_ => _.Enrollments)
+                            .Any()
+                        && !context.Courses
                             .Select(_ => _.Registrations)
                             .Any()
                         && env.IsDevelopment())
@@ -66,7 +72,7 @@ namespace backend.Data.Startup
                                 FirstName = "Greg",
                                 LastName = "Gallagher",
                                 BirthDate = new DateTime(1993,12,21),
-                                Email = "email1@gmail.com",
+                                Email = "email1@test.com",
                                 Password = PasswordSecurity.HashPassword("secret")
                             },
                             new Student
@@ -75,7 +81,7 @@ namespace backend.Data.Startup
                                 FirstName = "John",
                                 LastName = "Smith",
                                 BirthDate = new DateTime(1997, 7, 23),
-                                Email = "email2@gmail.com",
+                                Email = "email2@test.com",
                                 Password = PasswordSecurity.HashPassword("secret")
                             },
                             new Student
@@ -84,7 +90,7 @@ namespace backend.Data.Startup
                                 FirstName = "Laura",
                                 LastName = "Jackson",
                                 BirthDate = new DateTime(2001, 1, 13),
-                                Email = "email3@gmail.com",
+                                Email = "email3@test.com",
                                 Password = PasswordSecurity.HashPassword("secret")
                             }
                         };
@@ -104,8 +110,19 @@ namespace backend.Data.Startup
                                 InstructorId = 2,
                                 FirstName = "Maggie",
                                 LastName = "Ellis",
-                                Email = "mellis@secret.com",
+                                Email = "mellis@test.com",
                                 Password = PasswordSecurity.HashPassword("secret")
+                            }
+                        };
+
+                        var seededAdmins = new List<Administrator>
+                        {
+                            new Administrator
+                            {
+                                FirstName = "Marcus",
+                                LastName = "Weiss",
+                                Email = "admin@test.com",
+                                Password = PasswordSecurity.HashPassword("admin")
                             }
                         };
 
@@ -118,14 +135,7 @@ namespace backend.Data.Startup
                                 CreditHours = 3,
                                 Section = "00AA",
                                 StartTime = DateTime.Parse("9:00 AM"),
-                                EndTime = DateTime.Parse("10:45 AM"),
-                                Prerequisites = new List<Prerequisite>
-                                {
-                                    new Prerequisite
-                                    {
-                                        CourseId = 2
-                                    }
-                                }
+                                EndTime = DateTime.Parse("10:45 AM")
                             },
                             new Course
                             {
@@ -143,14 +153,7 @@ namespace backend.Data.Startup
                                 CreditHours = 4,
                                 Section = "00AA",
                                 StartTime = DateTime.Parse("5:30 PM"),
-                                EndTime = DateTime.Parse("7:00 PM"),
-                                Prerequisites = new List<Prerequisite>
-                                {
-                                    new Prerequisite
-                                    {
-                                        CourseId = 1
-                                    }
-                                }
+                                EndTime = DateTime.Parse("7:00 PM")
                             }
                         };
 
@@ -158,33 +161,76 @@ namespace backend.Data.Startup
                         {
                             new Registration
                             {
-                                StudentId = 1,
+                                RegistrationId = 1,
+                                CourseId = 1,
                                 InstructorId = 1,
-                                CourseId = 1
+                                EnrollmentLimit = 40,
+                                Prerequisites = new List<Prerequisite>
+                                {
+                                    new Prerequisite
+                                    {
+                                        CourseId = 2
+                                    }
+                                }
                             },
                             new Registration
+                            {
+                                RegistrationId = 2,
+                                CourseId = 2,
+                                InstructorId = 1,
+                                EnrollmentLimit = 30,
+                                Prerequisites = new List<Prerequisite>
+                                {
+                                    new Prerequisite
+                                    {
+                                        CourseId = 1
+                                    }
+                                }
+                            },
+                            new Registration
+                            {
+                                RegistrationId = 3,
+                                CourseId = 3,
+                                InstructorId = 2,
+                                EnrollmentLimit = 20
+                            }
+                        };
+
+                        var seededStudentEnrollments = new List<StudentEnrollment>
+                        {
+                            new StudentEnrollment
+                            {
+                                StudentId = 1,
+                                RegistrationId = 1
+                            },
+                            new StudentEnrollment
+                            {
+                                StudentId = 1,
+                                RegistrationId = 2
+                            },
+                            new StudentEnrollment
+                            {
+                                StudentId = 1,
+                                RegistrationId = 3
+                            },
+                            new StudentEnrollment
                             {
                                 StudentId = 2,
-                                InstructorId = 1,
-                                CourseId = 1
+                                RegistrationId = 1
                             },
-                            new Registration
+                            new StudentEnrollment
                             {
                                 StudentId = 3,
-                                InstructorId = 1,
-                                CourseId = 2
-                            },
-                            new Registration
-                            {
-                                StudentId = 1,
-                                CourseId = 3
+                                RegistrationId = 3
                             }
                         };
 
                         context.AddRange(seededStudents);
                         context.AddRange(seededCourses);
                         context.AddRange(seededInstructors);
+                        context.AddRange(seededAdmins);
                         context.AddRange(seededRegistrations);
+                        context.AddRange(seededStudentEnrollments);
                         context.SaveChanges();
                     }
                 }

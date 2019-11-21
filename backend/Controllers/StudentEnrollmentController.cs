@@ -8,6 +8,7 @@ using backend.Data.Contexts;
 using backend.Data.Models;
 using Microsoft.EntityFrameworkCore;
 using backend.Data.QueryObjects;
+using backend.Infrastructure.ClaimsManager;
 using System.Web;
 
 namespace backend.Controllers
@@ -29,27 +30,17 @@ namespace backend.Controllers
         [HttpGet, Authorize(Roles = "Admin, Instructor, Student")]
         public async Task<ActionResult> GetEnrollments()
         {
-            var claimsDict = new Dictionary<string, string>();
-
-            HttpContext.User.Claims.ToList()
-                .ForEach(_ => claimsDict.Add(_.Type, _.Value));
-            
-            var userEmail = 
-                claimsDict["Email"];
-            var userRole =
-                claimsDict["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"];
-            var userId =
-                int.Parse(claimsDict["UserId"]);
+            var claimsManager = new ClaimsManager(HttpContext.User);
 
             var enrollments = new List<IEnumerable<StudentEnrollment>>();
 
-            switch(userRole)
+            switch(claimsManager.GetRoleClaim())
             {
                 case "Student":
 
                     enrollments = await _context
                         .Students
-                        .Where(_ => _.StudentId == userId)
+                        .Where(_ => _.StudentId == claimsManager.GetUserIdClaim())
                         .GetStudentEnrollmentsFromStudent()
                         .ToListAsync();
 
@@ -62,14 +53,14 @@ namespace backend.Controllers
                 case "Instructor":
                     var studentIds = await _context
                         .Registrations
-                        .Where(_ => _.InstructorId == userId)
+                        .Where(_ => _.InstructorId == claimsManager.GetUserIdClaim())
                         .Select(_ => _.StudentEnrollments
                             .Select(s => s.StudentId))
                         .FirstOrDefaultAsync();
 
                     var registrationIds = await _context
                         .Registrations
-                        .Where(_ => _.InstructorId == userId)
+                        .Where(_ => _.InstructorId == claimsManager.GetUserIdClaim())
                         .Select(_ => _.StudentEnrollments
                             .Select(s => s.RegistrationId))
                         .FirstOrDefaultAsync();
@@ -104,25 +95,14 @@ namespace backend.Controllers
         [HttpGet("{studentId}"), Authorize(Roles = "Student, Admin, Instructor")]
         public async Task<ActionResult> GetEnrollmentsById(int studentId)
         {
-
-            var claimsDict = new Dictionary<string, string>();
-
-            HttpContext.User.Claims.ToList()
-                .ForEach(_ => claimsDict.Add(_.Type, _.Value));
-            
-            var userEmail = 
-                claimsDict["Email"];
-            var userRole =
-                claimsDict["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"];
-            var userId =
-                int.Parse(claimsDict["UserId"]);
+            var claimsManager = new ClaimsManager(HttpContext.User);
 
             var enrollments = new List<IEnumerable<StudentEnrollment>>();
 
-            switch (userRole)
+            switch (claimsManager.GetRoleClaim())
             {
                 case "Student":
-                    if (userId != studentId)
+                    if (claimsManager.GetUserIdClaim() != studentId)
                     {
                         return Unauthorized();
                     }
@@ -141,7 +121,7 @@ namespace backend.Controllers
 
                     var studentIds = await _context
                         .Registrations
-                        .Where(_ => _.InstructorId == userId)
+                        .Where(_ => _.InstructorId == claimsManager.GetUserIdClaim())
                         .Select(_ => _.StudentEnrollments
                             .Select(s => s.StudentId))
                         .FirstOrDefaultAsync();

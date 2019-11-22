@@ -72,11 +72,39 @@ namespace backend.Controllers
         {
             var claimsManager = new ClaimsManager(HttpContext.User);
 
-            var enrollment = new StudentEnrollment();
+            // TODO move this into a query object and load related data that is needed.
+            var enrollment = await _context
+                .StudentEnrollment
+                .Where(_ => _.StudentEnrollmentId == enrollmentId)
+                .FirstOrDefaultAsync();
+
+            var enrollments = new List<StudentEnrollment>();
 
             switch (claimsManager.GetRoleClaim())
             {
-                
+                case "Student":
+
+                    if (enrollment.StudentEnrollmentId == claimsManager.GetUserIdClaim())
+                    {
+                        return Ok(enrollment);
+                    }
+
+                    return Unauthorized();
+
+
+                // TODO this will probably not return correctly because the related data is not yet
+                // loaded.
+                case "Instructor":
+
+                    if (enrollment.Registration.InstructorId == claimsManager.GetUserIdClaim())
+                    {
+                        return Ok(enrollment);
+                    }
+
+                    return Unauthorized();
+
+                case "Admin":
+                    return Ok(enrollment);
             }
 
             return Unauthorized();

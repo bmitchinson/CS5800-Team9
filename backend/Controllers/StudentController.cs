@@ -72,7 +72,12 @@ namespace backend.Controllers
             {
                 if (!PasswordSecurity.CheckPasswordPolicy(student.Password))
                 {
-                    ModelState.AddModelError("", "PASSWORD INVALID");
+                    ModelState.AddModelError("ModelError", "PASSWORD INVALID");
+                    return BadRequest(ModelState);
+                }
+                if (_context.EmailIsTaken(student.Email))
+                {
+                    ModelState.AddModelError("ModelError","Email has already been taken");
                     return BadRequest(ModelState);
                 }
                 student.Password = PasswordSecurity

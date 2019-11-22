@@ -7,6 +7,7 @@ using backend.Data.Contexts;
 using backend.Data.Models;
 using Microsoft.EntityFrameworkCore;
 using backend.Infrastructure.PasswordSecurity;
+using backend.Data.QueryObjects;
 
 namespace backend.Controllers
 {
@@ -46,6 +47,11 @@ namespace backend.Controllers
                 if (!PasswordSecurity.CheckPasswordPolicy(administrator.Password))
                 {
                     ModelState.AddModelError("", "PASSWORD INVALID");
+                    return BadRequest(ModelState);
+                }
+                if (_context.EmailIsTaken(administrator.Email))
+                {
+                    ModelState.AddModelError("ModelError","Email has already been taken");
                     return BadRequest(ModelState);
                 }
                 administrator.Password = PasswordSecurity

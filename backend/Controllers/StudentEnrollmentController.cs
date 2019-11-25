@@ -113,8 +113,9 @@ namespace backend.Controllers
             return Unauthorized();
         }
 
-        // TODO student should be able to enroll into a course provided they meet the prereqs and
-        // the enrollment limit is not exceeded
+        // TODO still need to check pre reqs and still need to ensure that a student cant register
+        // for the same registration more than once, additionally may want to constrain the ability to
+        // register for the same course twice
         [HttpPost, Authorize(Roles = "Student, Admin")]
         public async Task<ActionResult> Enroll([FromBody]StudentEnrollment studentEnrollment)
         {
@@ -170,12 +171,31 @@ namespace backend.Controllers
         }
 
         // TODO student should be able to unenroll from a course
-        [HttpDelete, Authorize(Roles = "Student, Admin")]
+        [HttpDelete("{enrollmentId}"), Authorize(Roles = "Student, Admin")]
         public async Task<ActionResult> Unenroll(int enrollmentId)
         {
             var claimsManager = new ClaimsManager(HttpContext.User);
 
-            return Ok();
+            var targetEnrollment = await _context
+                .StudentEnrollment
+                .GetStudentEnrollment()
+                .Where(_ => _.StudentEnrollmentId == enrollmentId)
+                .FirstOrDefaultAsync();
+
+            if (targetEnrollment != null)
+            {
+                if (claimsManager.GetRoleClaim() == "Student")
+                {
+                    if (targetEnrollment.StudentId != claimsManager.GetUserIdClaim())
+                    {
+                        return Unauthorized();
+                    }
+                }
+                _context.Remove(targetEnrollment);
+                _context.SaveChanges();
+                return NoContent();
+            }
+            return NotFound();
         }
     }
 } 

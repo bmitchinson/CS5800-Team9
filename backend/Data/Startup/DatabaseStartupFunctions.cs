@@ -193,6 +193,13 @@ namespace backend.Data.Startup
                                 CourseId = 3,
                                 InstructorId = 2,
                                 EnrollmentLimit = 20
+                            },
+                            new Registration
+                            {
+                                RegistrationId = 4,
+                                CourseId = 3,
+                                InstructorId = 1,
+                                EnrollmentLimit = 2
                             }
                         };
 
@@ -201,26 +208,31 @@ namespace backend.Data.Startup
                             new StudentEnrollment
                             {
                                 StudentId = 1,
+                                StudentEnrollmentId = 1,
                                 RegistrationId = 1
                             },
                             new StudentEnrollment
                             {
                                 StudentId = 1,
+                                StudentEnrollmentId = 2,
                                 RegistrationId = 2
                             },
                             new StudentEnrollment
                             {
                                 StudentId = 1,
+                                StudentEnrollmentId = 3,
                                 RegistrationId = 3
                             },
                             new StudentEnrollment
                             {
                                 StudentId = 2,
+                                StudentEnrollmentId = 4,
                                 RegistrationId = 1
                             },
                             new StudentEnrollment
                             {
                                 StudentId = 3,
+                                StudentEnrollmentId = 5,
                                 RegistrationId = 3
                             }
                         };

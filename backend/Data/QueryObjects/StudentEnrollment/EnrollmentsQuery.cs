@@ -115,12 +115,9 @@ namespace backend.Data.QueryObjects
                         }))
                     .FirstOrDefault());
 
-        public static IQueryable<StudentEnrollment> GetEnrollmentById(
-            this IQueryable<Student> students,
-            int enrollmentId) =>
-                students
-                .Select(st => st.Enrollments
-                    .Where(e => e.StudentEnrollmentId == enrollmentId)
+        public static IQueryable<StudentEnrollment> GetStudentEnrollment(
+            this IQueryable<StudentEnrollment> enrollments) =>
+                    enrollments
                     .Select(enr => new StudentEnrollment
                     {
                     StudentEnrollmentId = enr.StudentEnrollmentId,
@@ -167,6 +164,6 @@ namespace backend.Data.QueryObjects
                                 }
                             }).ToList()
                     }
-                    }).FirstOrDefault());
+                    });
     }
 }

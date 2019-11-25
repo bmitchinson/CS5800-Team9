@@ -74,8 +74,9 @@ namespace backend.Controllers
 
             // TODO move this into a query object and load related data that is needed.
             var enrollment = await _context
-                .Students
-                .GetEnrollmentById(enrollmentId)
+                .StudentEnrollment
+                .GetStudentEnrollment()
+                .Where(_ => _.StudentEnrollmentId == enrollmentId)
                 .FirstOrDefaultAsync();
 
             var enrollments = new List<StudentEnrollment>();
@@ -86,7 +87,7 @@ namespace backend.Controllers
             {
                 case "Student":
 
-                    if (enrollment.StudentEnrollmentId == claimsManager.GetUserIdClaim())
+                    if (enrollment.StudentId == claimsManager.GetUserIdClaim())
                     {
                         return Ok(enrollment);
                     }
@@ -130,7 +131,7 @@ namespace backend.Controllers
                 }
                 var targetStudent = await _context
                     .Students
-                    .Where(_ => _.StudentId == studentEnrollment.StudentEnrollmentId)
+                    .Where(_ => _.StudentId == studentEnrollment.StudentId)
                     .FirstOrDefaultAsync();
 
                 var targetRegistration = await _context
@@ -150,7 +151,7 @@ namespace backend.Controllers
                         .Registrations
                         .Where(_ => _.RegistrationId == targetRegistration.RegistrationId)
                         .Select(_ => _.StudentEnrollments)
-                        .Count() > targetRegistration.EnrollmentLimit)
+                        .Count() < targetRegistration.EnrollmentLimit)
                         {
                             _context.Add(newEnrollment);
                             _context.SaveChanges();
@@ -160,6 +161,7 @@ namespace backend.Controllers
                                 newEnrollment);
                         }
                     ModelState.AddModelError("ModelError", "The enrollment limit has been reached");
+                    return BadRequest(ModelState);
                 }
                 ModelState.AddModelError("ModelError", "Student or Registration not found");
                 return BadRequest(ModelState);

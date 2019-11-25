@@ -67,18 +67,20 @@ namespace backend.Controllers
         // TODO for admin can get any student enrollment, for student can only
         // get the enrollment if they posess the enrollment, for teacher can only get enrollment
         // if it within a registration they own
-        [HttpGet("{studentId}"), Authorize(Roles = "Student, Admin, Instructor")]
+        [HttpGet("{enrollmentId}"), Authorize(Roles = "Student, Admin, Instructor")]
         public async Task<ActionResult> GetEnrollmentsById(int enrollmentId)
         {
             var claimsManager = new ClaimsManager(HttpContext.User);
 
             // TODO move this into a query object and load related data that is needed.
             var enrollment = await _context
-                .StudentEnrollment
-                .Where(_ => _.StudentEnrollmentId == enrollmentId)
+                .Students
+                .GetEnrollmentById(enrollmentId)
                 .FirstOrDefaultAsync();
 
             var enrollments = new List<StudentEnrollment>();
+
+            if (enrollment == null) { return NotFound(); }
 
             switch (claimsManager.GetRoleClaim())
             {
@@ -115,13 +117,62 @@ namespace backend.Controllers
         [HttpPost, Authorize(Roles = "Student, Admin")]
         public async Task<ActionResult> Enroll([FromBody]StudentEnrollment studentEnrollment)
         {
-            return Ok();
+            if (ModelState.IsValid)
+            {
+                var claimsManager = new ClaimsManager(HttpContext.User);
+
+                if (claimsManager.GetRoleClaim() == "Student")
+                {
+                    if (studentEnrollment.StudentId != claimsManager.GetUserIdClaim())
+                    {
+                        return Unauthorized();
+                    }
+                }
+                var targetStudent = await _context
+                    .Students
+                    .Where(_ => _.StudentId == studentEnrollment.StudentEnrollmentId)
+                    .FirstOrDefaultAsync();
+
+                var targetRegistration = await _context
+                    .Registrations
+                    .Where(_ => _.RegistrationId == studentEnrollment.RegistrationId)
+                    .FirstOrDefaultAsync();
+
+                if (targetStudent != null && targetRegistration != null)
+                {
+                    var newEnrollment = new StudentEnrollment()
+                    {
+                        Registration = targetRegistration,
+                        Student = targetStudent
+                    };
+
+                    if (_context
+                        .Registrations
+                        .Where(_ => _.RegistrationId == targetRegistration.RegistrationId)
+                        .Select(_ => _.StudentEnrollments)
+                        .Count() > targetRegistration.EnrollmentLimit)
+                        {
+                            _context.Add(newEnrollment);
+                            _context.SaveChanges();
+                            return CreatedAtAction(
+                                nameof(GetEnrollmentsById),
+                                new { enrollmentId = newEnrollment.StudentEnrollmentId},
+                                newEnrollment);
+                        }
+                    ModelState.AddModelError("ModelError", "The enrollment limit has been reached");
+                }
+                ModelState.AddModelError("ModelError", "Student or Registration not found");
+                return BadRequest(ModelState);
+            }
+            return BadRequest(ModelState);
         }
 
         // TODO student should be able to unenroll from a course
         [HttpDelete, Authorize(Roles = "Student, Admin")]
-        public async Task<ActionResult> Unenroll(int id)
+        public async Task<ActionResult> Unenroll(int enrollmentId)
         {
+            var claimsManager = new ClaimsManager(HttpContext.User);
+
             return Ok();
         }
     }

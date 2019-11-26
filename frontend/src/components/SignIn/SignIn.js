@@ -76,7 +76,7 @@ export default function SignIn(props) {
     
     axios({
       method: "post",
-      url: "http://localhost:5000/api/token",
+      url: "https://localhost:5001/api/token",
       data: {
         Email: document.getElementById("email").value,
         Password: document.getElementById("password").value
@@ -85,8 +85,8 @@ export default function SignIn(props) {
       .then(function(response) {
         props.setUserJWT(response.data.token);
       })
-      .catch(function(error) {
-        // TODO: "Bad username / password message"
+      .catch(function(e) {
+        console.log(e);
       });
   };
 

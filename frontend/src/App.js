@@ -12,14 +12,10 @@ import StudentIndex from "./views/StudentIndex/StudentIndex";
 import Header from "./components/Header/Header";
 import SignIn from "./components/SignIn/SignIn";
 
-// include this line if you'd like to clear JWT data
-// remove if you'd like sign in to persist
-localStorage.removeItem("userJWT");
-
 let theme = createMuiTheme({
   palette: {
     primary: {
-      main: "#FFF796"
+      main: "#FFCD00"
     },
     background: {
       default: "#FFFDEB"
@@ -32,8 +28,6 @@ function getRolesFromJwt(token) {
   if (!token) {
     return [];
   } else {
-    console.log("token", token);
-
     var base64Url = token.split(".")[1];
     if (base64Url) {
       var base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
@@ -58,6 +52,7 @@ const useStateWithLocalStorage = localStorageKey => {
   );
   React.useEffect(() => {
     localStorage.setItem(localStorageKey, value);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value]);
   return [value, setValue, getRolesFromJwt(value)];
 };
@@ -68,12 +63,13 @@ function App() {
     setUserJWT(null);
   };
 
+  console.log("userJWT", typeof userJWT);
   return (
     <Router>
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        {!userJWT && <SignIn setUserJWT={setUserJWT} />}
-        {userJWT && (
+        {userJWT === "null" && <SignIn setUserJWT={setUserJWT} />}
+        {userJWT !== "null" && (
           <>
             <Header clearJWT={clearJWT} />
             <MainView>

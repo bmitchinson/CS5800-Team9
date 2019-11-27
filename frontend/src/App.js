@@ -24,7 +24,7 @@ let theme = createMuiTheme({
 });
 theme = responsiveFontSizes(theme);
 
-function getRoleFromJWT(token) {
+function getRoleAndEmailFromJWT(token) {
   if (!token) {
     return "";
   } else {
@@ -39,7 +39,7 @@ function getRoleFromJWT(token) {
           })
           .join("")
       );
-      return JSON.parse(jsonPayload).roles[0];
+      return [JSON.parse(jsonPayload).roles[0], JSON.parse(jsonPayload).email];
     } else {
       return "";
     }
@@ -54,11 +54,12 @@ const useStateWithLocalStorage = localStorageKey => {
     localStorage.setItem(localStorageKey, value);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value]);
-  return [value, setValue, getRoleFromJWT(value)];
+  return [value, setValue];
 };
 
 function App() {
-  const [userJWT, setUserJWT, role] = useStateWithLocalStorage("userJWT");
+  const [userJWT, setUserJWT] = useStateWithLocalStorage("userJWT");
+  const [role, email] = getRoleAndEmailFromJWT(userJWT);
   const clearJWT = () => {
     setUserJWT(null);
   };
@@ -70,7 +71,7 @@ function App() {
         {(userJWT === "null" || !userJWT) && <SignIn setUserJWT={setUserJWT} />}
         {userJWT !== "null" && userJWT && (
           <>
-            <Header clearJWT={clearJWT} role={role} />
+            <Header clearJWT={clearJWT} role={role} email={email} />
             <MainView>
               <Switch>
                 <Route path="/students">

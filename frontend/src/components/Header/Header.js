@@ -74,6 +74,12 @@ export default function Header(props) {
           </IconButton>
           <Typography variant="h6">Classroom</Typography>
           <div className={classes.grow} />
+          <Typography variant="subtitle1" style={{ paddingRight: ".4em" }}>
+            {props.email}
+          </Typography>
+          <Typography variant="subtitle1" style={{ paddingRight: ".8em" }}>
+            ({props.role})
+          </Typography>
           <Button variant="contained" onClick={props.clearJWT}>
             Sign Out
           </Button>

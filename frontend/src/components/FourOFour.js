@@ -13,7 +13,12 @@ export default function FourOFour() {
       justify="center"
     >
       <Grid item xs={6}>
-        <Typography variant="h2">404 😢</Typography>
+        <Typography variant="h2">
+          404{" "}
+          <span role="img" aria-label="sad">
+            😢
+          </span>
+        </Typography>
       </Grid>
       <Grid item xs={6}>
         <Typography>
@@ -23,6 +28,7 @@ export default function FourOFour() {
       <Grid item xs={6}>
         <img
           style={{ height: "20em" }}
+          alt="raman"
           src="http://homepage.cs.uiowa.edu/~aravamud/images/AravamudhanRaman.jpg"
         />
       </Grid>

@@ -11,6 +11,9 @@ import StudentIndex from "./views/StudentIndex/StudentIndex";
 
 import Header from "./components/Header/Header";
 import SignIn from "./components/SignIn/SignIn";
+import FourOFour from "./components/FourOFour";
+
+import { Typography } from "@material-ui/core";
 
 let theme = createMuiTheme({
   palette: {
@@ -74,14 +77,28 @@ function App() {
             <Header clearJWT={clearJWT} role={role} email={email} />
             <MainView>
               <Switch>
-                <Route path="/students">
-                  <StudentIndex />
-                </Route>
+                {role === "admin" && (
+                  <Route path="/students">
+                    <StudentIndex />
+                  </Route>
+                )}
+                {role === "admin" && (
+                  <Route path="/instructors">
+                    <StudentIndex />
+                  </Route>
+                )}
                 <Route path="/roles">
                   <h2>Signed in with role: {role}</h2>
                 </Route>
+                <Route exact path="/">
+                  <Typography variant="h2">Welcome to Classroom™</Typography>
+                  <p>
+                    What should go here? Maybe we just take them to their first
+                    course
+                  </p>
+                </Route>
                 <Route>
-                  <h2>Home Page</h2>
+                  <FourOFour />
                 </Route>
               </Switch>
             </MainView>

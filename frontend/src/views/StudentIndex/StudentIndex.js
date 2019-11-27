@@ -15,7 +15,6 @@ class StudentIndex extends Component {
     this.addStudent = this.addStudent.bind(this);
   }
 
-  // TODO: Loading
   componentDidMount() {
     this.refreshStudentIndex();
   }

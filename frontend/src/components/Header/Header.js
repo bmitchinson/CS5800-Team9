@@ -13,8 +13,7 @@ import {
   Drawer
 } from "@material-ui/core";
 
-import StudentLinks from "./lists/StudentLinks";
-import InstructorLinks from "./lists/InstructorLinks";
+import NonAdminLinks from "./lists/NonAdminLinks";
 import AdminLinks from "./lists/AdminLinks";
 
 const drawerWidth = 240;
@@ -95,11 +94,8 @@ export default function Header(props) {
         style={{ zIndex: 100 }}
       >
         <div className={classes.toolbar} />
-        {props.role === "Student" && <StudentLinks closeDrawer={closeDrawer} />}
-        {props.role === "Instructor" && (
-          <InstructorLinks closeDrawer={closeDrawer} />
-        )}
         {props.role === "Admin" && <AdminLinks closeDrawer={closeDrawer} />}
+        {props.role !== "Admin" && <NonAdminLinks closeDrawer={closeDrawer} />}
       </Drawer>
     </div>
   );

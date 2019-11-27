@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -71,7 +72,9 @@ export default function Header(props) {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6">Classroom</Typography>
+          <Link to="/" className={classes.link}>
+            <Typography variant="h6">Classroom</Typography>
+          </Link>
           <div className={classes.grow} />
           <Typography variant="subtitle1" style={{ paddingRight: ".4em" }}>
             {props.email}

@@ -8,6 +8,7 @@ using backend.Data.Contexts;
 using backend.Data.Models;
 using Microsoft.EntityFrameworkCore;
 using backend.Data.QueryObjects;
+using backend.Infrastructure.ClaimsManager;
 using System.Web;
 
 namespace backend.Controllers
@@ -23,67 +24,32 @@ namespace backend.Controllers
             _context = context;
         }
 
-        // TODO for admin should be able to get all roles, for instructor should be
-        // only able to get enrollments for any registrations that they own, and for
-        // students they can get the enrollments in which they own
         [HttpGet, Authorize(Roles = "Admin, Instructor, Student")]
         public async Task<ActionResult> GetEnrollments()
         {
-            var claimsDict = new Dictionary<string, string>();
-
-            HttpContext.User.Claims.ToList()
-                .ForEach(_ => claimsDict.Add(_.Type, _.Value));
-            
-            var userEmail = 
-                claimsDict["Email"];
-            var userRole =
-                claimsDict["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"];
-            var userId =
-                int.Parse(claimsDict["UserId"]);
+            var claimsManager = new ClaimsManager(HttpContext.User);
 
             var enrollments = new List<IEnumerable<StudentEnrollment>>();
 
-            switch(userRole)
+            switch(claimsManager.GetRoleClaim())
             {
                 case "Student":
 
                     enrollments = await _context
                         .Students
-                        .Where(_ => _.StudentId == userId)
+                        .Where(_ => _.StudentId == claimsManager.GetUserIdClaim())
                         .GetStudentEnrollmentsFromStudent()
                         .ToListAsync();
 
                     return Ok(enrollments);
 
-                // TODO move this out of the controller into a static method or something
-                // to reduce clutter
-
-                // BUG this returns enrollments for the student with a different instructor
                 case "Instructor":
-                    var studentIds = await _context
-                        .Registrations
-                        .Where(_ => _.InstructorId == userId)
-                        .Select(_ => _.StudentEnrollments
-                            .Select(s => s.StudentId))
-                        .FirstOrDefaultAsync();
 
-                    var registrationIds = await _context
-                        .Registrations
-                        .Where(_ => _.InstructorId == userId)
-                        .Select(_ => _.StudentEnrollments
-                            .Select(s => s.RegistrationId))
-                        .FirstOrDefaultAsync();
+                    enrollments = await _context
+                        .Instructors
+                        .GetStudentEnrollmentFromInstructor(claimsManager.GetUserIdClaim())
+                        .ToListAsync();
 
-                    foreach (int studentId in studentIds)
-                    {
-                        var selectedStudentEnrollment = await _context
-                            .Students
-                            .Where(_ => _.StudentId == studentId)
-                            .GetStudentEnrollmentsFromStudent()
-                            .FirstOrDefaultAsync();
-
-                        enrollments.Add(selectedStudentEnrollment);
-                    }
                     return Ok(enrollments);
 
                 case "Admin":
@@ -101,98 +67,135 @@ namespace backend.Controllers
         // TODO for admin can get any student enrollment, for student can only
         // get the enrollment if they posess the enrollment, for teacher can only get enrollment
         // if it within a registration they own
-        [HttpGet("{studentId}"), Authorize(Roles = "Student, Admin, Instructor")]
-        public async Task<ActionResult> GetEnrollmentsById(int studentId)
+        [HttpGet("{enrollmentId}"), Authorize(Roles = "Student, Admin, Instructor")]
+        public async Task<ActionResult> GetEnrollmentsById(int enrollmentId)
         {
+            var claimsManager = new ClaimsManager(HttpContext.User);
 
-            var claimsDict = new Dictionary<string, string>();
+            // TODO move this into a query object and load related data that is needed.
+            var enrollment = await _context
+                .StudentEnrollment
+                .GetStudentEnrollment()
+                .Where(_ => _.StudentEnrollmentId == enrollmentId)
+                .FirstOrDefaultAsync();
 
-            HttpContext.User.Claims.ToList()
-                .ForEach(_ => claimsDict.Add(_.Type, _.Value));
-            
-            var userEmail = 
-                claimsDict["Email"];
-            var userRole =
-                claimsDict["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"];
-            var userId =
-                int.Parse(claimsDict["UserId"]);
+            var enrollments = new List<StudentEnrollment>();
 
-            var enrollments = new List<IEnumerable<StudentEnrollment>>();
+            if (enrollment == null) { return NotFound(); }
 
-            switch (userRole)
+            switch (claimsManager.GetRoleClaim())
             {
                 case "Student":
-                    if (userId != studentId)
-                    {
-                        return Unauthorized();
-                    }
-                    
-                    enrollments = await _context
-                        .Students
-                        .Where(_ => _.StudentId == studentId)
-                        .GetStudentEnrollmentsFromStudent()
-                        .ToListAsync();
-                    
-                    return Ok(enrollments);
 
-                // BUG this returns student enrolmments for instructors that are not the
-                // current instructor, needs to be fixed
+                    if (enrollment.StudentId == claimsManager.GetUserIdClaim())
+                    {
+                        return Ok(enrollment);
+                    }
+
+                    return Unauthorized();
+
+
+                // TODO this will probably not return correctly because the related data is not yet
+                // loaded.
                 case "Instructor":
 
-                    var studentIds = await _context
-                        .Registrations
-                        .Where(_ => _.InstructorId == userId)
-                        .Select(_ => _.StudentEnrollments
-                            .Select(s => s.StudentId))
-                        .FirstOrDefaultAsync();
-                    
-                    if (studentIds.Contains(studentId))
+                    if (enrollment.Registration.InstructorId == claimsManager.GetUserIdClaim())
                     {
-                        foreach (int id in studentIds)
-                        {
-                            if (id == studentId)
-                            {
-                                var selectedStudentEnrollment = await _context
-                                .Students
-                                .Where(_ => _.StudentId == id)
-                                .GetStudentEnrollmentsFromStudent()
-                                .FirstOrDefaultAsync();
-                                enrollments.Add(selectedStudentEnrollment);
-                            }
-                        }
-                        return Ok(enrollments);
+                        return Ok(enrollment);
                     }
-                    
+
                     return Unauthorized();
 
                 case "Admin":
-
-                    enrollments = await _context
-                        .Students
-                        .Where(_ => _.StudentId == studentId)
-                        .GetStudentEnrollmentsFromStudent()
-                        .ToListAsync();
-
-                    return Ok(enrollments);
+                    return Ok(enrollment);
             }
 
             return Unauthorized();
         }
 
-        // TODO student should be able to enroll into a course provided they meet the prereqs and
-        // the enrollment limit is not exceeded
+        // TODO still need to check pre reqs and still need to ensure that a student cant register
+        // for the same registration more than once, additionally may want to constrain the ability to
+        // register for the same course twice
         [HttpPost, Authorize(Roles = "Student, Admin")]
         public async Task<ActionResult> Enroll([FromBody]StudentEnrollment studentEnrollment)
         {
+            if (ModelState.IsValid)
+            {
+                var claimsManager = new ClaimsManager(HttpContext.User);
 
-            return Ok();
+                if (claimsManager.GetRoleClaim() == "Student")
+                {
+                    if (studentEnrollment.StudentId != claimsManager.GetUserIdClaim())
+                    {
+                        return Unauthorized();
+                    }
+                }
+                var targetStudent = await _context
+                    .Students
+                    .Where(_ => _.StudentId == studentEnrollment.StudentId)
+                    .FirstOrDefaultAsync();
+
+                var targetRegistration = await _context
+                    .Registrations
+                    .Where(_ => _.RegistrationId == studentEnrollment.RegistrationId)
+                    .FirstOrDefaultAsync();
+
+                if (targetStudent != null && targetRegistration != null)
+                {
+                    var newEnrollment = new StudentEnrollment()
+                    {
+                        Registration = targetRegistration,
+                        Student = targetStudent
+                    };
+
+                    if (_context
+                        .Registrations
+                        .Where(_ => _.RegistrationId == targetRegistration.RegistrationId)
+                        .Select(_ => _.StudentEnrollments)
+                        .Count() < targetRegistration.EnrollmentLimit)
+                        {
+                            _context.Add(newEnrollment);
+                            _context.SaveChanges();
+                            return CreatedAtAction(
+                                nameof(GetEnrollmentsById),
+                                new { enrollmentId = newEnrollment.StudentEnrollmentId},
+                                newEnrollment);
+                        }
+                    ModelState.AddModelError("ModelError", "The enrollment limit has been reached");
+                    return BadRequest(ModelState);
+                }
+                ModelState.AddModelError("ModelError", "Student or Registration not found");
+                return BadRequest(ModelState);
+            }
+            return BadRequest(ModelState);
         }
 
         // TODO student should be able to unenroll from a course
-        [HttpDelete, Authorize(Roles = "Student, Admin")]
-        public async Task<ActionResult> Unenroll(int id)
+        [HttpDelete("{enrollmentId}"), Authorize(Roles = "Student, Admin")]
+        public async Task<ActionResult> Unenroll(int enrollmentId)
         {
-            return Ok();
+            var claimsManager = new ClaimsManager(HttpContext.User);
+
+            var targetEnrollment = await _context
+                .StudentEnrollment
+                .GetStudentEnrollment()
+                .Where(_ => _.StudentEnrollmentId == enrollmentId)
+                .FirstOrDefaultAsync();
+
+            if (targetEnrollment != null)
+            {
+                if (claimsManager.GetRoleClaim() == "Student")
+                {
+                    if (targetEnrollment.StudentId != claimsManager.GetUserIdClaim())
+                    {
+                        return Unauthorized();
+                    }
+                }
+                _context.Remove(targetEnrollment);
+                _context.SaveChanges();
+                return NoContent();
+            }
+            return NotFound();
         }
     }
 } 

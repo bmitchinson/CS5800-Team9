@@ -1,11 +1,8 @@
 import React from "react";
-import { Link } from "react-router-dom";
 
 import { makeStyles } from "@material-ui/core/styles";
 
 import MenuIcon from "@material-ui/icons/Menu";
-import AccountCircleIcon from "@material-ui/icons/AccountCircle";
-import SchoolIcon from "@material-ui/icons/School";
 
 import {
   AppBar,
@@ -13,12 +10,12 @@ import {
   Typography,
   IconButton,
   Button,
-  Drawer,
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemText
+  Drawer
 } from "@material-ui/core";
+
+import StudentLinks from "./lists/StudentLinks";
+import InstructorLinks from "./lists/InstructorLinks";
+import AdminLinks from "./lists/AdminLinks";
 
 const drawerWidth = 240;
 
@@ -92,24 +89,11 @@ export default function Header(props) {
         style={{ zIndex: 100 }}
       >
         <div className={classes.toolbar} />
-        <List>
-          <Link to="/roles" className={classes.link}>
-            <ListItem button key="roles" onClick={closeDrawer}>
-              <ListItemIcon>
-                <AccountCircleIcon />
-              </ListItemIcon>
-              <ListItemText primary={"Current Roles"} />
-            </ListItem>
-          </Link>
-          <Link to="/students" className={classes.link}>
-            <ListItem button key="students" onClick={closeDrawer}>
-              <ListItemIcon>
-                <SchoolIcon />
-              </ListItemIcon>
-              <ListItemText primary={"All Students"} />
-            </ListItem>
-          </Link>
-        </List>
+        {props.role === "Student" && <StudentLinks closeDrawer={closeDrawer} />}
+        {props.role === "Instructor" && (
+          <InstructorLinks closeDrawer={closeDrawer} />
+        )}
+        {props.role === "Admin" && <AdminLinks closeDrawer={closeDrawer} />}
       </Drawer>
     </div>
   );

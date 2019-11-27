@@ -24,9 +24,9 @@ let theme = createMuiTheme({
 });
 theme = responsiveFontSizes(theme);
 
-function getRolesFromJwt(token) {
+function getRoleFromJWT(token) {
   if (!token) {
-    return [];
+    return "";
   } else {
     var base64Url = token.split(".")[1];
     if (base64Url) {
@@ -39,9 +39,9 @@ function getRolesFromJwt(token) {
           })
           .join("")
       );
-      return JSON.parse(jsonPayload).roles;
+      return JSON.parse(jsonPayload).roles[0];
     } else {
-      return [];
+      return "";
     }
   }
 }
@@ -54,11 +54,11 @@ const useStateWithLocalStorage = localStorageKey => {
     localStorage.setItem(localStorageKey, value);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value]);
-  return [value, setValue, getRolesFromJwt(value)];
+  return [value, setValue, getRoleFromJWT(value)];
 };
 
 function App() {
-  const [userJWT, setUserJWT, roles] = useStateWithLocalStorage("userJWT");
+  const [userJWT, setUserJWT, role] = useStateWithLocalStorage("userJWT");
   const clearJWT = () => {
     setUserJWT(null);
   };
@@ -70,14 +70,14 @@ function App() {
         {(userJWT === "null" || !userJWT) && <SignIn setUserJWT={setUserJWT} />}
         {userJWT !== "null" && (
           <>
-            <Header clearJWT={clearJWT} />
+            <Header clearJWT={clearJWT} role={role} />
             <MainView>
               <Switch>
                 <Route path="/students">
                   <StudentIndex />
                 </Route>
                 <Route path="/roles">
-                  <h2>Signed in with role(s): [{roles}]</h2>
+                  <h2>Signed in with role: {role}</h2>
                 </Route>
                 <Route>
                   <h2>Home Page</h2>

@@ -8,12 +8,15 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 
 import MainView from "./views/MainView";
 import StudentIndex from "./views/StudentIndex/StudentIndex";
+import InstructorIndex from "./views/InstructorIndex/InstructorIndex";
+import CourseIndex from "./views/CourseIndex/CourseIndex";
 
 import Header from "./components/Header/Header";
 import SignIn from "./components/SignIn/SignIn";
 import FourOFour from "./components/FourOFour";
 
 import { Typography } from "@material-ui/core";
+import MyAccount from "./components/MyAccount/MyAccount";
 
 let theme = createMuiTheme({
   palette: {
@@ -77,18 +80,21 @@ function App() {
             <Header clearJWT={clearJWT} role={role} email={email} />
             <MainView>
               <Switch>
-                {role === "admin" && (
+                <Route path="/myaccount">
+                  <MyAccount />
+                </Route>
+                {role === "Admin" && (
                   <Route path="/students">
                     <StudentIndex />
                   </Route>
                 )}
-                {role === "admin" && (
+                {role === "Admin" && (
                   <Route path="/instructors">
-                    <StudentIndex />
+                    <InstructorIndex />
                   </Route>
                 )}
-                <Route path="/roles">
-                  <h2>Signed in with role: {role}</h2>
+                <Route path="/courses">
+                  <CourseIndex isAdmin={role === "Admin"} />
                 </Route>
                 <Route exact path="/">
                   <Typography variant="h2">Welcome to Classroom™</Typography>

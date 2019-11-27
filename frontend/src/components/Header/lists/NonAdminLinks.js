@@ -21,7 +21,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function InstructorLinks(props) {
+export default function NonAdminLinks(props) {
   const classes = useStyles();
   // ["code", "name", "id"]
   let courses = [["ECE:4000", "Circuits", 3], ["CS:3524", "Fundamentals", 2]];
@@ -36,12 +36,20 @@ export default function InstructorLinks(props) {
           <ListItemText primary={"My Account"} />
         </ListItem>
       </Link>
+      <Link to="/courses" className={classes.link}>
+        <ListItem button key="courses" onClick={props.closeDrawer}>
+          <ListItemIcon>
+            <SchoolIcon />
+          </ListItemIcon>
+          <ListItemText primary={"Course Index"} />
+        </ListItem>
+      </Link>
       <Divider />
       <ListItem>
-        <ListItemText primary={"My Courses:"} />
+        <ListItemText primary={"Enrolled Courses:"} />
       </ListItem>
       {courses.map(c => (
-        <Link to={`/course/${c[2]}`} className={classes.link}>
+        <Link to={`/course/${c[2]}`} className={classes.link} key={c[0]}>
           <ListItem button key={c[0]} onClick={props.closeDrawer}>
             <ListItemIcon>
               <SchoolIcon />

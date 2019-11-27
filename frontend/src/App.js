@@ -13,6 +13,7 @@ import CourseIndex from "./views/CourseIndex/CourseIndex";
 
 import Header from "./components/Header/Header";
 import SignIn from "./components/SignIn/SignIn";
+import CoursePage from "./components/CoursePage/CoursePage";
 import FourOFour from "./components/FourOFour";
 
 import { Typography } from "@material-ui/core";
@@ -68,6 +69,7 @@ function App() {
   const [role, email] = getRoleAndEmailFromJWT(userJWT);
   const clearJWT = () => {
     setUserJWT(null);
+    window.location.replace("http://localhost:3000/");
   };
 
   return (
@@ -96,6 +98,12 @@ function App() {
                 <Route path="/courses">
                   <CourseIndex isAdmin={role === "Admin"} />
                 </Route>
+                <Route
+                  path="/course/:courseid"
+                  render={props => (
+                    <CoursePage {...props} isAdmin={role === "Admin"} />
+                  )}
+                />
                 <Route exact path="/">
                   <Typography variant="h2">Welcome to Classroom™</Typography>
                   <p>

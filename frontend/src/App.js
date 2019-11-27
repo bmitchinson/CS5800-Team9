@@ -63,7 +63,6 @@ function App() {
     setUserJWT(null);
   };
 
-  console.log("userJWT", typeof userJWT, userJWT);
   return (
     <Router>
       <ThemeProvider theme={theme}>
@@ -77,8 +76,11 @@ function App() {
                 <Route path="/students">
                   <StudentIndex />
                 </Route>
-                <Route>
+                <Route path="/roles">
                   <h2>Signed in with role(s): [{roles}]</h2>
+                </Route>
+                <Route>
+                  <h2>Home Page</h2>
                 </Route>
               </Switch>
             </MainView>

@@ -68,7 +68,7 @@ function App() {
       <ThemeProvider theme={theme}>
         <CssBaseline />
         {(userJWT === "null" || !userJWT) && <SignIn setUserJWT={setUserJWT} />}
-        {userJWT !== "null" && (
+        {userJWT !== "null" && userJWT && (
           <>
             <Header clearJWT={clearJWT} role={role} />
             <MainView>

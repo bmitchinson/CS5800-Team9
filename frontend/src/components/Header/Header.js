@@ -1,8 +1,11 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 import { makeStyles } from "@material-ui/core/styles";
+
 import MenuIcon from "@material-ui/icons/Menu";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
+import SchoolIcon from "@material-ui/icons/School";
 
 import {
   AppBar,
@@ -39,6 +42,10 @@ const useStyles = makeStyles(theme => ({
   },
   menuButton: {
     marginRight: theme.spacing(2)
+  },
+  link: {
+    textDecoration: "none",
+    color: "black"
   },
   toolbar: theme.mixins.toolbar
 }));
@@ -86,12 +93,22 @@ export default function Header(props) {
       >
         <div className={classes.toolbar} />
         <List>
-          <ListItem button key="roles">
-            <ListItemIcon>
-              <AccountCircleIcon />
-            </ListItemIcon>
-            <ListItemText primary={"roles"} />
-          </ListItem>
+          <Link to="/roles" className={classes.link}>
+            <ListItem button key="roles" onClick={closeDrawer}>
+              <ListItemIcon>
+                <AccountCircleIcon />
+              </ListItemIcon>
+              <ListItemText primary={"Current Roles"} />
+            </ListItem>
+          </Link>
+          <Link to="/students" className={classes.link}>
+            <ListItem button key="students" onClick={closeDrawer}>
+              <ListItemIcon>
+                <SchoolIcon />
+              </ListItemIcon>
+              <ListItemText primary={"All Students"} />
+            </ListItem>
+          </Link>
         </List>
       </Drawer>
     </div>

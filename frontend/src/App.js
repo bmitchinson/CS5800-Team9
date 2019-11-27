@@ -63,12 +63,12 @@ function App() {
     setUserJWT(null);
   };
 
-  console.log("userJWT", typeof userJWT);
+  console.log("userJWT", typeof userJWT, userJWT);
   return (
     <Router>
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        {userJWT === "null" && <SignIn setUserJWT={setUserJWT} />}
+        {(userJWT === "null" || !userJWT) && <SignIn setUserJWT={setUserJWT} />}
         {userJWT !== "null" && (
           <>
             <Header clearJWT={clearJWT} />

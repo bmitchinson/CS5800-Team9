@@ -47,10 +47,6 @@ export default function Header(props) {
   const classes = useStyles();
   const [drawerState, setDrawerState] = React.useState(false);
 
-  const openDrawer = () => {
-    !drawerState && setDrawerState(true);
-  };
-
   const closeDrawer = () => {
     drawerState && setDrawerState(false);
   };

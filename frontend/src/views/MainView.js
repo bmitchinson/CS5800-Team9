@@ -5,7 +5,7 @@ import { makeStyles } from "@material-ui/core/styles";
 const useStyles = makeStyles(theme => ({
   mainview: {
     padding: theme.spacing(3),
-    ...theme.mixins.toolbar
+    paddingTop: theme.spacing(9)
   }
 }));
 

@@ -82,7 +82,11 @@ export default function Header(props) {
           <Typography variant="subtitle1" style={{ paddingRight: ".8em" }}>
             ({props.role})
           </Typography>
-          <Button variant="contained" onClick={props.clearJWT}>
+          <Button
+            variant="contained"
+            color="secondary"
+            onClick={props.clearJWT}
+          >
             Sign Out
           </Button>
         </Toolbar>

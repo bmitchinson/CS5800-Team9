@@ -67,6 +67,7 @@ const useStateWithLocalStorage = localStorageKey => {
 function App() {
   const [userJWT, setUserJWT] = useStateWithLocalStorage("userJWT");
   const [role, email] = getRoleAndEmailFromJWT(userJWT);
+  // console.log("token:", userJWT);
   const clearJWT = () => {
     setUserJWT(null);
     window.location.replace("http://localhost:3000/");

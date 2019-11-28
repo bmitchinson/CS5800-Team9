@@ -115,7 +115,7 @@ namespace backend.Controllers
 
         // TODO still need to check pre reqs and still need to ensure that a student cant register
         // for the same registration more than once, additionally may want to constrain the ability to
-        // register for the same course twice
+        // register for the same course twice (of a different registration)
         [HttpPost, Authorize(Roles = "Student, Admin")]
         public async Task<ActionResult> Enroll([FromBody]StudentEnrollment studentEnrollment)
         {

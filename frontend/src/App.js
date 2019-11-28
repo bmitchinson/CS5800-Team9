@@ -1,10 +1,12 @@
 import React from "react";
+import ReactNotification from "react-notifications-component";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
+import { Typography } from "@material-ui/core";
+import CssBaseline from "@material-ui/core/CssBaseline";
 import { createMuiTheme, responsiveFontSizes } from "@material-ui/core/styles";
 import { ThemeProvider } from "@material-ui/styles";
-
-import CssBaseline from "@material-ui/core/CssBaseline";
+import "react-notifications-component/dist/theme.css";
 
 import MainView from "./views/MainView";
 import StudentIndex from "./views/StudentIndex/StudentIndex";
@@ -14,10 +16,8 @@ import CourseIndex from "./views/CourseIndex/CourseIndex";
 import Header from "./components/Header/Header";
 import SignIn from "./components/SignIn/SignIn";
 import CoursePage from "./components/CoursePage/CoursePage";
-import FourOFour from "./components/FourOFour";
-
-import { Typography } from "@material-ui/core";
 import MyAccount from "./components/MyAccount/MyAccount";
+import FourOFour from "./components/FourOFour";
 
 let theme = createMuiTheme({
   palette: {
@@ -75,6 +75,7 @@ function App() {
 
   return (
     <Router>
+      <ReactNotification />
       <ThemeProvider theme={theme}>
         <CssBaseline />
         {(userJWT === "null" || !userJWT) && <SignIn setUserJWT={setUserJWT} />}

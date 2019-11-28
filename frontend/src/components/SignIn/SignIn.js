@@ -1,22 +1,29 @@
-import "date-fns";
 import React from "react";
-import axios from "axios";
+import "date-fns";
 import DateFnsUtils from "@date-io/date-fns";
+import axios from "axios";
+import { store } from "react-notifications-component";
+
 import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker
 } from "@material-ui/pickers";
 
-import Avatar from "@material-ui/core/Avatar";
-import Button from "@material-ui/core/Button";
-import TextField from "@material-ui/core/TextField";
-import Link from "@material-ui/core/Link";
-import Checkbox from "@material-ui/core/Checkbox";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Paper from "@material-ui/core/Paper";
-import Grid from "@material-ui/core/Grid";
+import {
+  Avatar,
+  Button,
+  TextField,
+  Link,
+  Checkbox,
+  FormControlLabel,
+  Paper,
+  Grid,
+  Typography
+} from "@material-ui/core";
+
+import notificationPrefs from "../../helpers/notificationPrefs";
+
 import SchoolIcon from "@material-ui/icons/School";
-import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles(theme => ({
@@ -54,7 +61,6 @@ export default function SignIn(props) {
   const classes = useStyles();
   const [signUp, setSignUp] = React.useState(false);
   const [birthday, setBirthday] = React.useState(new Date());
-  const [message, setMessage] = React.useState(null);
   const [studentCheck, setStudentCheck] = React.useState(true);
   const [instructorCheck, setInstructorCheck] = React.useState(false);
 
@@ -81,7 +87,6 @@ export default function SignIn(props) {
   };
 
   const postSignUp = () => {
-    setMessage("");
     let bd = birthday.toISOString().split("T")[0] + "T00:00:00";
     let accountType = studentCheck ? "student" : "instructor";
     axios({
@@ -96,17 +101,24 @@ export default function SignIn(props) {
       }
     })
       .then(function() {
-        setMessage("Account Created");
         setSignUp(false);
+        store.addNotification(
+          notificationPrefs("Account created!", "Login Now", "success")
+        );
       })
       .catch(function(e) {
-        setMessage("Error Creating Account");
+        store.addNotification(
+          notificationPrefs(
+            "Problem creating account",
+            "Please try again",
+            "danger"
+          )
+        );
         console.log("Error:", e);
       });
   };
 
   const postLogin = () => {
-    setMessage("");
     axios({
       method: "post",
       url: "https://localhost:5001/api/token",
@@ -119,8 +131,10 @@ export default function SignIn(props) {
         props.setUserJWT(response.data.token);
       })
       .catch(function(e) {
-        setMessage("Error Logging In");
         console.log("Error:", e);
+        store.addNotification(
+          notificationPrefs("Problem Logging In", "Please try again", "danger")
+        );
       });
   };
 
@@ -129,11 +143,6 @@ export default function SignIn(props) {
       <Grid item xs={false} sm={4} md={7} className={classes.image} />
       <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
         <div className={classes.paper}>
-          {message && (
-            <Typography component="h2" variant="h5">
-              {message}
-            </Typography>
-          )}
           <Avatar className={classes.avatar}>
             <SchoolIcon />
           </Avatar>
@@ -175,11 +184,6 @@ export default function SignIn(props) {
                   Sign In
                 </Button>
                 <Grid container>
-                  <Grid item xs>
-                    <Link href="#" variant="body2" color="textPrimary">
-                      Forgot password?
-                    </Link>
-                  </Grid>
                   <Grid item>
                     <Link
                       href="#"

@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using backend.Data.QueryObjects;
 using System.Web;
 using backend.Infrastructure.PasswordSecurity;
+using backend.Infrastructure.ClaimsManager;
 
 namespace backend.Controllers
 {
@@ -33,23 +34,11 @@ namespace backend.Controllers
                 .ToListAsync();
         }
 
-        [HttpGet("{id}"), Authorize(Roles = "Student, Instructor")]
+        [HttpGet("{id}"), Authorize(Roles = "Student, Instructor, Admin")]
         public async Task<ActionResult<Student>> Get(int id)
         {
-            // TODO this should be put into aquery object
-            var claimsDict = new Dictionary<string, string>();
 
-            HttpContext.User.Claims.ToList()
-                .ForEach(_ => claimsDict.Add(_.Type, _.Value));
-
-            // TODO move some of this stuff into its own files/methods so that controller actions
-            // are not cluttered with garbage
-            var userEmail = 
-                claimsDict["Email"];
-            var userRole =
-                claimsDict["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"];
-            var userId =
-                int.Parse(claimsDict["UserId"]);
+            var claimsManager = new ClaimsManager(HttpContext.User);
 
             var student = await _context
                 .Students
@@ -57,21 +46,21 @@ namespace backend.Controllers
                 .Where(_ => _.StudentId == id)
                 .FirstOrDefaultAsync();
 
-            switch (userRole)
+            switch (claimsManager.GetRoleClaim())
             {
                 case "Student":
-                    if (student.StudentId == userId)
+                    if (student.StudentId == claimsManager.GetUserIdClaim())
                     {
-                        return student;
+                        return Ok(student);
                     }
                     else
                     {
                         return Unauthorized();
                     }
                 case "Instructor":
-                    return student;
-                case "Administrator":
-                    return student;
+                    return Ok(student);
+                case "Admin":
+                    return Ok(student);
             }
             return Unauthorized();
         }
@@ -83,7 +72,12 @@ namespace backend.Controllers
             {
                 if (!PasswordSecurity.CheckPasswordPolicy(student.Password))
                 {
-                    ModelState.AddModelError("", "PASSWORD INVALID");
+                    ModelState.AddModelError("ModelError", "PASSWORD INVALID");
+                    return BadRequest(ModelState);
+                }
+                if (_context.EmailIsTaken(student.Email))
+                {
+                    ModelState.AddModelError("ModelError","Email has already been taken");
                     return BadRequest(ModelState);
                 }
                 student.Password = PasswordSecurity

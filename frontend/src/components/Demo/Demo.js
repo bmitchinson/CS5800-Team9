@@ -11,7 +11,7 @@ class Demo extends Component {
   }
 
   componentDidMount() {
-    fetch("http://localhost:5000/api/test")
+    fetch("https://localhost:5001/api/test")
       .then(res => res.json())
       .then(
         result => {

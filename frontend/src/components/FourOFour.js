@@ -25,13 +25,13 @@ export default function FourOFour() {
           Maybe this page exists but you don't have permission
         </Typography>
       </Grid>
-      <Grid item xs={6}>
+      {/* <Grid item xs={6}>
         <img
           style={{ height: "20em" }}
           alt="raman"
           src="http://homepage.cs.uiowa.edu/~aravamud/images/AravamudhanRaman.jpg"
         />
-      </Grid>
+      </Grid> */}
       <Grid item xs={12}>
         <Link to="/">Return Home</Link>
       </Grid>

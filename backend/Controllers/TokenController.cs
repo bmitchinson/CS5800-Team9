@@ -65,9 +65,8 @@ namespace JWT.Controllers
               signingCredentials: creds,
               claims: claims);
 
-            // TODO: assign the proper load based on interpreting the db
             token.Payload["roles"] = roles;
-            // token.Payload["email"] = user.Email;
+            token.Payload["email"] = user.Email;
             // token.Payload["uId"] = user.Id;
 
             return new JwtSecurityTokenHandler().WriteToken(token);
@@ -87,7 +86,7 @@ namespace JWT.Controllers
             // that we are querying to see what kind of user the email pertains to
             // which is important for distuinguishing their role and what kind of
             // table relationships can exist for them.
-            var studentClaim = await 
+            var studentClaim = await
                 _context
                 .Students
                 .Where(_ => _.Email == login.Email)
@@ -123,7 +122,7 @@ namespace JWT.Controllers
                     user.Id = instructorClaim.InstructorId;
                 }
             }
-            else if(adminClaim != null)
+            else if (adminClaim != null)
             {
                 if (PasswordSecurity.CompareHashedPasswords(login.Password, adminClaim.Password))
                 {

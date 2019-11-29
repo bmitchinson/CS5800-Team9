@@ -28,7 +28,7 @@ export default function Student(props) {
     setAnchorEl(null);
     axios({
       method: "delete",
-      url: "http://localhost:5000/api/student",
+      url: "https://localhost:5001/api/student",
       params: {
         id: studentId
       }

@@ -14,6 +14,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
 using backend.Data.Contexts;
 
 namespace backend
@@ -43,7 +44,17 @@ namespace backend
                     .AllowCredentials();
                 });
             });
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Title = "Team 9 Classroom API",
+                    Version = "v1"
+                });
+            });
 
             var dbConnection = Configuration
                 .GetConnectionString("DefaultConnection");
@@ -83,6 +94,12 @@ namespace backend
             app.UseCors(MyAllowSpecificOrigins);
             app.UseAuthentication();
             app.UseMvc();
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Team 9 Classroom API");
+                c.RoutePrefix = string.Empty;
+            });
         }
     }
 }

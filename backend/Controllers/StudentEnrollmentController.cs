@@ -161,10 +161,10 @@ namespace backend.Controllers
                                 new { enrollmentId = newEnrollment.StudentEnrollmentId},
                                 newEnrollment);
                         }
-                    ModelState.AddModelError("ModelError", "The enrollment limit has been reached");
+                    ModelState.AddModelError("Errors", "The enrollment limit has been reached");
                     return BadRequest(ModelState);
                 }
-                ModelState.AddModelError("ModelError", "Student or Registration not found");
+                ModelState.AddModelError("Errors", "Student or Registration not found");
                 return BadRequest(ModelState);
             }
             return BadRequest(ModelState);

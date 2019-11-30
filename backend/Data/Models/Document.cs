@@ -11,5 +11,7 @@ namespace backend.Data.Models
         public string ResourceLink { get; set; }
 
         public Registration Registration { get; set; }
+
+        public Submission Submission { get; set; }
     }
 }

@@ -237,12 +237,42 @@ namespace backend.Data.Startup
                             }
                         };
 
+                        var seededDocuments = new List<Document>
+                        {
+                            new Document
+                            {
+                                RegistrationId = 1,
+                                ResourceLink = "https://quiz1.pdf@test.com"
+                            },
+                            new Document
+                            {
+                                RegistrationId = 1,
+                                ResourceLink = "https://homework1.pdf@test.com"
+                            },
+                            new Document
+                            {
+                                RegistrationId = 1,
+                                ResourceLink = "https://quiz2.pdf@test.com"
+                            },
+                            new Document
+                            {
+                                RegistrationId = 2,
+                                ResourceLink = "https://quiz1.pdf@test.com"
+                            },
+                            new Document
+                            {
+                                RegistrationId = 2,
+                                ResourceLink = "https://homework.pdf@test.com"
+                            }
+                        };
+
                         context.AddRange(seededStudents);
                         context.AddRange(seededCourses);
                         context.AddRange(seededInstructors);
                         context.AddRange(seededAdmins);
                         context.AddRange(seededRegistrations);
                         context.AddRange(seededStudentEnrollments);
+                        context.AddRange(seededDocuments);
                         context.SaveChanges();
                     }
                 }

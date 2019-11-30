@@ -199,8 +199,7 @@ namespace backend.Migrations
 
                     b.HasKey("SubmissionId");
 
-                    b.HasIndex("DocumentId")
-                        .IsUnique();
+                    b.HasIndex("DocumentId");
 
                     b.HasIndex("StudentEnrollmentId");
 
@@ -256,8 +255,8 @@ namespace backend.Migrations
             modelBuilder.Entity("backend.Data.Models.Submission", b =>
                 {
                     b.HasOne("backend.Data.Models.Document", "Document")
-                        .WithOne("Submission")
-                        .HasForeignKey("backend.Data.Models.Submission", "DocumentId")
+                        .WithMany("Submissions")
+                        .HasForeignKey("DocumentId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("backend.Data.Models.StudentEnrollment", "StudentEnrollment")

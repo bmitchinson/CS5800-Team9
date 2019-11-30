@@ -9,8 +9,8 @@ using backend.Data.Contexts;
 namespace backend.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20191130043640_removed cut entities")]
-    partial class removedcutentities
+    [Migration("20191130052758_submission added")]
+    partial class submissionadded
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -201,8 +201,7 @@ namespace backend.Migrations
 
                     b.HasKey("SubmissionId");
 
-                    b.HasIndex("DocumentId")
-                        .IsUnique();
+                    b.HasIndex("DocumentId");
 
                     b.HasIndex("StudentEnrollmentId");
 
@@ -258,8 +257,8 @@ namespace backend.Migrations
             modelBuilder.Entity("backend.Data.Models.Submission", b =>
                 {
                     b.HasOne("backend.Data.Models.Document", "Document")
-                        .WithOne("Submission")
-                        .HasForeignKey("backend.Data.Models.Submission", "DocumentId")
+                        .WithMany("Submissions")
+                        .HasForeignKey("DocumentId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("backend.Data.Models.StudentEnrollment", "StudentEnrollment")

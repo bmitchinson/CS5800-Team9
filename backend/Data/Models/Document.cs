@@ -1,4 +1,4 @@
-
+using System.Collections.Generic;
 
 namespace backend.Data.Models
 {
@@ -12,6 +12,6 @@ namespace backend.Data.Models
 
         public Registration Registration { get; set; }
 
-        public Submission Submission { get; set; }
+        public ICollection<Submission> Submissions { get; set; }
     }
 }

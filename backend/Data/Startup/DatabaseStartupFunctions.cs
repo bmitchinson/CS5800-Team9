@@ -46,7 +46,7 @@ namespace backend.Data.Startup
                     if (
                         // need to check that ALL entities are empty
                         // before we decide that we want to seed the db
-                        !context.Students.Any() 
+                        !context.Students.Any()
                         && !context.Instructors.Any()
                         && !context.Courses.Any()
                         && !context.Administrators.Any()
@@ -92,6 +92,114 @@ namespace backend.Data.Startup
                                 BirthDate = new DateTime(2001, 1, 13),
                                 Email = "email3@test.com",
                                 Password = PasswordSecurity.HashPassword("secret")
+                            },
+                            new Student
+                            {
+                                StudentId = 4,
+                                FirstName = "Ben",
+                                LastName = "Mitchinson",
+                                BirthDate = new DateTime(2001, 1, 13),
+                                Email = "email4@test.com",
+                                Password = PasswordSecurity.HashPassword("secret")
+                            },
+                            new Student
+                            {
+                                StudentId = 5,
+                                FirstName = "Jacob",
+                                LastName = "Watters",
+                                BirthDate = new DateTime(2001, 1, 13),
+                                Email = "email5@test.com",
+                                Password = PasswordSecurity.HashPassword("secret")
+                            },
+                            new Student
+                            {
+                                StudentId = 6,
+                                FirstName = "Greg",
+                                LastName = "Mich",
+                                BirthDate = new DateTime(2001, 1, 13),
+                                Email = "email6@test.com",
+                                Password = PasswordSecurity.HashPassword("secret")
+                            },
+                            new Student
+                            {
+                                StudentId = 7,
+                                FirstName = "Alex",
+                                LastName = "Powers",
+                                BirthDate = new DateTime(2001, 1, 13),
+                                Email = "email7@test.com",
+                                Password = PasswordSecurity.HashPassword("secret")
+                            },
+                            new Student
+                            {
+                                StudentId = 8,
+                                FirstName = "Nick",
+                                LastName = "Grove",
+                                BirthDate = new DateTime(2001, 1, 13),
+                                Email = "email8@test.com",
+                                Password = PasswordSecurity.HashPassword("secret")
+                            },
+                            new Student
+                            {
+                                StudentId = 9,
+                                FirstName = "Griffin",
+                                LastName = "Fox",
+                                BirthDate = new DateTime(2001, 1, 13),
+                                Email = "email9@test.com",
+                                Password = PasswordSecurity.HashPassword("secret")
+                            },
+                            new Student
+                            {
+                                StudentId = 10,
+                                FirstName = "Matt",
+                                LastName = "Stogs",
+                                BirthDate = new DateTime(2001, 1, 13),
+                                Email = "email10@test.com",
+                                Password = PasswordSecurity.HashPassword("secret")
+                            },
+                            new Student
+                            {
+                                StudentId = 11,
+                                FirstName = "Mia",
+                                LastName = "Mitchinson",
+                                BirthDate = new DateTime(2001, 1, 13),
+                                Email = "email11@test.com",
+                                Password = PasswordSecurity.HashPassword("secret")
+                            },
+                            new Student
+                            {
+                                StudentId = 12,
+                                FirstName = "Quincy",
+                                LastName = "Jones",
+                                BirthDate = new DateTime(2001, 1, 13),
+                                Email = "email12@test.com",
+                                Password = PasswordSecurity.HashPassword("secret")
+                            },
+                            new Student
+                            {
+                                StudentId = 13,
+                                FirstName = "Jilly",
+                                LastName = "William",
+                                BirthDate = new DateTime(2001, 1, 13),
+                                Email = "email13@test.com",
+                                Password = PasswordSecurity.HashPassword("secret")
+                            },
+                            new Student
+                            {
+                                StudentId = 14,
+                                FirstName = "Meghan",
+                                LastName = "Nance",
+                                BirthDate = new DateTime(2001, 1, 13),
+                                Email = "email14@test.com",
+                                Password = PasswordSecurity.HashPassword("secret")
+                            },
+                            new Student
+                            {
+                                StudentId = 15,
+                                FirstName = "Olivia",
+                                LastName = "Sandvold",
+                                BirthDate = new DateTime(2001, 1, 13),
+                                Email = "email15@test.com",
+                                Password = PasswordSecurity.HashPassword("secret")
                             }
                         };
 
@@ -112,6 +220,38 @@ namespace backend.Data.Startup
                                 LastName = "Ellis",
                                 Email = "mellis@test.com",
                                 Password = PasswordSecurity.HashPassword("secret")
+                            },
+                            new Instructor
+                            {
+                                InstructorId = 3,
+                                FirstName = "Alex",
+                                LastName = "Smith",
+                                Email = "smith@test.com",
+                                Password = PasswordSecurity.HashPassword("secret")
+                            },
+                            new Instructor
+                            {
+                                InstructorId = 4,
+                                FirstName = "Hans",
+                                LastName = "Johnson",
+                                Email = "johnson@test.com",
+                                Password = PasswordSecurity.HashPassword("secret")
+                            },
+                            new Instructor
+                            {
+                                InstructorId = 5,
+                                FirstName = "John",
+                                LastName = "Lim",
+                                Email = "lim@test.com",
+                                Password = PasswordSecurity.HashPassword("secret")
+                            },
+                            new Instructor
+                            {
+                                InstructorId = 6,
+                                FirstName = "Lisa",
+                                LastName = "Dorothy",
+                                Email = "dorothy@test.com",
+                                Password = PasswordSecurity.HashPassword("secret")
                             }
                         };
 
@@ -131,27 +271,54 @@ namespace backend.Data.Startup
                             new Course
                             {
                                 CourseId = 1,
-                                CourseName = "Database Systems",
-                                CreditHours = 3,
-                                Section = "00AA",
+                                CourseName = "Chemistry I",
+                                CreditHours = 4,
+                                Section = "CHEM:1110",
                                 StartTime = DateTime.Parse("9:00 AM"),
                                 EndTime = DateTime.Parse("10:45 AM")
                             },
                             new Course
                             {
                                 CourseId = 2,
-                                CourseName = "Data Structures",
+                                CourseName = "Chemistry II",
                                 CreditHours = 4,
-                                Section = "00BB",
+                                Section = "CHEM:2220",
                                 StartTime = DateTime.Parse("2:30 PM"),
                                 EndTime = DateTime.Parse("3:20 PM")
                             },
                             new Course
                             {
                                 CourseId = 3,
-                                CourseName = "Software Engineering",
+                                CourseName = "Fundamentals of Software Engineering",
+                                CreditHours = 3,
+                                Section = "CS:5800",
+                                StartTime = DateTime.Parse("5:30 PM"),
+                                EndTime = DateTime.Parse("7:00 PM")
+                            },
+                            new Course
+                            {
+                                CourseId = 4,
+                                CourseName = "Physics I",
                                 CreditHours = 4,
-                                Section = "00AA",
+                                Section = "Phys:1611",
+                                StartTime = DateTime.Parse("5:30 PM"),
+                                EndTime = DateTime.Parse("7:00 PM")
+                            },
+                            new Course
+                            {
+                                CourseId = 5,
+                                CourseName = "Math II",
+                                CreditHours = 3,
+                                Section = "MATH:1560",
+                                StartTime = DateTime.Parse("5:30 PM"),
+                                EndTime = DateTime.Parse("7:00 PM")
+                            },
+                            new Course
+                            {
+                                CourseId = 6,
+                                CourseName = "Physics II",
+                                CreditHours = 3,
+                                Section = "MATH:1560",
                                 StartTime = DateTime.Parse("5:30 PM"),
                                 EndTime = DateTime.Parse("7:00 PM")
                             }
@@ -162,23 +329,16 @@ namespace backend.Data.Startup
                             new Registration
                             {
                                 RegistrationId = 1,
-                                CourseId = 1,
+                                CourseId = 1, // Chem 1
                                 InstructorId = 1,
                                 EnrollmentLimit = 40,
-                                Prerequisites = new List<Prerequisite>
-                                {
-                                    new Prerequisite
-                                    {
-                                        CourseId = 2
-                                    }
-                                }
                             },
                             new Registration
                             {
                                 RegistrationId = 2,
-                                CourseId = 2,
+                                CourseId = 2, // Chem 2
                                 InstructorId = 1,
-                                EnrollmentLimit = 30,
+                                EnrollmentLimit = 20,
                                 Prerequisites = new List<Prerequisite>
                                 {
                                     new Prerequisite
@@ -190,16 +350,44 @@ namespace backend.Data.Startup
                             new Registration
                             {
                                 RegistrationId = 3,
-                                CourseId = 3,
+                                CourseId = 3, // SE
                                 InstructorId = 2,
                                 EnrollmentLimit = 20
                             },
                             new Registration
                             {
                                 RegistrationId = 4,
-                                CourseId = 3,
-                                InstructorId = 1,
-                                EnrollmentLimit = 2
+                                CourseId = 3, // SE
+                                InstructorId = 3,
+                                EnrollmentLimit = 20
+                            },
+                            new Registration
+                            {
+                                RegistrationId = 5,
+                                CourseId = 4, // Phys 1
+                                InstructorId = 4,
+                                EnrollmentLimit = 25
+                            },
+                            new Registration
+                            {
+                                RegistrationId = 6,
+                                CourseId = 5, // Math II
+                                InstructorId = 5,
+                                EnrollmentLimit = 40
+                            },
+                            new Registration
+                            {
+                                RegistrationId = 7,
+                                CourseId = 6, // Phys II
+                                InstructorId = 6,
+                                EnrollmentLimit = 30,
+                                Prerequisites = new List<Prerequisite>
+                                {
+                                    new Prerequisite
+                                    {
+                                        CourseId = 4
+                                    }
+                                }
                             }
                         };
 
@@ -215,13 +403,13 @@ namespace backend.Data.Startup
                             {
                                 StudentId = 1,
                                 StudentEnrollmentId = 2,
-                                RegistrationId = 2
+                                RegistrationId = 3
                             },
                             new StudentEnrollment
                             {
                                 StudentId = 1,
                                 StudentEnrollmentId = 3,
-                                RegistrationId = 3
+                                RegistrationId = 5
                             },
                             new StudentEnrollment
                             {
@@ -231,9 +419,159 @@ namespace backend.Data.Startup
                             },
                             new StudentEnrollment
                             {
-                                StudentId = 3,
+                                StudentId = 2,
                                 StudentEnrollmentId = 5,
+                                RegistrationId = 5
+                            },
+                            new StudentEnrollment
+                            {
+                                StudentId = 3,
+                                StudentEnrollmentId = 6,
+                                RegistrationId = 6
+                            },
+                            new StudentEnrollment
+                            {
+                                StudentId = 4,
+                                StudentEnrollmentId = 7,
                                 RegistrationId = 3
+                            },
+                            new StudentEnrollment
+                            {
+                                StudentId = 4,
+                                StudentEnrollmentId = 8,
+                                RegistrationId = 4
+                            },
+                            new StudentEnrollment
+                            {
+                                StudentId = 4,
+                                StudentEnrollmentId = 9,
+                                RegistrationId = 5
+                            },
+                            new StudentEnrollment
+                            {
+                                StudentId = 5,
+                                StudentEnrollmentId = 10,
+                                RegistrationId = 4
+                            },
+                            new StudentEnrollment
+                            {
+                                StudentId = 5,
+                                StudentEnrollmentId = 11,
+                                RegistrationId = 6
+                            },
+                            new StudentEnrollment
+                            {
+                                StudentId = 6,
+                                StudentEnrollmentId = 12,
+                                RegistrationId = 6
+                            },
+                            new StudentEnrollment
+                            {
+                                StudentId = 6,
+                                StudentEnrollmentId = 13,
+                                RegistrationId = 4
+                            },
+                            new StudentEnrollment
+                            {
+                                StudentId = 7,
+                                StudentEnrollmentId = 14,
+                                RegistrationId = 1
+                            },
+                            new StudentEnrollment
+                            {
+                                StudentId = 7,
+                                StudentEnrollmentId = 15,
+                                RegistrationId = 3
+                            },
+                            new StudentEnrollment
+                            {
+                                StudentId = 8,
+                                StudentEnrollmentId = 16,
+                                RegistrationId = 2
+                            },
+                            new StudentEnrollment
+                            {
+                                StudentId = 8,
+                                StudentEnrollmentId = 17,
+                                RegistrationId = 6
+                            },
+                            new StudentEnrollment
+                            {
+                                StudentId = 9,
+                                StudentEnrollmentId = 18,
+                                RegistrationId = 2
+                            },
+                            new StudentEnrollment
+                            {
+                                StudentId = 9,
+                                StudentEnrollmentId = 19,
+                                RegistrationId = 6
+                            },
+                            new StudentEnrollment
+                            {
+                                StudentId = 10,
+                                StudentEnrollmentId = 20,
+                                RegistrationId = 6
+                            },
+                            new StudentEnrollment
+                            {
+                                StudentId = 10,
+                                StudentEnrollmentId = 21,
+                                RegistrationId = 4
+                            },
+                            new StudentEnrollment
+                            {
+                                StudentId = 11,
+                                StudentEnrollmentId = 22,
+                                RegistrationId = 4
+                            },
+                            new StudentEnrollment
+                            {
+                                StudentId = 11,
+                                StudentEnrollmentId = 23,
+                                RegistrationId = 2
+                            },
+                            new StudentEnrollment
+                            {
+                                StudentId = 12,
+                                StudentEnrollmentId = 24,
+                                RegistrationId = 2
+                            },
+                            new StudentEnrollment
+                            {
+                                StudentId = 12,
+                                StudentEnrollmentId = 25,
+                                RegistrationId = 3
+                            },
+                            new StudentEnrollment
+                            {
+                                StudentId = 13,
+                                StudentEnrollmentId = 26,
+                                RegistrationId = 1
+                            },
+                            new StudentEnrollment
+                            {
+                                StudentId = 13,
+                                StudentEnrollmentId = 27,
+                                RegistrationId = 5
+                            },
+                            new StudentEnrollment
+                            {
+                                StudentId = 14,
+                                StudentEnrollmentId = 28,
+                                RegistrationId = 5
+                            },
+                            new StudentEnrollment
+                            {
+                                StudentId = 14,
+                                StudentEnrollmentId = 29,
+                                RegistrationId = 2
+                            },
+                            new StudentEnrollment
+                            {
+                                StudentId = 15,
+                                StudentEnrollmentId = 30,
+                                RegistrationId = 4
                             }
                         };
 

@@ -77,7 +77,7 @@ namespace backend.Controllers
                 }
                 if (_context.EmailIsTaken(student.Email))
                 {
-                    ModelState.AddModelError("ModelError","Email has already been taken");
+                    ModelState.AddModelError("ModelError", "Email has already been taken");
                     return BadRequest(ModelState);
                 }
                 student.Password = PasswordSecurity
@@ -89,7 +89,7 @@ namespace backend.Controllers
             return BadRequest();
         }
 
-        [HttpDelete]
+        [HttpDelete, Authorize(Roles = "Admin")]
         public async Task<ActionResult> Delete(int id)
         {
             var target = await

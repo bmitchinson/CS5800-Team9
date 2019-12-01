@@ -15,13 +15,12 @@ class StudentIndex extends Component {
     this.addStudent = this.addStudent.bind(this);
   }
 
-  // TODO: Loading
   componentDidMount() {
     this.refreshStudentIndex();
   }
 
   refreshStudentIndex() {
-    fetch("http://localhost:5000/api/student")
+    fetch("https://localhost:5001/api/student")
       .then(res => res.json())
       .then(
         result => {
@@ -36,7 +35,7 @@ class StudentIndex extends Component {
   addStudent() {
     axios({
       method: "post",
-      url: "http://localhost:5000/api/student",
+      url: "https://localhost:5001/api/student",
       data: {
         FirstName: "Ben",
         LastName: "Mitchinson",

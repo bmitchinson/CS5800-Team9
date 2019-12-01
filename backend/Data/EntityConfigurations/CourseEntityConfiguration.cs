@@ -18,6 +18,9 @@ namespace backend.Data.Configs
 
             entity.Property(_ => _.Level)
             .HasConversion(new EnumToStringConverter<TopicLevel>());
+
+            entity.Property(_ => _.SoftDeleted)
+            .HasDefaultValue(false);
         }
     }
 }

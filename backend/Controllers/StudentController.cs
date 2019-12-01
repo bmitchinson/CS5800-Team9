@@ -8,9 +8,9 @@ using backend.Data.Contexts;
 using backend.Data.Models;
 using Microsoft.EntityFrameworkCore;
 using backend.Data.QueryObjects;
-using System.Web;
 using backend.Infrastructure.PasswordSecurity;
 using backend.Infrastructure.ClaimsManager;
+using backend.Infrastructure.EmailManager;
 
 namespace backend.Controllers
 {
@@ -19,10 +19,11 @@ namespace backend.Controllers
     public class StudentController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
-
-        public StudentController(ApplicationDbContext context)
+        private readonly IEmailManager _emailManager;
+        public StudentController(ApplicationDbContext context, IEmailManager emailManager)
         {
             _context = context;
+            _emailManager = emailManager;
         }
 
         [HttpGet]
@@ -81,13 +82,17 @@ namespace backend.Controllers
                     return BadRequest(ModelState);
                 }
                 student.Password = PasswordSecurity
-                    .HashPassword(student.Password);
+                    .HashPassword(student.Password);  
                 await _context.AddAsync(student);
                 await _context.SaveChangesAsync();
+
+                _emailManager.Send(student.Email, "Account Created",  "Welcome to tutor services");  
+
                 return CreatedAtAction(nameof(Get), new { id = student.StudentId }, student);
             }
             return BadRequest();
         }
+        
 
         [HttpDelete, Authorize(Roles = "Admin")]
         public async Task<ActionResult> Delete(int id)

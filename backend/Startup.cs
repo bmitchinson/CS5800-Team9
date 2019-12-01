@@ -16,6 +16,9 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using backend.Data.Contexts;
+using backend.Infrastructure.EmailManager;
+
+
 
 namespace backend
 {
@@ -46,6 +49,10 @@ namespace backend
             });
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+    
+            services.AddSingleton<IEmailConfiguration>(Configuration.GetSection("EmailConfiguration").Get<EmailConfiguration>());
+
+            services.AddTransient<IEmailManager, EmailManager>();
 
             services.AddSwaggerGen(c =>
             {

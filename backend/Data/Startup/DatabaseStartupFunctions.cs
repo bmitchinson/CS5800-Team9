@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using backend.Data.Models;
 using backend.Infrastructure.PasswordSecurity;
 using System.Threading.Tasks;
+using backend.Data.Enums;
 
 namespace backend.Data.Startup
 {
@@ -575,12 +576,467 @@ namespace backend.Data.Startup
                             }
                         };
 
+                        var seededDocuments = new List<Document>
+                        {
+                            new Document
+                            {
+                                RegistrationId = 1,
+                                ResourceLink = "https://res.cloudinary.com/dkfj0xfet/image/upload/v1575184589/classroom/seed/chem/Quiz/chem_quiz1_cb0izb.pdf",
+                                DocType = DocumentType.Quiz
+                            },
+                            new Document
+                            {
+                                RegistrationId = 1,
+                                ResourceLink = "https://res.cloudinary.com/dkfj0xfet/image/upload/v1575184589/classroom/seed/chem/Quiz/chem_quiz2_czwcqe.pdf",
+                                DocType = DocumentType.Quiz
+                            },
+                            new Document
+                            {
+                                RegistrationId = 1,
+                                ResourceLink = "https://res.cloudinary.com/dkfj0xfet/image/upload/v1575184589/classroom/seed/chem/Quiz/chem_quiz3_fmfz76.pdf",
+                                DocType = DocumentType.Quiz
+                            },
+                            new Document
+                            {
+                                RegistrationId = 1,
+                                ResourceLink = "https://res.cloudinary.com/dkfj0xfet/image/upload/v1575184589/classroom/seed/chem/Quiz/chem_quiz4_nnwlk9.pdf",
+                                DocType = DocumentType.Quiz
+                            },
+                            new Document
+                            {
+                                RegistrationId = 1,
+                                ResourceLink = "https://res.cloudinary.com/dkfj0xfet/image/upload/v1575184547/classroom/seed/chem/Assignment/chem_hw1_bmpymy.pdf",
+                                DocType = DocumentType.Assignment
+                            },
+                            new Document
+                            {
+                                RegistrationId = 1,
+                                ResourceLink = "https://res.cloudinary.com/dkfj0xfet/image/upload/v1575184547/classroom/seed/chem/Assignment/chem_hw2_ltqv0g.pdf",
+                                DocType = DocumentType.Assignment
+                            },
+                            new Document
+                            {
+                                RegistrationId = 1,
+                                ResourceLink = "https://res.cloudinary.com/dkfj0xfet/image/upload/v1575184547/classroom/seed/chem/Assignment/chem_hw3_bemawp.pdf",
+                                DocType = DocumentType.Assignment
+                            },
+                            new Document
+                            {
+                                RegistrationId = 1,
+                                ResourceLink = "https://res.cloudinary.com/dkfj0xfet/image/upload/v1575184548/classroom/seed/chem/Assignment/chem_hw4_y50oku.pdf",
+                                DocType = DocumentType.Assignment
+                            },
+                            new Document
+                            {
+                                RegistrationId = 1,
+                                ResourceLink = "https://res.cloudinary.com/dkfj0xfet/image/upload/v1575184547/classroom/seed/chem/Assignment/chem_hw5_agrcfz.pdf",
+                                DocType = DocumentType.Assignment
+                            },
+                            new Document
+                            {
+                                RegistrationId = 1,
+                                ResourceLink = "https://res.cloudinary.com/dkfj0xfet/image/upload/v1575184547/classroom/seed/chem/Assignment/chem_hw6_ozgwpw.pdf",
+                                DocType = DocumentType.Assignment
+                            },
+                            new Document
+                            {
+                                RegistrationId = 1,
+                                ResourceLink = "https://res.cloudinary.com/dkfj0xfet/image/upload/v1575184565/classroom/seed/chem/Exam/chem_exam1_xogwft.pdf",
+                                DocType = DocumentType.Exam
+                            },
+                            new Document
+                            {
+                                RegistrationId = 1,
+                                ResourceLink = "https://res.cloudinary.com/dkfj0xfet/image/upload/v1575184565/classroom/seed/chem/Exam/chem_exam2_u5uiec.pdf",
+                                DocType = DocumentType.Exam
+                            },
+                            new Document
+                            {
+                                RegistrationId = 1,
+                                ResourceLink = "https://res.cloudinary.com/dkfj0xfet/image/upload/v1575184565/classroom/seed/chem/Exam/chem_exam3_crg0vb.pdf",
+                                DocType = DocumentType.Exam
+                            },
+                            new Document
+                            {
+                                RegistrationId = 1,
+                                ResourceLink = "https://res.cloudinary.com/dkfj0xfet/image/upload/v1575184565/classroom/seed/chem/Exam/chem_exam_final_l9x6fw.pdf",
+                                DocType = DocumentType.Exam
+                            },
+                            new Document
+                            {
+                                RegistrationId = 1,
+                                ResourceLink = "https://res.cloudinary.com/dkfj0xfet/image/upload/v1575184580/classroom/seed/chem/Notes/chem_chapter6_vjkvpg.pdf",
+                                DocType = DocumentType.Notes
+                            },
+                            new Document
+                            {
+                                RegistrationId = 1,
+                                ResourceLink = "https://res.cloudinary.com/dkfj0xfet/image/upload/v1575184580/classroom/seed/chem/Notes/chem_chapter5_sicssw.pdf",
+                                DocType = DocumentType.Notes
+                            },
+                            new Document
+                            {
+                                RegistrationId = 1,
+                                ResourceLink = "https://res.cloudinary.com/dkfj0xfet/image/upload/v1575184579/classroom/seed/chem/Notes/chem_chapter12_bmkikm.pdf",
+                                DocType = DocumentType.Notes
+                            },
+                            new Document
+                            {
+                                RegistrationId = 1,
+                                ResourceLink = "https://res.cloudinary.com/dkfj0xfet/image/upload/v1575184579/classroom/seed/chem/Notes/chem_syllabus_phgeha.pdf",
+                                DocType = DocumentType.Notes
+                            },
+                            new Document
+                            {
+                                RegistrationId = 1,
+                                ResourceLink = "https://res.cloudinary.com/dkfj0xfet/image/upload/v1575184579/classroom/seed/chem/Notes/chem_practiceexam1_ndfrt8.pdf",
+                                DocType = DocumentType.Notes
+                            },
+                            new Document
+                            {
+                                RegistrationId = 1,
+                                ResourceLink = "https://res.cloudinary.com/dkfj0xfet/image/upload/v1575184579/classroom/seed/chem/Notes/chem_chapter1234_de29ut.pdf",
+                                DocType = DocumentType.Notes
+                            },
+                            new Document
+                            {
+                                RegistrationId = 1,
+                                ResourceLink = "https://res.cloudinary.com/dkfj0xfet/image/upload/v1575184579/classroom/seed/chem/Notes/chem_chapter15_dodxds.pdf",
+                                DocType = DocumentType.Notes
+                            },
+                            new Document
+                            {
+                                RegistrationId = 1,
+                                ResourceLink = "https://res.cloudinary.com/dkfj0xfet/image/upload/v1575184579/classroom/seed/chem/Notes/chem_chapter11_aktut5.pdf",
+                                DocType = DocumentType.Notes
+                            },
+                            new Document
+                            {
+                                RegistrationId = 1,
+                                ResourceLink = "https://res.cloudinary.com/dkfj0xfet/image/upload/v1575184578/classroom/seed/chem/Notes/chem_chapter9_qqremb.pdf",
+                                DocType = DocumentType.Notes
+                            },
+                            new Document
+                            {
+                                RegistrationId = 1,
+                                ResourceLink = "https://res.cloudinary.com/dkfj0xfet/image/upload/v1575184578/classroom/seed/chem/Notes/chem_chapter10_chtw66.pdf",
+                                DocType = DocumentType.Notes
+                            },
+                            new Document
+                            {
+                                RegistrationId = 1,
+                                ResourceLink = "https://res.cloudinary.com/dkfj0xfet/image/upload/v1575184578/classroom/seed/chem/Notes/chem_chapter7_vrernk.pdf",
+                                DocType = DocumentType.Notes
+                            },
+                            new Document
+                            {
+                                RegistrationId = 1,
+                                ResourceLink = "https://res.cloudinary.com/dkfj0xfet/image/upload/v1575184577/classroom/seed/chem/Notes/chem_chapter8_zudu8y.pdf",
+                                DocType = DocumentType.Notes
+                            },
+                            new Document
+                            {
+                                RegistrationId = 2,
+                                ResourceLink = "https://res.cloudinary.com/dkfj0xfet/image/upload/v1575184589/classroom/seed/chem/Quiz/chem_quiz1_cb0izb.pdf",
+                                DocType = DocumentType.Quiz
+                            },
+                            new Document
+                            {
+                                RegistrationId = 2,
+                                ResourceLink = "https://res.cloudinary.com/dkfj0xfet/image/upload/v1575184589/classroom/seed/chem/Quiz/chem_quiz2_czwcqe.pdf",
+                                DocType = DocumentType.Quiz
+                            },
+                            new Document
+                            {
+                                RegistrationId = 2,
+                                ResourceLink = "https://res.cloudinary.com/dkfj0xfet/image/upload/v1575184589/classroom/seed/chem/Quiz/chem_quiz3_fmfz76.pdf",
+                                DocType = DocumentType.Quiz
+                            },
+                            new Document
+                            {
+                                RegistrationId = 2,
+                                ResourceLink = "https://res.cloudinary.com/dkfj0xfet/image/upload/v1575184589/classroom/seed/chem/Quiz/chem_quiz4_nnwlk9.pdf",
+                                DocType = DocumentType.Quiz
+                            },
+                            new Document
+                            {
+                                RegistrationId = 2,
+                                ResourceLink = "https://res.cloudinary.com/dkfj0xfet/image/upload/v1575184547/classroom/seed/chem/Assignment/chem_hw1_bmpymy.pdf",
+                                DocType = DocumentType.Assignment
+                            },
+                            new Document
+                            {
+                                RegistrationId = 2,
+                                ResourceLink = "https://res.cloudinary.com/dkfj0xfet/image/upload/v1575184547/classroom/seed/chem/Assignment/chem_hw2_ltqv0g.pdf",
+                                DocType = DocumentType.Assignment
+                            },
+                            new Document
+                            {
+                                RegistrationId = 2,
+                                ResourceLink = "https://res.cloudinary.com/dkfj0xfet/image/upload/v1575184547/classroom/seed/chem/Assignment/chem_hw3_bemawp.pdf",
+                                DocType = DocumentType.Assignment
+                            },
+                            new Document
+                            {
+                                RegistrationId = 2,
+                                ResourceLink = "https://res.cloudinary.com/dkfj0xfet/image/upload/v1575184548/classroom/seed/chem/Assignment/chem_hw4_y50oku.pdf",
+                                DocType = DocumentType.Assignment
+                            },
+                            new Document
+                            {
+                                RegistrationId = 2,
+                                ResourceLink = "https://res.cloudinary.com/dkfj0xfet/image/upload/v1575184547/classroom/seed/chem/Assignment/chem_hw5_agrcfz.pdf",
+                                DocType = DocumentType.Assignment
+                            },
+                            new Document
+                            {
+                                RegistrationId = 2,
+                                ResourceLink = "https://res.cloudinary.com/dkfj0xfet/image/upload/v1575184547/classroom/seed/chem/Assignment/chem_hw6_ozgwpw.pdf",
+                                DocType = DocumentType.Assignment
+                            },
+                            new Document
+                            {
+                                RegistrationId = 2,
+                                ResourceLink = "https://res.cloudinary.com/dkfj0xfet/image/upload/v1575184565/classroom/seed/chem/Exam/chem_exam1_xogwft.pdf",
+                                DocType = DocumentType.Exam
+                            },
+                            new Document
+                            {
+                                RegistrationId = 2,
+                                ResourceLink = "https://res.cloudinary.com/dkfj0xfet/image/upload/v1575184565/classroom/seed/chem/Exam/chem_exam2_u5uiec.pdf",
+                                DocType = DocumentType.Exam
+                            },
+                            new Document
+                            {
+                                RegistrationId = 2,
+                                ResourceLink = "https://res.cloudinary.com/dkfj0xfet/image/upload/v1575184565/classroom/seed/chem/Exam/chem_exam3_crg0vb.pdf",
+                                DocType = DocumentType.Exam
+                            },
+                            new Document
+                            {
+                                RegistrationId = 2,
+                                ResourceLink = "https://res.cloudinary.com/dkfj0xfet/image/upload/v1575184565/classroom/seed/chem/Exam/chem_exam_final_l9x6fw.pdf",
+                                DocType = DocumentType.Exam
+                            },
+                            new Document
+                            {
+                                RegistrationId = 2,
+                                ResourceLink = "https://res.cloudinary.com/dkfj0xfet/image/upload/v1575184580/classroom/seed/chem/Notes/chem_chapter6_vjkvpg.pdf",
+                                DocType = DocumentType.Notes
+                            },
+                            new Document
+                            {
+                                RegistrationId = 2,
+                                ResourceLink = "https://res.cloudinary.com/dkfj0xfet/image/upload/v1575184580/classroom/seed/chem/Notes/chem_chapter5_sicssw.pdf",
+                                DocType = DocumentType.Notes
+                            },
+                            new Document
+                            {
+                                RegistrationId = 2,
+                                ResourceLink = "https://res.cloudinary.com/dkfj0xfet/image/upload/v1575184579/classroom/seed/chem/Notes/chem_chapter12_bmkikm.pdf",
+                                DocType = DocumentType.Notes
+                            },
+                            new Document
+                            {
+                                RegistrationId = 2,
+                                ResourceLink = "https://res.cloudinary.com/dkfj0xfet/image/upload/v1575184579/classroom/seed/chem/Notes/chem_syllabus_phgeha.pdf",
+                                DocType = DocumentType.Notes
+                            },
+                            new Document
+                            {
+                                RegistrationId = 2,
+                                ResourceLink = "https://res.cloudinary.com/dkfj0xfet/image/upload/v1575184579/classroom/seed/chem/Notes/chem_practiceexam1_ndfrt8.pdf",
+                                DocType = DocumentType.Notes
+                            },
+                            new Document
+                            {
+                                RegistrationId = 2,
+                                ResourceLink = "https://res.cloudinary.com/dkfj0xfet/image/upload/v1575184579/classroom/seed/chem/Notes/chem_chapter1234_de29ut.pdf",
+                                DocType = DocumentType.Notes
+                            },
+                            new Document
+                            {
+                                RegistrationId = 2,
+                                ResourceLink = "https://res.cloudinary.com/dkfj0xfet/image/upload/v1575184579/classroom/seed/chem/Notes/chem_chapter15_dodxds.pdf",
+                                DocType = DocumentType.Notes
+                            },
+                            new Document
+                            {
+                                RegistrationId = 2,
+                                ResourceLink = "https://res.cloudinary.com/dkfj0xfet/image/upload/v1575184579/classroom/seed/chem/Notes/chem_chapter11_aktut5.pdf",
+                                DocType = DocumentType.Notes
+                            },
+                            new Document
+                            {
+                                RegistrationId = 2,
+                                ResourceLink = "https://res.cloudinary.com/dkfj0xfet/image/upload/v1575184578/classroom/seed/chem/Notes/chem_chapter9_qqremb.pdf",
+                                DocType = DocumentType.Notes
+                            },
+                            new Document
+                            {
+                                RegistrationId = 2,
+                                ResourceLink = "https://res.cloudinary.com/dkfj0xfet/image/upload/v1575184578/classroom/seed/chem/Notes/chem_chapter10_chtw66.pdf",
+                                DocType = DocumentType.Notes
+                            },
+                            new Document
+                            {
+                                RegistrationId = 2,
+                                ResourceLink = "https://res.cloudinary.com/dkfj0xfet/image/upload/v1575184578/classroom/seed/chem/Notes/chem_chapter7_vrernk.pdf",
+                                DocType = DocumentType.Notes
+                            },
+                            new Document
+                            {
+                                RegistrationId = 2,
+                                ResourceLink = "https://res.cloudinary.com/dkfj0xfet/image/upload/v1575184577/classroom/seed/chem/Notes/chem_chapter8_zudu8y.pdf",
+                                DocType = DocumentType.Notes
+                            },
+                            new Document
+                            {
+                                RegistrationId = 5,
+                                ResourceLink = "https://res.cloudinary.com/dkfj0xfet/image/upload/v1575184754/classroom/seed/phys/Assignment/phys_hw4_o2u598.pdf",
+                                DocType = DocumentType.Assignment
+                            },
+                            new Document
+                            {
+                                RegistrationId = 5,
+                                ResourceLink = "https://res.cloudinary.com/dkfj0xfet/image/upload/v1575184754/classroom/seed/phys/Assignment/phys_hw2_j48ig8.pdf",
+                                DocType = DocumentType.Assignment
+                            },
+                            new Document
+                            {
+                                RegistrationId = 5,
+                                ResourceLink = "https://res.cloudinary.com/dkfj0xfet/image/upload/v1575184754/classroom/seed/phys/Assignment/phys_hw1_ar2i2o.pdf",
+                                DocType = DocumentType.Assignment
+                            },
+                            new Document
+                            {
+                                RegistrationId = 5,
+                                ResourceLink = "https://res.cloudinary.com/dkfj0xfet/image/upload/v1575184754/classroom/seed/phys/Assignment/phys_hw7_xwjtwk.pdf",
+                                DocType = DocumentType.Assignment
+                            },
+                            new Document
+                            {
+                                RegistrationId = 5,
+                                ResourceLink = "https://res.cloudinary.com/dkfj0xfet/image/upload/v1575184754/classroom/seed/phys/Assignment/phys_hw5_yw6bxr.pdf",
+                                DocType = DocumentType.Assignment
+                            },
+                            new Document
+                            {
+                                RegistrationId = 5,
+                                ResourceLink = "https://res.cloudinary.com/dkfj0xfet/image/upload/v1575184754/classroom/seed/phys/Assignment/phys_hw6_ca5sgf.pdf",
+                                DocType = DocumentType.Assignment
+                            },
+                            new Document
+                            {
+                                RegistrationId = 5,
+                                ResourceLink = "https://res.cloudinary.com/dkfj0xfet/image/upload/v1575184753/classroom/seed/phys/Assignment/phys_hw3_arr0bb.pdf",
+                                DocType = DocumentType.Assignment
+                            },
+                            new Document
+                            {
+                                RegistrationId = 5,
+                                ResourceLink = "https://res.cloudinary.com/dkfj0xfet/image/upload/v1575184761/classroom/seed/phys/Exams/phys_exam1_yier8k.pdf",
+                                DocType = DocumentType.Exam
+                            },
+                            new Document
+                            {
+                                RegistrationId = 5,
+                                ResourceLink = "https://res.cloudinary.com/dkfj0xfet/image/upload/v1575184761/classroom/seed/phys/Exams/phys_exam2_kxmcm5.pdf",
+                                DocType = DocumentType.Exam
+                            },
+                            new Document
+                            {
+                                RegistrationId = 5,
+                                ResourceLink = "https://res.cloudinary.com/dkfj0xfet/image/upload/v1575184761/classroom/seed/phys/Exams/phys_exam3_kj8vzb.pdf",
+                                DocType = DocumentType.Exam
+                            },
+                            new Document
+                            {
+                                RegistrationId = 5,
+                                ResourceLink = "https://res.cloudinary.com/dkfj0xfet/image/upload/v1575184785/classroom/seed/phys/Notes/phys_chapter7_yrzcwg.pdf",
+                                DocType = DocumentType.Notes
+                            },
+                            new Document
+                            {
+                                RegistrationId = 5,
+                                ResourceLink = "https://res.cloudinary.com/dkfj0xfet/image/upload/v1575184773/classroom/seed/phys/Notes/phys_chapter2_pwg0gy.pdf",
+                                DocType = DocumentType.Notes
+                            },
+                            new Document
+                            {
+                                RegistrationId = 5,
+                                ResourceLink = "https://res.cloudinary.com/dkfj0xfet/image/upload/v1575184773/classroom/seed/phys/Notes/phys_chapter1_un6x8k.pdf",
+                                DocType = DocumentType.Notes
+                            },
+                            new Document
+                            {
+                                RegistrationId = 5,
+                                ResourceLink = "https://res.cloudinary.com/dkfj0xfet/image/upload/v1575184772/classroom/seed/phys/Notes/phys_chapter6_i7hz4h.pdf",
+                                DocType = DocumentType.Notes
+                            },
+                            new Document
+                            {
+                                RegistrationId = 5,
+                                ResourceLink = "https://res.cloudinary.com/dkfj0xfet/image/upload/v1575184772/classroom/seed/phys/Notes/phys_chapter3_lmhccs.pdf",
+                                DocType = DocumentType.Notes
+                            },
+                            new Document
+                            {
+                                RegistrationId = 5,
+                                ResourceLink = "https://res.cloudinary.com/dkfj0xfet/image/upload/v1575184771/classroom/seed/phys/Notes/phys_chapter5_qbx8qy.pdf",
+                                DocType = DocumentType.Notes
+                            },
+                            new Document
+                            {
+                                RegistrationId = 5,
+                                ResourceLink = "https://res.cloudinary.com/dkfj0xfet/image/upload/v1575184771/classroom/seed/phys/Notes/phys_chapter4_fkn07u.pdf",
+                                DocType = DocumentType.Notes
+                            },
+                            new Document
+                            {
+                                RegistrationId = 5,
+                                ResourceLink = "https://res.cloudinary.com/dkfj0xfet/image/upload/v1575184801/classroom/seed/phys/Quiz/phys_quiz2_a7bxem.pdf",
+                                DocType = DocumentType.Quiz
+                            },
+                            new Document
+                            {
+                                RegistrationId = 5,
+                                ResourceLink = "https://res.cloudinary.com/dkfj0xfet/image/upload/v1575184801/classroom/seed/phys/Quiz/phys_quiz1_ymu9iy.pdf",
+                                DocType = DocumentType.Quiz
+                            },
+                            new Document
+                            {
+                                RegistrationId = 5,
+                                ResourceLink = "https://res.cloudinary.com/dkfj0xfet/image/upload/v1575184801/classroom/seed/phys/Quiz/phys_quiz6_uvoquk.pdf",
+                                DocType = DocumentType.Quiz
+                            },
+                            new Document
+                            {
+                                RegistrationId = 5,
+                                ResourceLink = "https://res.cloudinary.com/dkfj0xfet/image/upload/v1575184801/classroom/seed/phys/Quiz/phys_quiz3_bvrczo.pdf",
+                                DocType = DocumentType.Quiz
+                            },
+                            new Document
+                            {
+                                RegistrationId = 5,
+                                ResourceLink = "https://res.cloudinary.com/dkfj0xfet/image/upload/v1575184801/classroom/seed/phys/Quiz/phys_quiz5_bzc2x5.pdf",
+                                DocType = DocumentType.Quiz
+                            },
+                            new Document
+                            {
+                                RegistrationId = 5,
+                                ResourceLink = "https://res.cloudinary.com/dkfj0xfet/image/upload/v1575184801/classroom/seed/phys/Quiz/phys_quiz4_vfsehm.pdf",
+                                DocType = DocumentType.Quiz
+                            }
+                        };
+
                         context.AddRange(seededStudents);
                         context.AddRange(seededCourses);
                         context.AddRange(seededInstructors);
                         context.AddRange(seededAdmins);
                         context.AddRange(seededRegistrations);
                         context.AddRange(seededStudentEnrollments);
+                        context.AddRange(seededDocuments);
                         context.SaveChanges();
                     }
                 }

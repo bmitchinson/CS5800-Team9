@@ -46,12 +46,12 @@ namespace backend.Controllers
             {
                 if (!PasswordSecurity.CheckPasswordPolicy(administrator.Password))
                 {
-                    ModelState.AddModelError("", "PASSWORD INVALID");
+                    ModelState.AddModelError("Errors", "PASSWORD INVALID");
                     return BadRequest(ModelState);
                 }
                 if (_context.EmailIsTaken(administrator.Email))
                 {
-                    ModelState.AddModelError("ModelError","Email has already been taken");
+                    ModelState.AddModelError("Errors","Email has already been taken");
                     return BadRequest(ModelState);
                 }
                 administrator.Password = PasswordSecurity

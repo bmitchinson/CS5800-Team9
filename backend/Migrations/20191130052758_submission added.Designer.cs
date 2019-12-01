@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using backend.Data.Contexts;
 
 namespace backend.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20191130052758_submission added")]
+    partial class submissionadded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -52,10 +54,6 @@ namespace backend.Migrations
 
                     b.Property<string>("Section");
 
-                    b.Property<bool>("SoftDeleted")
-                        .ValueGeneratedOnAdd()
-                        .HasDefaultValue(false);
-
                     b.Property<DateTime>("StartTime")
                         .HasColumnType("datetime");
 
@@ -69,13 +67,9 @@ namespace backend.Migrations
                     b.Property<int>("DocumentId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("DocType")
-                        .IsRequired();
-
                     b.Property<int>("RegistrationId");
 
-                    b.Property<string>("ResourceLink")
-                        .IsRequired();
+                    b.Property<string>("ResourceLink");
 
                     b.HasKey("DocumentId");
 

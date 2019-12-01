@@ -78,7 +78,7 @@ namespace backend.Controllers
                     }
                     else
                     {
-                        ModelState.AddModelError("", "Instructor or course does not exist");
+                        ModelState.AddModelError("Errors", "Instructor or course does not exist");
                     }
                 }
 

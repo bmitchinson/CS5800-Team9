@@ -27,7 +27,5 @@ namespace backend.Data.Models
         public ICollection<Prerequisite> Prerequisites { get; set; }
 
         public ICollection<Document> Documents { get; set; }
-
-        public ICollection<Assessment> Assessments { get; set; }
     }
 }

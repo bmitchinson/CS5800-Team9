@@ -4,7 +4,8 @@ import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles(theme => ({
   mainview: {
-    padding: theme.spacing(3)
+    padding: theme.spacing(3),
+    paddingTop: theme.spacing(12)
   }
 }));
 

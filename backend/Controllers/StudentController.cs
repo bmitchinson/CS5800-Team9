@@ -89,7 +89,7 @@ namespace backend.Controllers
             return BadRequest();
         }
 
-        [HttpDelete]
+        [HttpDelete, Authorize(Roles = "Admin")]
         public async Task<ActionResult> Delete(int id)
         {
             var target = await

@@ -16,9 +16,6 @@ namespace backend.Data.QueryObjects
                     CourseId = c.CourseId,
                     CourseName = c.CourseName,
                     CreditHours = c.CreditHours,
-                    Section = c.Section,
-                    StartTime = c.StartTime,
-                    EndTime = c.EndTime,
                     Level = c.Level,
                     SoftDeleted = c.SoftDeleted,
                     Registrations = c.Registrations
@@ -28,6 +25,9 @@ namespace backend.Data.QueryObjects
                             CourseId = reg.CourseId,
                             InstructorId = reg.InstructorId,
                             EnrollmentLimit = reg.EnrollmentLimit,
+                            StartTime = reg.StartTime,
+                            EndTime = reg.EndTime,
+                            Section = reg.Section,
                             Instructor = new Instructor
                             {
                                 InstructorId = reg.Instructor.InstructorId,
@@ -46,9 +46,6 @@ namespace backend.Data.QueryObjects
                                         CourseId = pre.Course.CourseId,
                                         CourseName = pre.Course.CourseName,
                                         CreditHours = pre.Course.CreditHours,
-                                        Section = pre.Course.Section,
-                                        StartTime = pre.Course.StartTime,
-                                        EndTime = pre.Course.EndTime,
                                         Level = pre.Course.Level,
                                         SoftDeleted = pre.Course.SoftDeleted
                                     }

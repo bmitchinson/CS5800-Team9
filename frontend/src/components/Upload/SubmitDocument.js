@@ -72,6 +72,7 @@ export default function SubmitDocument(props) {
             <img
               style={{ width: "70%" }}
               src={getThumbnailURL(props.fileURL)}
+              alt="Document Preview"
             />
           </center>
         </Grid>

@@ -3,14 +3,17 @@ import axios from "axios";
 import { store } from "react-notifications-component";
 
 import notificationPrefs from "../../helpers/notificationPrefs";
-import { isAdmin, isInstructor, isStudent } from "../../helpers/jwtHelpers";
+import getHeaders from "../../helpers/getHeaders";
+import { isAdmin } from "../../helpers/jwtHelpers";
+
+import ConfirmDelete from "../../components/ConfirmDelete";
 
 import { Typography } from "@material-ui/core";
 import MaterialTable from "material-table";
-import getHeaders from "../../helpers/getHeaders";
 
 export default function CourseIndex() {
   const [allCourses, setAllCourses] = useState([]);
+  const [deleteCourseID, setDeleteCourseID] = useState(null);
 
   useEffect(() => {
     const fetchCourses = async () => {
@@ -39,6 +42,10 @@ export default function CourseIndex() {
 
   return (
     <>
+      <ConfirmDelete
+        deleteCourseID={deleteCourseID}
+        closeWindow={() => setDeleteCourseID(null)}
+      />
       <Typography variant="h2">
         <span role="img" aria-label="sad">
           🎓
@@ -50,6 +57,21 @@ export default function CourseIndex() {
           columns={getColumns()}
           data={allCourses}
           title="Courses"
+          actions={
+            isAdmin()
+              ? [
+                  {
+                    icon: "delete",
+                    tooltip: "delete",
+                    onClick: (e, rowData) => {
+                      console.log("setting deleteCourseID:", rowData);
+                      setDeleteCourseID(rowData.courseId);
+                      console.log("set deleteCourseID:", deleteCourseID);
+                    }
+                  }
+                ]
+              : []
+          }
         />
       </div>
     </>
@@ -76,7 +98,7 @@ const editDataABit = data => {
   data.forEach(course => {
     let instructors = [];
     let prereqnames = [];
-    let totalEnrolled = 0;
+    // TODO: let totalEnrolled = 0;
     course.registrations.forEach(section => {
       instructors.push(
         section.instructor.firstName[0] + ". " + section.instructor.lastName

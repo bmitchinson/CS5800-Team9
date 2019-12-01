@@ -17,6 +17,7 @@ import Header from "./components/Header/Header";
 import SignIn from "./components/SignIn/SignIn";
 import CoursePage from "./components/CoursePage/CoursePage";
 import MyAccount from "./components/MyAccount/MyAccount";
+import CloudinaryButton from "./components/Upload/CloudinaryButton";
 import FourOFour from "./components/FourOFour";
 
 import { isAdmin, isLoggedIn } from "./helpers/jwtHelpers";
@@ -25,6 +26,9 @@ let theme = createMuiTheme({
   palette: {
     primary: {
       main: "#FFCD00"
+    },
+    secondary: {
+      main: "#FFFFFF"
     },
     background: {
       default: "#FFFDEB"
@@ -63,6 +67,9 @@ function App() {
             <Header clearJWT={clearJWT} />
             <MainView>
               <Switch>
+                <Route path="/upload">
+                  <CloudinaryButton />
+                </Route>
                 <Route path="/myaccount">
                   <MyAccount />
                 </Route>

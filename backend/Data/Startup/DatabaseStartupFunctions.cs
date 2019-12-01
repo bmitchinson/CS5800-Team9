@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using backend.Data.Models;
 using backend.Infrastructure.PasswordSecurity;
 using System.Threading.Tasks;
+using backend.Data.Enums;
 
 namespace backend.Data.Startup
 {
@@ -580,27 +581,32 @@ namespace backend.Data.Startup
                             new Document
                             {
                                 RegistrationId = 1,
-                                ResourceLink = "https://quiz1.pdf@test.com"
+                                ResourceLink = "https://quiz1.pdf@test.com",
+                                DocType = DocumentType.Quiz
                             },
                             new Document
                             {
                                 RegistrationId = 1,
-                                ResourceLink = "https://homework1.pdf@test.com"
+                                ResourceLink = "https://homework1.pdf@test.com",
+                                DocType = DocumentType.Assignment
                             },
                             new Document
                             {
                                 RegistrationId = 1,
-                                ResourceLink = "https://quiz2.pdf@test.com"
+                                ResourceLink = "https://quiz2.pdf@test.com",
+                                DocType = DocumentType.Quiz
                             },
                             new Document
                             {
                                 RegistrationId = 2,
-                                ResourceLink = "https://quiz1.pdf@test.com"
+                                ResourceLink = "https://quiz1.pdf@test.com",
+                                DocType = DocumentType.Quiz
                             },
                             new Document
                             {
                                 RegistrationId = 2,
-                                ResourceLink = "https://homework.pdf@test.com"
+                                ResourceLink = "https://homework.pdf@test.com",
+                                DocType = DocumentType.Exam
                             }
                         };
 

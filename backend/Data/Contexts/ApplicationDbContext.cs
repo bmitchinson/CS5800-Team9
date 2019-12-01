@@ -26,6 +26,7 @@ namespace backend.Data.Contexts
             modelBuilder.ApplyConfiguration(new InstructorEntityConfiguration());
             modelBuilder.ApplyConfiguration(new CourseEntityConfiguration());
             modelBuilder.ApplyConfiguration(new RegistrationEntityConfiguration());
+            modelBuilder.ApplyConfiguration(new DocumentEntityConfiguration());
         }
 
     }

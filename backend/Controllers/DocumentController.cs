@@ -104,7 +104,8 @@ namespace backend.Controllers
                         {
                             DocumentId = doc.DocumentId,
                             RegistrationId = doc.RegistrationId,
-                            ResourceLink = doc.ResourceLink
+                            ResourceLink = doc.ResourceLink,
+                            DocType = doc.DocType
                         }).ToList())
                         .FirstOrDefaultAsync();
 

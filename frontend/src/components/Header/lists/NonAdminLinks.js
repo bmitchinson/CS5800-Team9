@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { store } from "react-notifications-component";
 import { Link } from "react-router-dom";
 
 import { makeStyles } from "@material-ui/core/styles";
@@ -8,6 +9,7 @@ import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import SchoolIcon from "@material-ui/icons/School";
 
 import getHeaders from "../../../helpers/getHeaders";
+import notificationPrefs from "../../../helpers/notificationPrefs";
 
 import {
   List,
@@ -52,7 +54,13 @@ export default function NonAdminLinks(props) {
           return courses;
         })
         .catch(function(e) {
-          console.log("Error Getting Enrollments");
+          store.addNotification(
+            notificationPrefs(
+              "Error getting your enrollments",
+              "Please try again",
+              "danger"
+            )
+          );
           return [];
         });
       setCourses(courses);

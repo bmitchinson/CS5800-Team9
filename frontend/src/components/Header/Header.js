@@ -16,6 +16,7 @@ import {
 
 import NonAdminLinks from "./lists/NonAdminLinks";
 import AdminLinks from "./lists/AdminLinks";
+import { getEmail, getRole, isAdmin } from "../../helpers/jwtHelpers";
 
 const drawerWidth = 240;
 
@@ -77,10 +78,10 @@ export default function Header(props) {
           </Link>
           <div className={classes.grow} />
           <Typography variant="subtitle1" style={{ paddingRight: ".4em" }}>
-            {props.email}
+            {getEmail()}
           </Typography>
           <Typography variant="subtitle1" style={{ paddingRight: ".8em" }}>
-            ({props.role})
+            ({getRole()})
           </Typography>
           <Button variant="contained" onClick={props.clearJWT}>
             Sign Out
@@ -97,8 +98,8 @@ export default function Header(props) {
         style={{ zIndex: 100 }}
       >
         <div className={classes.toolbar} />
-        {props.role === "Admin" && <AdminLinks closeDrawer={closeDrawer} />}
-        {props.role !== "Admin" && <NonAdminLinks closeDrawer={closeDrawer} />}
+        {isAdmin() && <AdminLinks closeDrawer={closeDrawer} />}
+        {!isAdmin() && <NonAdminLinks closeDrawer={closeDrawer} />}
       </Drawer>
     </div>
   );

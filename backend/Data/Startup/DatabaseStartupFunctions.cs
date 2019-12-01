@@ -386,7 +386,11 @@ namespace backend.Data.Startup
                                 {
                                     new Prerequisite
                                     {
-                                        CourseId = 4
+                                        CourseId = 4 // Phys I
+                                    },
+                                    new Prerequisite
+                                    {
+                                        CourseId = 5 // Math II
                                     }
                                 }
                             }

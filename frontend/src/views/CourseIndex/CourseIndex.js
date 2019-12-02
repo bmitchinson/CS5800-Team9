@@ -13,7 +13,9 @@ import MaterialTable from "material-table";
 
 export default function CourseIndex() {
   const [allCourses, setAllCourses] = useState([]);
+  const [refreshToggle, setRefreshToggle] = useState(false);
   const [deleteCourseID, setDeleteCourseID] = useState(null);
+  const [deleteName, setDeleteName] = useState("");
 
   useEffect(() => {
     const fetchCourses = async () => {
@@ -26,7 +28,7 @@ export default function CourseIndex() {
           return response.data;
         })
         .catch(e => {
-          store.addNotificaiton(
+          store.addNotification(
             notificationPrefs(
               "Error fetching all courses",
               "Please try again",
@@ -38,13 +40,15 @@ export default function CourseIndex() {
       setAllCourses(editDataABit(courses));
     };
     fetchCourses();
-  }, []);
+  }, [refreshToggle]);
 
   return (
     <>
       <ConfirmDelete
         deleteCourseID={deleteCourseID}
         closeWindow={() => setDeleteCourseID(null)}
+        deleteName={deleteName}
+        refresh={() => setRefreshToggle(!refreshToggle)}
       />
       <Typography variant="h2">
         <span role="img" aria-label="sad">
@@ -57,6 +61,7 @@ export default function CourseIndex() {
           columns={getColumns()}
           data={allCourses}
           title="Courses"
+          id="HEYYALL"
           actions={
             isAdmin()
               ? [
@@ -64,9 +69,8 @@ export default function CourseIndex() {
                     icon: "delete",
                     tooltip: "delete",
                     onClick: (e, rowData) => {
-                      console.log("setting deleteCourseID:", rowData);
                       setDeleteCourseID(rowData.courseId);
-                      console.log("set deleteCourseID:", deleteCourseID);
+                      setDeleteName(rowData.section);
                     }
                   }
                 ]

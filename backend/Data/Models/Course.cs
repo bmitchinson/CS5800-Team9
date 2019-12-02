@@ -19,15 +19,6 @@ namespace backend.Data.Models
         public int CreditHours { get; set; }
 
         [Required]
-        public string Section { get; set; }
-
-        [Required]
-        public DateTime StartTime { get; set; }
-
-        [Required]
-        public DateTime EndTime { get; set; }
-
-        [Required]
         // this tag converts the enum value into a string to the frontend
         [JsonConverter(typeof(StringEnumConverter))]
         public TopicLevel Level { get; set; }

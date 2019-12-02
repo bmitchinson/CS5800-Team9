@@ -14,6 +14,9 @@ namespace backend.Data.QueryObjects
                 CourseId = reg.CourseId,
                 InstructorId = reg.InstructorId,
                 EnrollmentLimit = reg.EnrollmentLimit,
+                Section = reg.Section,
+                StartTime = reg.StartTime,
+                EndTime = reg.EndTime,
                 Prerequisites = reg.Prerequisites
                     .Select(pre => new Prerequisite
                     {
@@ -25,9 +28,6 @@ namespace backend.Data.QueryObjects
                             CourseId = pre.Course.CourseId,
                             CourseName = pre.Course.CourseName,
                             CreditHours = pre.Course.CreditHours,
-                            Section = pre.Course.Section,
-                            StartTime = pre.Course.StartTime,
-                            EndTime = pre.Course.EndTime
                         }
                     })
                     .ToList(),
@@ -36,9 +36,6 @@ namespace backend.Data.QueryObjects
                     CourseId = reg.Course.CourseId,
                     CourseName = reg.Course.CourseName,
                     CreditHours = reg.Course.CreditHours,
-                    Section = reg.Course.Section,
-                    StartTime = reg.Course.StartTime,
-                    EndTime = reg.Course.EndTime,
                     Level = reg.Course.Level
                 },
                 Instructor = new Instructor

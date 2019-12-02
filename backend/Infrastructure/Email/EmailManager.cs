@@ -18,6 +18,7 @@ namespace backend.Infrastructure.EmailManager{
     public class EmailManager : IEmailManager
     {
         private readonly IEmailConfiguration _emailConfiguration;
+
         public EmailManager(IEmailConfiguration emailConfiguration)
         {
             _emailConfiguration = emailConfiguration;
@@ -25,7 +26,6 @@ namespace backend.Infrastructure.EmailManager{
         
         public void Send(string toAddress, string subject, string body)
         {
-            ;  
             var message = new MimeMessage();
             message.To.Add(new MailboxAddress("Email Test", toAddress));
             message.From.Add(new MailboxAddress("Tutoring Services", _emailConfiguration.SmtpUsername));
@@ -34,19 +34,15 @@ namespace backend.Infrastructure.EmailManager{
 
             message.Body = new TextPart("plain") 
             {
-                Text = "Thanks for creating your account!"
+                Text = body
             };
 
             using (var emailClient = new SmtpClient())
             {
                 emailClient.Connect(_emailConfiguration.SmtpServer, _emailConfiguration.SmtpPort, true);
-                
                 emailClient.AuthenticationMechanisms.Remove("XOAUTH2");
-                
                 emailClient.Authenticate(_emailConfiguration.SmtpUsername, _emailConfiguration.SmtpPassword);
-                
                 emailClient.Send(message);
-                
                 emailClient.Disconnect(true);
             }
             

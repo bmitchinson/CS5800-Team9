@@ -6,15 +6,18 @@ import ConfirmDelete from "../../components/ConfirmDelete";
 import { isAdmin } from "../../helpers/jwtHelpers";
 
 export default function CourseIndex(props) {
-  const { registrations, linkToRegistrationID, courseName } = props;
+  const { registrations, linkToRegistrationID, courseName, refresh } = props;
+  const [deleteRegistrationID, setDeleteRegistrationID] = useState(null);
+  const [deleteName, setDeleteName] = useState("");
+
   return (
     <>
-      {/* <ConfirmDelete
+      <ConfirmDelete
         deleteRegistrationID={deleteRegistrationID}
         closeWindow={() => setDeleteRegistrationID(null)}
-        deleteName={"section 1234"}
-        refresh={() => setRefreshToggle(!refreshToggle)}
-      /> */}
+        deleteName={deleteName}
+        refresh={refresh}
+      />
       <Typography style={{ margin: ".8em", marginLeft: "2em" }} variant="h6">
         {`Sections of ${courseName}`}
       </Typography>
@@ -29,7 +32,7 @@ export default function CourseIndex(props) {
         <MaterialTable
           columns={getColumns()}
           data={editDataABit(registrations)}
-          title={"Course Sections for ----"}
+          title={`Course Sections for ${courseName}`}
           options={{
             search: false,
             toolbar: false,
@@ -43,8 +46,8 @@ export default function CourseIndex(props) {
                     icon: "delete",
                     tooltip: "delete",
                     onClick: (e, rowData) => {
-                      //setDeleteCourseID(rowData.courseId);
-                      //setDeleteName(rowData.section);
+                      setDeleteRegistrationID(rowData.registrationId);
+                      setDeleteName(rowData.section);
                     }
                   }
                 ]
@@ -62,6 +65,7 @@ export default function CourseIndex(props) {
 const getColumns = () => {
   return [
     { title: "Instructor", field: "instructorname" },
+    { title: "Course Code", field: "section" },
     { title: "Enrollment Limit", field: "enrollmentLimit" }
   ];
 };

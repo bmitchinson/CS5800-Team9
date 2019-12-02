@@ -73,6 +73,7 @@ export default function CourseIndex(props) {
               <RegistionIndex
                 courseName={rowData.courseName}
                 registrations={rowData.registrations}
+                refresh={() => setRefreshToggle(!refreshToggle)}
                 linkToRegistrationID={id => {
                   props.history.push(`/section/${id}`);
                 }}
@@ -102,7 +103,7 @@ export default function CourseIndex(props) {
 
 const getColumns = () => {
   return [
-    { title: "Code", field: "section" },
+    { title: "Code", field: "courseCode" },
     { title: "Course Name", field: "courseName" },
     { title: "Credit Hours", field: "creditHours" },
     { title: "Instructors", field: "instructors" },
@@ -112,15 +113,9 @@ const getColumns = () => {
 };
 
 const editDataABit = data => {
-  // console.log("before edit", data);
-  // + string of instructor names
-  // + # of sections to each
-  // + prereq names
-  // to each course object
   data.forEach(course => {
     let instructors = [];
     let prereqnames = [];
-    // TODO: let totalEnrolled = 0;
     course.registrations.forEach(section => {
       instructors.push(
         section.instructor.firstName[0] + ". " + section.instructor.lastName
@@ -131,18 +126,24 @@ const editDataABit = data => {
         }
       });
     });
-    instructors = instructors.reduce((combo, name) => {
-      return combo + " and " + name;
-    });
+    if (instructors.length) {
+      instructors = instructors.reduce((combo, name) => {
+        return combo + " and " + name;
+      });
+    }
     if (prereqnames.length) {
       prereqnames = prereqnames.reduce((combo, name) => {
         return combo + " and " + name;
       });
     }
+    course.courseCode = course.registrations.length
+      ? course.registrations[0].section.split(":")[0] +
+        ":" +
+        course.registrations[0].section.split(":")[1]
+      : `Course ID: ${course.courseId}`;
     course.instructors = instructors;
     course.sections = course.registrations.length;
     course.prereqtext = !prereqnames.length ? "No Pre Reqs" : prereqnames;
   });
-  // console.log("after edit", data);
   return data;
 };

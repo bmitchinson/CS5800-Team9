@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import axios from "axios";
 
 import { store } from "react-notifications-component";
@@ -29,12 +29,22 @@ export default function ConfirmDelete(props) {
   const classes = useStyles();
   const {
     deleteCourseID,
-    deleteStudentID,
-    deleteInstructorID,
+    // deleteStudentID,
+    // deleteInstructorID,
+    deleteRegistrationID,
     deleteName,
     refresh,
     closeWindow
   } = props;
+
+  const handleDelete = () => {
+    if (deleteCourseID) {
+      deleteCourse();
+    }
+    if (deleteRegistrationID) {
+      deleteRegistration();
+    }
+  };
 
   const deleteCourse = () => {
     closeWindow();
@@ -65,8 +75,37 @@ export default function ConfirmDelete(props) {
       });
   };
 
+  const deleteRegistration = () => {
+    closeWindow();
+    axios({
+      method: "delete",
+      url: `https://localhost:5001/api/registration/${deleteRegistrationID}`,
+      headers: getHeaders()
+    })
+      .then(function(response) {
+        refresh();
+        store.addNotification(
+          notificationPrefs(
+            `Deleted ${deleteName}`,
+            `${deleteName} has been sucessfully removed`,
+            "success"
+          )
+        );
+      })
+      .catch(function(error) {
+        console.log(error);
+        store.addNotification(
+          notificationPrefs(
+            `Error deleting ${deleteName}`,
+            "Please try again",
+            "danger"
+          )
+        );
+      });
+  };
+
   return (
-    <Modal open={deleteCourseID !== null} onClose={closeWindow}>
+    <Modal open={deleteCourseID || deleteRegistrationID} onClose={closeWindow}>
       <div className={classes.paper}>
         <Grid
           container
@@ -81,7 +120,7 @@ export default function ConfirmDelete(props) {
             </Typography>
           </Grid>
           <Grid item xs={12}>
-            <Button style={{ margin: "1em" }} onClick={deleteCourse}>
+            <Button style={{ margin: "1em" }} onClick={handleDelete}>
               Yes I'm Sure
             </Button>
             <Button

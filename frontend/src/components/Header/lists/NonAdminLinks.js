@@ -48,7 +48,7 @@ export default function NonAdminLinks(props) {
               courses.push([
                 enrolment.registration.section,
                 enrolment.registration.course.courseName,
-                enrolment.registration.course.courseId
+                enrolment.registrationId
               ]);
             }
           });
@@ -95,7 +95,7 @@ export default function NonAdminLinks(props) {
         <ListItemText primary={"Enrolled Courses:"} />
       </ListItem>
       {courses.map(c => (
-        <Link to={`/course/${c[2]}`} className={classes.link} key={c[2]}>
+        <Link to={`/section/${c[2]}`} className={classes.link} key={c[2]}>
           <ListItem button key={c[0]} onClick={props.closeDrawer}>
             <ListItemIcon>
               <SchoolIcon />

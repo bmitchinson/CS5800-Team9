@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using backend.Data.Contexts;
 
 namespace backend.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20191202060344_new submission fields")]
+    partial class newsubmissionfields
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -74,7 +76,7 @@ namespace backend.Migrations
 
                     b.HasIndex("RegistrationId");
 
-                    b.ToTable("Documents");
+                    b.ToTable("Document");
                 });
 
             modelBuilder.Entity("backend.Data.Models.Instructor", b =>
@@ -215,7 +217,7 @@ namespace backend.Migrations
 
                     b.HasIndex("StudentEnrollmentId");
 
-                    b.ToTable("Submissions");
+                    b.ToTable("Submission");
                 });
 
             modelBuilder.Entity("backend.Data.Models.Document", b =>

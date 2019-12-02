@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using backend.Infrastructure.ClaimsManager;
+using System;
+using backend.Data.QueryObjects;
 
 namespace backend.Controllers
 {
@@ -32,9 +34,8 @@ namespace backend.Controllers
                 if (claimsManager.GetRoleClaim() == "Student")
                 {
                     var targetDocument = await _context
-                        .Registrations
-                        .Select(_ => _.Documents
-                            .Where(doc => doc.DocumentId == newSubmission.DocumentId))
+                        .Documents
+                        .Where(_ => _.DocumentId == newSubmission.DocumentId)
                         .FirstOrDefaultAsync();
 
                     var targetEnrollment = await _context
@@ -42,7 +43,7 @@ namespace backend.Controllers
                         .Where(_ => _.StudentEnrollmentId == newSubmission.StudentEnrollmentId)
                         .FirstOrDefaultAsync();
 
-                    if (targetEnrollment == null) 
+                    if (targetEnrollment == null || targetEnrollment.StudentId != claimsManager.GetUserIdClaim()) 
                         return Unauthorized();
 
                     if (targetDocument == null)
@@ -50,6 +51,11 @@ namespace backend.Controllers
                         ModelState.AddModelError("Errors", "That document could not be found");
                         return BadRequest(ModelState);
                     }
+
+                    newSubmission.SubmissionTime = DateTime.UtcNow;
+                    await _context.AddAsync(newSubmission);
+                    await _context.SaveChangesAsync();
+                    return Ok();
                 }
                 return Unauthorized();
             }
@@ -59,7 +65,24 @@ namespace backend.Controllers
         [HttpGet("{documentId}"), Authorize(Roles = "Instructor")]
         public async Task<ActionResult> Get(int documentId)
         {
-            return Ok();
+            var claimsManager = new ClaimsManager(HttpContext.User);
+
+            if (claimsManager.GetRoleClaim() == "Instructor")
+            {
+
+                // TODO move all this into a query object
+                var targetDocument = await _context
+                    .Documents
+                    .GetDocumentsWithSubmissions(documentId)
+                    .FirstOrDefaultAsync();
+
+                if (targetDocument.Registration.InstructorId == claimsManager.GetUserIdClaim())
+                {
+                    return Ok(targetDocument.Submissions);
+                }
+                return Unauthorized();
+            }
+            return Unauthorized();
         }
     }
 }

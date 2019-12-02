@@ -19,6 +19,8 @@ namespace backend.Data.Contexts
         public DbSet<Instructor> Instructors { get; set; }
         public DbSet<Registration> Registrations { get; set; }
         public DbSet<StudentEnrollment> StudentEnrollment { get; set; }
+        public DbSet<Document> Documents { get; set; }
+        public DbSet<Submission> Submissions { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

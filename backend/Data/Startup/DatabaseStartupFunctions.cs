@@ -362,7 +362,7 @@ namespace backend.Data.Startup
                                 CourseId = 4, // Phys 1
                                 InstructorId = 4,
                                 EnrollmentLimit = 25,
-                                Section = "Phys:1611",
+                                Section = "PHYS:1611",
                                 StartTime = DateTime.Parse("5:30 PM"),
                                 EndTime = DateTime.Parse("7:00 PM")
                             },

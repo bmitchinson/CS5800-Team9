@@ -15,7 +15,7 @@ import CourseIndex from "./views/CourseIndex/CourseIndex";
 
 import Header from "./components/Header/Header";
 import SignIn from "./components/SignIn/SignIn";
-import CoursePage from "./components/CoursePage/CoursePage";
+import SectionPage from "./components/SectionPage/SectionPage";
 import MyAccount from "./components/MyAccount/MyAccount";
 import CloudinaryButton from "./components/Upload/CloudinaryButton";
 import FourOFour from "./components/FourOFour";
@@ -83,12 +83,13 @@ function App() {
                     <InstructorIndex />
                   </Route>
                 )}
-                <Route path="/courses">
-                  <CourseIndex />
-                </Route>
                 <Route
-                  path="/course/:courseid"
-                  render={props => <CoursePage {...props} />}
+                  path="/courses"
+                  render={props => <CourseIndex {...props} />}
+                />
+                <Route
+                  path="/section/:registrationid"
+                  render={props => <SectionPage {...props} />}
                 />
                 <Route exact path="/">
                   <Typography variant="h2">Welcome to Classroom™</Typography>

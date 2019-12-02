@@ -7,18 +7,19 @@ import getHeaders from "../../helpers/getHeaders";
 import { isAdmin } from "../../helpers/jwtHelpers";
 
 import ConfirmDelete from "../../components/ConfirmDelete";
+import RegistionIndex from "./RegistrationIndex";
 
 import { Typography } from "@material-ui/core";
 import MaterialTable from "material-table";
 
-export default function CourseIndex() {
+export default function CourseIndex(props) {
   const [allCourses, setAllCourses] = useState([]);
   const [refreshToggle, setRefreshToggle] = useState(false);
   const [deleteCourseID, setDeleteCourseID] = useState(null);
   const [deleteName, setDeleteName] = useState("");
 
   useEffect(() => {
-    const fetchCourses = async () => {
+    const fetchCourses = async props => {
       const courses = await axios({
         method: "get",
         url: "https://localhost:5001/api/course",
@@ -61,7 +62,23 @@ export default function CourseIndex() {
           columns={getColumns()}
           data={allCourses}
           title="Courses"
-          id="HEYYALL"
+          options={{
+            emptyRowsWhenPaging: false,
+            searchFieldStyle: {
+              marginRight: "1em"
+            }
+          }}
+          detailPanel={rowData => {
+            return (
+              <RegistionIndex
+                courseName={rowData.courseName}
+                registrations={rowData.registrations}
+                linkToRegistrationID={id => {
+                  props.history.push(`/section/${id}`);
+                }}
+              />
+            );
+          }}
           actions={
             isAdmin()
               ? [
@@ -76,6 +93,7 @@ export default function CourseIndex() {
                 ]
               : []
           }
+          onRowClick={(e, rowData, toggelPanel) => toggelPanel()}
         />
       </div>
     </>

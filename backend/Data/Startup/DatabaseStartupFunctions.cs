@@ -273,55 +273,37 @@ namespace backend.Data.Startup
                             {
                                 CourseId = 1,
                                 CourseName = "Chemistry I",
-                                CreditHours = 4,
-                                Section = "CHEM:1110",
-                                StartTime = DateTime.Parse("9:00 AM"),
-                                EndTime = DateTime.Parse("10:45 AM")
+                                CreditHours = 4
                             },
                             new Course
                             {
                                 CourseId = 2,
                                 CourseName = "Chemistry II",
-                                CreditHours = 4,
-                                Section = "CHEM:2220",
-                                StartTime = DateTime.Parse("2:30 PM"),
-                                EndTime = DateTime.Parse("3:20 PM")
+                                CreditHours = 4
                             },
                             new Course
                             {
                                 CourseId = 3,
                                 CourseName = "Fundamentals of Software Engineering",
-                                CreditHours = 3,
-                                Section = "CS:5800",
-                                StartTime = DateTime.Parse("5:30 PM"),
-                                EndTime = DateTime.Parse("7:00 PM")
+                                CreditHours = 3
                             },
                             new Course
                             {
                                 CourseId = 4,
                                 CourseName = "Physics I",
-                                CreditHours = 4,
-                                Section = "Phys:1611",
-                                StartTime = DateTime.Parse("5:30 PM"),
-                                EndTime = DateTime.Parse("7:00 PM")
+                                CreditHours = 4
                             },
                             new Course
                             {
                                 CourseId = 5,
                                 CourseName = "Math II",
-                                CreditHours = 3,
-                                Section = "MATH:1560",
-                                StartTime = DateTime.Parse("5:30 PM"),
-                                EndTime = DateTime.Parse("7:00 PM")
+                                CreditHours = 3
                             },
                             new Course
                             {
                                 CourseId = 6,
                                 CourseName = "Physics II",
-                                CreditHours = 3,
-                                Section = "MATH:1560",
-                                StartTime = DateTime.Parse("5:30 PM"),
-                                EndTime = DateTime.Parse("7:00 PM")
+                                CreditHours = 3
                             }
                         };
 
@@ -333,6 +315,9 @@ namespace backend.Data.Startup
                                 CourseId = 1, // Chem 1
                                 InstructorId = 1,
                                 EnrollmentLimit = 40,
+                                Section = "CHEM:1110",
+                                StartTime = DateTime.Parse("9:00 AM"),
+                                EndTime = DateTime.Parse("10:45 AM")
                             },
                             new Registration
                             {
@@ -340,6 +325,9 @@ namespace backend.Data.Startup
                                 CourseId = 2, // Chem 2
                                 InstructorId = 1,
                                 EnrollmentLimit = 20,
+                                Section = "CHEM:2220",
+                                StartTime = DateTime.Parse("2:30 PM"),
+                                EndTime = DateTime.Parse("3:20 PM"),
                                 Prerequisites = new List<Prerequisite>
                                 {
                                     new Prerequisite
@@ -353,28 +341,40 @@ namespace backend.Data.Startup
                                 RegistrationId = 3,
                                 CourseId = 3, // SE
                                 InstructorId = 2,
-                                EnrollmentLimit = 20
+                                EnrollmentLimit = 20,
+                                Section = "CS:5800:AA",
+                                StartTime = DateTime.Parse("5:30 PM"),
+                                EndTime = DateTime.Parse("7:00 PM")
                             },
                             new Registration
                             {
                                 RegistrationId = 4,
                                 CourseId = 3, // SE
                                 InstructorId = 3,
-                                EnrollmentLimit = 20
+                                EnrollmentLimit = 20,
+                                Section = "CS:5800:BB",
+                                StartTime = DateTime.Parse("5:30 PM"),
+                                EndTime = DateTime.Parse("7:00 PM")
                             },
                             new Registration
                             {
                                 RegistrationId = 5,
                                 CourseId = 4, // Phys 1
                                 InstructorId = 4,
-                                EnrollmentLimit = 25
+                                EnrollmentLimit = 25,
+                                Section = "PHYS:1611",
+                                StartTime = DateTime.Parse("5:30 PM"),
+                                EndTime = DateTime.Parse("7:00 PM")
                             },
                             new Registration
                             {
                                 RegistrationId = 6,
                                 CourseId = 5, // Math II
                                 InstructorId = 5,
-                                EnrollmentLimit = 40
+                                EnrollmentLimit = 40,
+                                Section = "MATH:1560",
+                                StartTime = DateTime.Parse("5:30 PM"),
+                                EndTime = DateTime.Parse("7:00 PM")
                             },
                             new Registration
                             {
@@ -382,6 +382,9 @@ namespace backend.Data.Startup
                                 CourseId = 6, // Phys II
                                 InstructorId = 6,
                                 EnrollmentLimit = 30,
+                                Section = "Phys:2611",
+                                StartTime = DateTime.Parse("5:30 PM"),
+                                EndTime = DateTime.Parse("7:00 PM"),
                                 Prerequisites = new List<Prerequisite>
                                 {
                                     new Prerequisite

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System;
 
 namespace backend.Data.Models
 {
@@ -15,6 +16,15 @@ namespace backend.Data.Models
 
         [Required]
         public int EnrollmentLimit { get; set; }
+
+        [Required]
+        public string Section { get; set; }
+
+        [Required]
+        public DateTime StartTime { get; set; }
+
+        [Required]
+        public DateTime EndTime { get; set; }
 
         public ICollection<StudentEnrollment> StudentEnrollments { get; set; }
 

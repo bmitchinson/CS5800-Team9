@@ -21,14 +21,14 @@ namespace backend.Data.QueryObjects
                         CourseId = enr.Registration.CourseId,
                         InstructorId = enr.Registration.InstructorId,
                         EnrollmentLimit = enr.Registration.EnrollmentLimit,
+                        StartTime = enr.Registration.StartTime,
+                        EndTime = enr.Registration.EndTime,
+                        Section = enr.Registration.Section,
                         Course = new Course
                         {
                             CourseId = enr.Registration.Course.CourseId,
                             CourseName = enr.Registration.Course.CourseName,
                             CreditHours = enr.Registration.Course.CreditHours,
-                            Section = enr.Registration.Course.Section,
-                            StartTime = enr.Registration.Course.StartTime,
-                            EndTime = enr.Registration.Course.EndTime,
                             Level = enr.Registration.Course.Level
                         },
                         Instructor = new Instructor
@@ -49,16 +49,12 @@ namespace backend.Data.QueryObjects
                                     CourseId = pre.Course.CourseId,
                                     CourseName = pre.Course.CourseName,
                                     CreditHours = pre.Course.CreditHours,
-                                    Section = pre.Course.Section,
-                                    StartTime = pre.Course.StartTime,
-                                    EndTime = pre.Course.EndTime,
                                     Level = pre.Course.Level
                                 }
                             }).ToList()
                     }
                 }));
 
-        // 
         public static IQueryable<IEnumerable<StudentEnrollment>> GetStudentEnrollmentFromInstructor(
             this IQueryable<Instructor> instructors,
             int instructorId) =>
@@ -77,14 +73,14 @@ namespace backend.Data.QueryObjects
                                 CourseId = enr.Registration.CourseId,
                                 InstructorId = enr.Registration.InstructorId,
                                 EnrollmentLimit = enr.Registration.EnrollmentLimit,
+                                StartTime = enr.Registration.StartTime,
+                                EndTime = enr.Registration.EndTime,
+                                Section = enr.Registration.Section,
                                 Course = new Course
                                 {
                                     CourseId = enr.Registration.Course.CourseId,
                                     CourseName = enr.Registration.Course.CourseName,
                                     CreditHours = enr.Registration.Course.CreditHours,
-                                    Section = enr.Registration.Course.Section,
-                                    StartTime = enr.Registration.Course.StartTime,
-                                    EndTime = enr.Registration.Course.EndTime,
                                     Level = enr.Registration.Course.Level
                                 },
                                 Instructor = new Instructor
@@ -105,9 +101,6 @@ namespace backend.Data.QueryObjects
                                             CourseId = pre.Course.CourseId,
                                             CourseName = pre.Course.CourseName,
                                             CreditHours = pre.Course.CreditHours,
-                                            Section = pre.Course.Section,
-                                            StartTime = pre.Course.StartTime,
-                                            EndTime = pre.Course.EndTime,
                                             Level = pre.Course.Level
                                         }
                                     }).ToList()
@@ -129,14 +122,14 @@ namespace backend.Data.QueryObjects
                         CourseId = enr.Registration.CourseId,
                         InstructorId = enr.Registration.InstructorId,
                         EnrollmentLimit = enr.Registration.EnrollmentLimit,
+                        StartTime = enr.Registration.StartTime,
+                        EndTime = enr.Registration.EndTime,
+                        Section = enr.Registration.Section,
                         Course = new Course
                         {
                             CourseId = enr.Registration.Course.CourseId,
                             CourseName = enr.Registration.Course.CourseName,
                             CreditHours = enr.Registration.Course.CreditHours,
-                            Section = enr.Registration.Course.Section,
-                            StartTime = enr.Registration.Course.StartTime,
-                            EndTime = enr.Registration.Course.EndTime,
                             Level = enr.Registration.Course.Level
                         },
                         Instructor = new Instructor
@@ -157,9 +150,6 @@ namespace backend.Data.QueryObjects
                                     CourseId = pre.Course.CourseId,
                                     CourseName = pre.Course.CourseName,
                                     CreditHours = pre.Course.CreditHours,
-                                    Section = pre.Course.Section,
-                                    StartTime = pre.Course.StartTime,
-                                    EndTime = pre.Course.EndTime,
                                     Level = pre.Course.Level
                                 }
                             }).ToList()

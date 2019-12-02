@@ -82,13 +82,21 @@ namespace backend.Controllers
                     return BadRequest(ModelState);
                 }
                 student.Password = PasswordSecurity
-                    .HashPassword(student.Password);  
-                await _context.AddAsync(student);
-                await _context.SaveChangesAsync();
-
-                _emailManager.Send(student.Email, "Account Created",  "Welcome to tutor services");  
-
-                return CreatedAtAction(nameof(Get), new { id = student.StudentId }, student);
+                    .HashPassword(student.Password);
+                try
+                {
+                    _emailManager.Send(student.Email, "Account Created",  "Thank you for creating your student " +
+                        "account with tutoring services!");  
+                    
+                    await _context.AddAsync(student);
+                    await _context.SaveChangesAsync();
+                    return CreatedAtAction(nameof(Get), new { id = student.StudentId }, student);
+                }
+                catch (Exception e)
+                {
+                    ModelState.AddModelError("Errors", "There was a problem with the email client");
+                    throw(e);
+                }
             }
             return BadRequest();
         }

@@ -31,7 +31,7 @@ namespace backend.Controllers
 
             var enrollments = new List<IEnumerable<StudentEnrollment>>();
 
-            switch(claimsManager.GetRoleClaim())
+            switch (claimsManager.GetRoleClaim())
             {
                 case "Student":
 
@@ -153,14 +153,11 @@ namespace backend.Controllers
                         .Where(_ => _.RegistrationId == targetRegistration.RegistrationId)
                         .Select(_ => _.StudentEnrollments)
                         .Count() < targetRegistration.EnrollmentLimit)
-                        {
-                            _context.Add(newEnrollment);
-                            _context.SaveChanges();
-                            return CreatedAtAction(
-                                nameof(GetEnrollmentsById),
-                                new { enrollmentId = newEnrollment.StudentEnrollmentId},
-                                newEnrollment);
-                        }
+                    {
+                        _context.Add(newEnrollment);
+                        _context.SaveChanges();
+                        return Ok();
+                    }
                     ModelState.AddModelError("Errors", "The enrollment limit has been reached");
                     return BadRequest(ModelState);
                 }
@@ -198,4 +195,4 @@ namespace backend.Controllers
             return NotFound();
         }
     }
-} 
+}

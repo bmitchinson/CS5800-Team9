@@ -105,7 +105,10 @@ export default function ConfirmDelete(props) {
   };
 
   return (
-    <Modal open={deleteCourseID || deleteRegistrationID} onClose={closeWindow}>
+    <Modal
+      open={!!(deleteCourseID || deleteRegistrationID)}
+      onClose={closeWindow}
+    >
       <div className={classes.paper}>
         <Grid
           container

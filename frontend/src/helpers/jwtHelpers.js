@@ -1,11 +1,16 @@
 export function getRole() {
   const jwt = localStorage.getItem("userJWT");
-  return isLoggedIn() ? getRoleAndEmailFromJWT(jwt)[0] : null;
+  return isLoggedIn() ? getRoleAndEmailAndIDFromJWT(jwt)[0] : null;
 }
 
 export function getEmail() {
   const jwt = localStorage.getItem("userJWT");
-  return isLoggedIn() ? getRoleAndEmailFromJWT(jwt)[1] : null;
+  return isLoggedIn() ? getRoleAndEmailAndIDFromJWT(jwt)[1] : null;
+}
+
+export function getId() {
+  const jwt = localStorage.getItem("userJWT");
+  return isLoggedIn() ? getRoleAndEmailAndIDFromJWT(jwt)[2] : null;
 }
 
 export function isAdmin() {
@@ -25,7 +30,7 @@ export function isLoggedIn() {
   return !(jwt === "null" || jwt === null || jwt === "");
 }
 
-export function getRoleAndEmailFromJWT(token) {
+export function getRoleAndEmailAndIDFromJWT(token) {
   if (!token) {
     return "";
   } else {
@@ -40,7 +45,8 @@ export function getRoleAndEmailFromJWT(token) {
           })
           .join("")
       );
-      return [JSON.parse(jsonPayload).roles[0], JSON.parse(jsonPayload).email];
+      let parse = JSON.parse(jsonPayload);
+      return [parse.roles[0], parse.Email, parse.UserId];
     } else {
       return "";
     }

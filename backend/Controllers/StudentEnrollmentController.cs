@@ -148,6 +148,18 @@ namespace backend.Controllers
                         Student = targetStudent
                     };
 
+                    var enrollmentExists = await _context
+                        .StudentEnrollment
+                        .Where(_ => _.RegistrationId == targetRegistration.RegistrationId
+                                && _.StudentId == targetStudent.StudentId)
+                        .AnyAsync();
+
+                    if (enrollmentExists)  
+                    {
+                        ModelState.AddModelError("Errors", "You are already enrolled in this course");
+                        return BadRequest(ModelState);
+                    }
+
                     if (_context
                         .Registrations
                         .Where(_ => _.RegistrationId == targetRegistration.RegistrationId)
@@ -156,10 +168,7 @@ namespace backend.Controllers
                         {
                             _context.Add(newEnrollment);
                             _context.SaveChanges();
-                            return CreatedAtAction(
-                                nameof(GetEnrollmentsById),
-                                new { enrollmentId = newEnrollment.StudentEnrollmentId},
-                                newEnrollment);
+                            return Ok();
                         }
                     ModelState.AddModelError("Errors", "The enrollment limit has been reached");
                     return BadRequest(ModelState);

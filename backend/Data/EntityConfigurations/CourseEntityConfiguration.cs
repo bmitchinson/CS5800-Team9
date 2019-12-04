@@ -10,14 +10,11 @@ namespace backend.Data.Configs
     {
         public void Configure(EntityTypeBuilder<Course> entity)
         {
-            entity.Property(_ => _.StartTime)
-            .HasColumnType("datetime");
-
-            entity.Property(_ => _.EndTime)
-            .HasColumnType("datetime");
-
             entity.Property(_ => _.Level)
             .HasConversion(new EnumToStringConverter<TopicLevel>());
+
+            entity.Property(_ => _.SoftDeleted)
+            .HasDefaultValue(false);
         }
     }
 }

@@ -16,6 +16,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using backend.Data.Contexts;
+using Newtonsoft.Json;
 using backend.Infrastructure.EmailManager;
 
 
@@ -48,8 +49,10 @@ namespace backend
                 });
             });
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-    
+            services.AddMvc()
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
+                .AddJsonOptions(options =>
+                    options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
             services.AddSingleton<IEmailConfiguration>(
                 Configuration.GetSection("EmailConfiguration").Get<EmailConfiguration>());
 

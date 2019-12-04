@@ -6,6 +6,9 @@ using Microsoft.AspNetCore.Mvc;
 using backend.Data.Contexts;
 using backend.Data.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
+using backend.Data.QueryObjects;
+
 
 namespace backend.Controllers
 {
@@ -20,26 +23,28 @@ namespace backend.Controllers
             _context = context;
         }
 
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Course>>> Get()
+        [HttpGet, Authorize(Roles = "Student, Admin, Instructor")]
+        public ActionResult<IEnumerable<Course>> Get()
         {
-            return await _context
+            return Ok(_context
                 .Courses
-                .Include(_ => _.Registrations)
-                .ToListAsync();
+                .GetCourses()
+                .FilterSoftDeleted()
+                .ToList());
         }
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Course>> Get(int id)
+        [HttpGet("{id}"), Authorize(Roles = "Admin, Instructor, Student")]
+        public ActionResult<Course> Get(int id)
         {
-            return await _context
+            return _context
                 .Courses
+                .GetCourses()
                 .Where(_ => _.CourseId == id)
-                .Include(_ => _.Registrations)
-                .FirstOrDefaultAsync();
+                .FilterSoftDeleted()
+                .FirstOrDefault();
         }
 
-        [HttpPost]
+        [HttpPost, Authorize(Roles = "Admin")]
         public async Task<ActionResult> Post([FromBody]Course course)
         {
             if (ModelState.IsValid)
@@ -51,18 +56,18 @@ namespace backend.Controllers
             return BadRequest();
         }
 
-        [HttpDelete]
-        public async Task<ActionResult> Delete(int id)
+        [HttpDelete("{courseId}"), Authorize(Roles = "Admin")]
+        public async Task<ActionResult> Delete(int courseId)
         {
             var target = await
                 _context
                 .Courses
-                .Where(_ => _.CourseId == id)
+                .Where(_ => _.CourseId == courseId)
                 .FirstOrDefaultAsync();
             
             if (target != null)
             {
-                _context.Remove(target);
+                target.SoftDeleted = true;
                 await _context.SaveChangesAsync();
                 return NoContent();
             }

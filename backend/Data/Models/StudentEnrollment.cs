@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace backend.Data.Models
 {
     public class StudentEnrollment 
@@ -8,8 +10,14 @@ namespace backend.Data.Models
 
         public int RegistrationId { get; set; }
 
+        public bool IsCompleted { get; set; }
+
+        public string Grade { get; set; }
+
         public Registration Registration { get; set; }
 
         public Student Student { get; set; }
+
+        public ICollection<Submission> Submissions { get; set;}
     }
 }

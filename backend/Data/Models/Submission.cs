@@ -1,3 +1,5 @@
+using System;
+
 namespace backend.Data.Models
 {
     public class Submission
@@ -13,6 +15,8 @@ namespace backend.Data.Models
         public string ResourceLink { get; set; }
 
         public Document Document { get; set; }
+
+        public DateTime SubmissionTime { get; set; }
 
         public StudentEnrollment StudentEnrollment { get; set; }
     }

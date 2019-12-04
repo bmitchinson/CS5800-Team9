@@ -52,12 +52,12 @@ export default function RegistrationIndex(props) {
               refresh();
             })
             .catch(e => {
-              console.log(e);
               store.addNotification(
                 notificationPrefs(
                   `Error enrolling for ${rowData.section}`,
                   "Please try again",
-                  "danger"
+                  "danger",
+                  e.response
                 )
               );
             });

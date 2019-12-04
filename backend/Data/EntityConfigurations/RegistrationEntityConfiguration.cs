@@ -8,6 +8,13 @@ namespace backend.Data.Configs
     {
         public void Configure(EntityTypeBuilder<Registration> entity)
         {
+
+            entity.Property(_ => _.StartTime)
+            .HasColumnType("datetime");
+
+            entity.Property(_ => _.EndTime)
+            .HasColumnType("datetime");
+            
         }
     }
 }

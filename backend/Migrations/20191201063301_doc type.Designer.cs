@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using backend.Data.Contexts;
 
 namespace backend.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20191201063301_doc type")]
+    partial class doctype
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -40,17 +42,20 @@ namespace backend.Migrations
                     b.Property<int>("CourseId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("CourseName")
-                        .IsRequired();
+                    b.Property<string>("CourseName");
 
                     b.Property<int>("CreditHours");
+
+                    b.Property<DateTime>("EndTime")
+                        .HasColumnType("datetime");
 
                     b.Property<string>("Level")
                         .IsRequired();
 
-                    b.Property<bool>("SoftDeleted")
-                        .ValueGeneratedOnAdd()
-                        .HasDefaultValue(false);
+                    b.Property<string>("Section");
+
+                    b.Property<DateTime>("StartTime")
+                        .HasColumnType("datetime");
 
                     b.HasKey("CourseId");
 
@@ -74,7 +79,7 @@ namespace backend.Migrations
 
                     b.HasIndex("RegistrationId");
 
-                    b.ToTable("Documents");
+                    b.ToTable("Document");
                 });
 
             modelBuilder.Entity("backend.Data.Models.Instructor", b =>
@@ -123,19 +128,10 @@ namespace backend.Migrations
                     b.Property<int?>("CourseId")
                         .IsRequired();
 
-                    b.Property<DateTime>("EndTime")
-                        .HasColumnType("datetime");
-
                     b.Property<int>("EnrollmentLimit");
 
                     b.Property<int?>("InstructorId")
                         .IsRequired();
-
-                    b.Property<string>("Section")
-                        .IsRequired();
-
-                    b.Property<DateTime>("StartTime")
-                        .HasColumnType("datetime");
 
                     b.HasKey("RegistrationId");
 
@@ -207,15 +203,13 @@ namespace backend.Migrations
 
                     b.Property<int>("StudentEnrollmentId");
 
-                    b.Property<DateTime>("SubmissionTime");
-
                     b.HasKey("SubmissionId");
 
                     b.HasIndex("DocumentId");
 
                     b.HasIndex("StudentEnrollmentId");
 
-                    b.ToTable("Submissions");
+                    b.ToTable("Submission");
                 });
 
             modelBuilder.Entity("backend.Data.Models.Document", b =>

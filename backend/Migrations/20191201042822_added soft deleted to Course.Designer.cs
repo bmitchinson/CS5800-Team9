@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using backend.Data.Contexts;
 
 namespace backend.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20191201042822_added soft deleted to Course")]
+    partial class addedsoftdeletedtoCourse
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -35,22 +37,43 @@ namespace backend.Migrations
                     b.ToTable("Administrators");
                 });
 
+            modelBuilder.Entity("backend.Data.Models.Assessment", b =>
+                {
+                    b.Property<int>("AssessmentId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("RegistrationId");
+
+                    b.HasKey("AssessmentId");
+
+                    b.HasIndex("RegistrationId");
+
+                    b.ToTable("Assessment");
+                });
+
             modelBuilder.Entity("backend.Data.Models.Course", b =>
                 {
                     b.Property<int>("CourseId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("CourseName")
-                        .IsRequired();
+                    b.Property<string>("CourseName");
 
                     b.Property<int>("CreditHours");
+
+                    b.Property<DateTime>("EndTime")
+                        .HasColumnType("datetime");
 
                     b.Property<string>("Level")
                         .IsRequired();
 
+                    b.Property<string>("Section");
+
                     b.Property<bool>("SoftDeleted")
                         .ValueGeneratedOnAdd()
                         .HasDefaultValue(false);
+
+                    b.Property<DateTime>("StartTime")
+                        .HasColumnType("datetime");
 
                     b.HasKey("CourseId");
 
@@ -62,19 +85,15 @@ namespace backend.Migrations
                     b.Property<int>("DocumentId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("DocType")
-                        .IsRequired();
-
                     b.Property<int>("RegistrationId");
 
-                    b.Property<string>("ResourceLink")
-                        .IsRequired();
+                    b.Property<string>("ResourceLink");
 
                     b.HasKey("DocumentId");
 
                     b.HasIndex("RegistrationId");
 
-                    b.ToTable("Documents");
+                    b.ToTable("Document");
                 });
 
             modelBuilder.Entity("backend.Data.Models.Instructor", b =>
@@ -93,6 +112,41 @@ namespace backend.Migrations
                     b.HasKey("InstructorId");
 
                     b.ToTable("Instructors");
+                });
+
+            modelBuilder.Entity("backend.Data.Models.MultipleChoiceQuestion", b =>
+                {
+                    b.Property<int>("MultipleChoiceQuestionId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Answer");
+
+                    b.Property<int>("QuestionId");
+
+                    b.HasKey("MultipleChoiceQuestionId");
+
+                    b.HasIndex("QuestionId")
+                        .IsUnique();
+
+                    b.ToTable("MultipleChoiceQuestion");
+                });
+
+            modelBuilder.Entity("backend.Data.Models.MultipleChoiceQuestionChoice", b =>
+                {
+                    b.Property<int>("MultipleChoiceQuestionChoiceId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("MultipleChoiceQuestionId");
+
+                    b.Property<string>("QuestionText");
+
+                    b.Property<string>("SelectionIdentifier");
+
+                    b.HasKey("MultipleChoiceQuestionChoiceId");
+
+                    b.HasIndex("MultipleChoiceQuestionId");
+
+                    b.ToTable("MultipleChoiceQuestionChoice");
                 });
 
             modelBuilder.Entity("backend.Data.Models.Prerequisite", b =>
@@ -115,6 +169,20 @@ namespace backend.Migrations
                     b.ToTable("Prerequisite");
                 });
 
+            modelBuilder.Entity("backend.Data.Models.Question", b =>
+                {
+                    b.Property<int>("QuestionId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("AssessmentId");
+
+                    b.HasKey("QuestionId");
+
+                    b.HasIndex("AssessmentId");
+
+                    b.ToTable("Question");
+                });
+
             modelBuilder.Entity("backend.Data.Models.Registration", b =>
                 {
                     b.Property<int>("RegistrationId")
@@ -123,19 +191,10 @@ namespace backend.Migrations
                     b.Property<int?>("CourseId")
                         .IsRequired();
 
-                    b.Property<DateTime>("EndTime")
-                        .HasColumnType("datetime");
-
                     b.Property<int>("EnrollmentLimit");
 
                     b.Property<int?>("InstructorId")
                         .IsRequired();
-
-                    b.Property<string>("Section")
-                        .IsRequired();
-
-                    b.Property<DateTime>("StartTime")
-                        .HasColumnType("datetime");
 
                     b.HasKey("RegistrationId");
 
@@ -144,6 +203,23 @@ namespace backend.Migrations
                     b.HasIndex("InstructorId");
 
                     b.ToTable("Registrations");
+                });
+
+            modelBuilder.Entity("backend.Data.Models.ShortAnswerQuestion", b =>
+                {
+                    b.Property<int>("ShortAnswerQuestionId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("QuestionId");
+
+                    b.Property<string>("QuestionText");
+
+                    b.HasKey("ShortAnswerQuestionId");
+
+                    b.HasIndex("QuestionId")
+                        .IsUnique();
+
+                    b.ToTable("ShortAnswerQuestion");
                 });
 
             modelBuilder.Entity("backend.Data.Models.Student", b =>
@@ -177,10 +253,6 @@ namespace backend.Migrations
                     b.Property<int>("StudentEnrollmentId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Grade");
-
-                    b.Property<bool>("IsCompleted");
-
                     b.Property<int>("RegistrationId");
 
                     b.Property<int>("StudentId");
@@ -194,28 +266,12 @@ namespace backend.Migrations
                     b.ToTable("StudentEnrollment");
                 });
 
-            modelBuilder.Entity("backend.Data.Models.Submission", b =>
+            modelBuilder.Entity("backend.Data.Models.Assessment", b =>
                 {
-                    b.Property<int>("SubmissionId")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int>("DocumentId");
-
-                    b.Property<string>("Grade");
-
-                    b.Property<string>("ResourceLink");
-
-                    b.Property<int>("StudentEnrollmentId");
-
-                    b.Property<DateTime>("SubmissionTime");
-
-                    b.HasKey("SubmissionId");
-
-                    b.HasIndex("DocumentId");
-
-                    b.HasIndex("StudentEnrollmentId");
-
-                    b.ToTable("Submissions");
+                    b.HasOne("backend.Data.Models.Registration", "Registration")
+                        .WithMany("Assessments")
+                        .HasForeignKey("RegistrationId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("backend.Data.Models.Document", b =>
@@ -223,6 +279,22 @@ namespace backend.Migrations
                     b.HasOne("backend.Data.Models.Registration", "Registration")
                         .WithMany("Documents")
                         .HasForeignKey("RegistrationId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("backend.Data.Models.MultipleChoiceQuestion", b =>
+                {
+                    b.HasOne("backend.Data.Models.Question")
+                        .WithOne("MultipleChoiceQuestion")
+                        .HasForeignKey("backend.Data.Models.MultipleChoiceQuestion", "QuestionId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("backend.Data.Models.MultipleChoiceQuestionChoice", b =>
+                {
+                    b.HasOne("backend.Data.Models.MultipleChoiceQuestion", "MultipleChoiceQuestion")
+                        .WithMany("Choices")
+                        .HasForeignKey("MultipleChoiceQuestionId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -238,6 +310,14 @@ namespace backend.Migrations
                         .HasForeignKey("RegistrationId");
                 });
 
+            modelBuilder.Entity("backend.Data.Models.Question", b =>
+                {
+                    b.HasOne("backend.Data.Models.Assessment", "Assessment")
+                        .WithMany("Questions")
+                        .HasForeignKey("AssessmentId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("backend.Data.Models.Registration", b =>
                 {
                     b.HasOne("backend.Data.Models.Course", "Course")
@@ -251,6 +331,14 @@ namespace backend.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
+            modelBuilder.Entity("backend.Data.Models.ShortAnswerQuestion", b =>
+                {
+                    b.HasOne("backend.Data.Models.Question", "Question")
+                        .WithOne("ShortAnswerQuestion")
+                        .HasForeignKey("backend.Data.Models.ShortAnswerQuestion", "QuestionId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("backend.Data.Models.StudentEnrollment", b =>
                 {
                     b.HasOne("backend.Data.Models.Registration", "Registration")
@@ -261,19 +349,6 @@ namespace backend.Migrations
                     b.HasOne("backend.Data.Models.Student", "Student")
                         .WithMany("Enrollments")
                         .HasForeignKey("StudentId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("backend.Data.Models.Submission", b =>
-                {
-                    b.HasOne("backend.Data.Models.Document", "Document")
-                        .WithMany("Submissions")
-                        .HasForeignKey("DocumentId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("backend.Data.Models.StudentEnrollment", "StudentEnrollment")
-                        .WithMany("Submissions")
-                        .HasForeignKey("StudentEnrollmentId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618

@@ -8,7 +8,8 @@ namespace backend.Data.Configs
     {
         public void Configure(EntityTypeBuilder<Instructor> entity)
         {
-            // no needed configs for now, will probably change in the future
+            entity.Property(_ => _.BirthDate)
+                .HasColumnType("date");
         }
     }
 }

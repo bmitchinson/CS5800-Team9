@@ -1,14 +1,70 @@
 import React, { useState } from "react";
+import axios from "axios";
+import { store } from "react-notifications-component";
 
 import { Typography } from "@material-ui/core";
 import MaterialTable from "material-table";
 import ConfirmDelete from "../../components/ConfirmDelete";
-import { isAdmin } from "../../helpers/jwtHelpers";
+import { isAdmin, isStudent, getId } from "../../helpers/jwtHelpers";
+import getHeaders from "../../helpers/getHeaders";
+import notificationPrefs from "../../helpers/notificationPrefs";
 
-export default function CourseIndex(props) {
+export default function RegistrationIndex(props) {
   const { registrations, linkToRegistrationID, courseName, refresh } = props;
   const [deleteRegistrationID, setDeleteRegistrationID] = useState(null);
   const [deleteName, setDeleteName] = useState("");
+
+  const getActions = () => {
+    const actions = [];
+    isAdmin() &&
+      actions.push({
+        icon: "delete",
+        tooltip: "Delete Course",
+        onClick: (e, rowData) => {
+          setDeleteRegistrationID(rowData.registrationId);
+          setDeleteName(rowData.section);
+        }
+      });
+    isStudent() &&
+      actions.push({
+        icon: "add",
+        tooltip: "Enroll",
+        onClick: (e, rowData) => {
+          console.log("id:", getId());
+          console.log("regId:", rowData.registrationId);
+          axios({
+            method: "POST",
+            url: "https://localhost:5001/api/studentenrollment",
+            headers: getHeaders(),
+            data: {
+              StudentId: getId(),
+              RegistrationId: rowData.registrationId
+            }
+          })
+            .then(res => {
+              store.addNotification(
+                notificationPrefs(
+                  `Successfuly enrolled in ${rowData.section}`,
+                  `You are now a student in ${rowData.section}. Go get to work!`,
+                  "success"
+                )
+              );
+              refresh();
+            })
+            .catch(e => {
+              console.log(e);
+              store.addNotification(
+                notificationPrefs(
+                  `Error enrolling for ${rowData.section}`,
+                  "Please try again",
+                  "danger"
+                )
+              );
+            });
+        }
+      });
+    return actions;
+  };
 
   return (
     <>
@@ -39,20 +95,7 @@ export default function CourseIndex(props) {
             showTitle: true,
             paging: false
           }}
-          actions={
-            isAdmin()
-              ? [
-                  {
-                    icon: "delete",
-                    tooltip: "delete",
-                    onClick: (e, rowData) => {
-                      setDeleteRegistrationID(rowData.registrationId);
-                      setDeleteName(rowData.section);
-                    }
-                  }
-                ]
-              : []
-          }
+          actions={getActions()}
           onRowClick={(e, rowData, toggleRow) => {
             linkToRegistrationID(rowData.registrationId);
           }}

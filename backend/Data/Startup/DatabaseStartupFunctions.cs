@@ -211,6 +211,7 @@ namespace backend.Data.Startup
                                 InstructorId = 1,
                                 FirstName = "Jackson",
                                 LastName = "Crawford",
+                                BirthDate = new DateTime(1975, 1, 13),
                                 Email = "jcrawford@test.com",
                                 Password = PasswordSecurity.HashPassword("secret")
                             },
@@ -219,6 +220,7 @@ namespace backend.Data.Startup
                                 InstructorId = 2,
                                 FirstName = "Maggie",
                                 LastName = "Ellis",
+                                BirthDate = new DateTime(1975, 1, 13),
                                 Email = "mellis@test.com",
                                 Password = PasswordSecurity.HashPassword("secret")
                             },
@@ -227,6 +229,7 @@ namespace backend.Data.Startup
                                 InstructorId = 3,
                                 FirstName = "Alex",
                                 LastName = "Smith",
+                                BirthDate = new DateTime(1975, 1, 13),
                                 Email = "smith@test.com",
                                 Password = PasswordSecurity.HashPassword("secret")
                             },
@@ -235,6 +238,7 @@ namespace backend.Data.Startup
                                 InstructorId = 4,
                                 FirstName = "Hans",
                                 LastName = "Johnson",
+                                BirthDate = new DateTime(1975, 1, 13),
                                 Email = "johnson@test.com",
                                 Password = PasswordSecurity.HashPassword("secret")
                             },
@@ -243,6 +247,7 @@ namespace backend.Data.Startup
                                 InstructorId = 5,
                                 FirstName = "John",
                                 LastName = "Lim",
+                                BirthDate = new DateTime(1975, 1, 13),
                                 Email = "lim@test.com",
                                 Password = PasswordSecurity.HashPassword("secret")
                             },
@@ -251,6 +256,7 @@ namespace backend.Data.Startup
                                 InstructorId = 6,
                                 FirstName = "Lisa",
                                 LastName = "Dorothy",
+                                BirthDate = new DateTime(1975, 1, 13),
                                 Email = "dorothy@test.com",
                                 Password = PasswordSecurity.HashPassword("secret")
                             }

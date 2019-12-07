@@ -1,4 +1,8 @@
 using System.Collections.Generic;
+using System;
+using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace backend.Data.Models
 {
@@ -11,6 +15,9 @@ namespace backend.Data.Models
         public string LastName { get; set; }
 
         public string Email { get; set; }
+                
+        [Required]
+        public DateTime? BirthDate { get; set; }
 
         public string Password { get; set; }
 

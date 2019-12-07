@@ -9,14 +9,71 @@ import { isAdmin } from "../../helpers/jwtHelpers";
 import ConfirmDelete from "../../components/ConfirmDelete";
 
 import { Typography, CircularProgress, Grid } from "@material-ui/core";
+import { bool } from "prop-types";
 
 export default function SectionPage(props) {
-  const [loading, setLoading] = useState(true);
+  const [regInfo, setRegInfo] = useState([]);
+  const [documents, setDocuments] = useState([]);
+  const [deleteName, setDeleteName] = useState("");
+
   const { registrationid } = props.match.params;
+
+  useEffect(() => {
+    const fetchRegistration = async () => {
+      const registrationInfo = await axios({
+        method: "get",
+        url: "https://localhost:5001/api/registration/" + registrationid,
+        headers: getHeaders()
+      })
+        .then(response => {
+          return response.data;
+        })
+        .catch(e => {
+          store.addNotification(
+            notificationPrefs(
+              "Error fetching section info",
+              "Please try again",
+              "danger"
+            )
+          );
+          return [];
+        });
+      setRegInfo(registrationInfo);
+    };
+
+    const fetchDocuments = async () => {
+      const documents = await axios({
+        method: "get",
+        url: "https://localhost:5001/api/document/" + registrationid,
+        headers: getHeaders()
+      })
+        .then(response => {
+          return response.data;
+        })
+        .catch(e => {
+          store.addNotification(
+            notificationPrefs(
+              "Error fetching documents",
+              "Please try again",
+              "danger"
+            )
+          );
+          return [];
+        });
+      setDocuments(documents);
+    };
+    fetchDocuments();
+    fetchRegistration();
+  }, []);
+
+  console.log("regInfo:", regInfo.length);
+  console.log("documents:", documents.length);
+
+  const havedata = regInfo.length && documents.length;
 
   return (
     <>
-      {loading && (
+      {!havedata && (
         <Grid
           container
           spacing={3}
@@ -32,10 +89,11 @@ export default function SectionPage(props) {
           </Grid>
         </Grid>
       )}
-      {!loading && (
+      {havedata && (
         <>
           <Typography variant="h2">📓 Course</Typography>
           <Typography>Course ID: {registrationid}</Typography>
+          <p>got data :)</p>
         </>
       )}
     </>

@@ -15,14 +15,20 @@ import CourseIndex from "./views/CourseIndex/CourseIndex";
 
 import Header from "./components/Header/Header";
 import SignIn from "./components/SignIn/SignIn";
-import CoursePage from "./components/CoursePage/CoursePage";
+import SectionPage from "./components/SectionPage/SectionPage";
 import MyAccount from "./components/MyAccount/MyAccount";
+import CloudinaryButton from "./components/Upload/CloudinaryButton";
 import FourOFour from "./components/FourOFour";
+
+import { isAdmin, isLoggedIn } from "./helpers/jwtHelpers";
 
 let theme = createMuiTheme({
   palette: {
     primary: {
       main: "#FFCD00"
+    },
+    secondary: {
+      main: "#FFFFFF"
     },
     background: {
       default: "#FFFDEB"
@@ -30,28 +36,6 @@ let theme = createMuiTheme({
   }
 });
 theme = responsiveFontSizes(theme);
-
-function getRoleAndEmailFromJWT(token) {
-  if (!token) {
-    return "";
-  } else {
-    var base64Url = token.split(".")[1];
-    if (base64Url) {
-      var base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
-      var jsonPayload = decodeURIComponent(
-        atob(base64)
-          .split("")
-          .map(function(c) {
-            return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
-          })
-          .join("")
-      );
-      return [JSON.parse(jsonPayload).roles[0], JSON.parse(jsonPayload).email];
-    } else {
-      return "";
-    }
-  }
-}
 
 const useStateWithLocalStorage = localStorageKey => {
   const [value, setValue] = React.useState(
@@ -66,8 +50,7 @@ const useStateWithLocalStorage = localStorageKey => {
 
 function App() {
   const [userJWT, setUserJWT] = useStateWithLocalStorage("userJWT");
-  const [role, email] = getRoleAndEmailFromJWT(userJWT);
-  // console.log("token:", userJWT);
+  console.log("token:", userJWT);
   const clearJWT = () => {
     setUserJWT(null);
     window.location.replace("http://localhost:3000/");
@@ -78,33 +61,35 @@ function App() {
       <ReactNotification />
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        {(userJWT === "null" || !userJWT) && <SignIn setUserJWT={setUserJWT} />}
-        {userJWT !== "null" && userJWT && (
+        {!isLoggedIn() && <SignIn setUserJWT={setUserJWT} />}
+        {isLoggedIn() && (
           <>
-            <Header clearJWT={clearJWT} role={role} email={email} />
+            <Header clearJWT={clearJWT} />
             <MainView>
               <Switch>
+                <Route path="/upload">
+                  <CloudinaryButton />
+                </Route>
                 <Route path="/myaccount">
                   <MyAccount />
                 </Route>
-                {role === "Admin" && (
+                {isAdmin() && (
                   <Route path="/students">
                     <StudentIndex />
                   </Route>
                 )}
-                {role === "Admin" && (
+                {isAdmin() && (
                   <Route path="/instructors">
                     <InstructorIndex />
                   </Route>
                 )}
-                <Route path="/courses">
-                  <CourseIndex isAdmin={role === "Admin"} />
-                </Route>
                 <Route
-                  path="/course/:courseid"
-                  render={props => (
-                    <CoursePage {...props} isAdmin={role === "Admin"} />
-                  )}
+                  path="/courses"
+                  render={props => <CourseIndex {...props} />}
+                />
+                <Route
+                  path="/section/:registrationid"
+                  render={props => <SectionPage {...props} />}
                 />
                 <Route exact path="/">
                   <Typography variant="h2">Welcome to Classroom™</Typography>

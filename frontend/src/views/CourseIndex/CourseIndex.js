@@ -52,7 +52,7 @@ export default function CourseIndex(props) {
         refresh={() => setRefreshToggle(!refreshToggle)}
       />
       <Typography variant="h2">
-        <span role="img" aria-label="sad">
+        <span role="img" aria-label="school logo">
           🎓
         </span>
         Browse Courses

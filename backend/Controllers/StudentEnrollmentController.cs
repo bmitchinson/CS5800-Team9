@@ -31,7 +31,7 @@ namespace backend.Controllers
 
             var enrollments = new List<IEnumerable<StudentEnrollment>>();
 
-            switch(claimsManager.GetRoleClaim())
+            switch (claimsManager.GetRoleClaim())
             {
                 case "Student":
 
@@ -153,8 +153,8 @@ namespace backend.Controllers
                         .Where(_ => _.RegistrationId == targetRegistration.RegistrationId
                                 && _.StudentId == targetStudent.StudentId)
                         .AnyAsync();
-                        
-                    if (enrollmentExists)  
+
+                    if (enrollmentExists)
                     {
                         ModelState.AddModelError("Errors", "You are already enrolled in this course");
                         return BadRequest(ModelState);
@@ -165,14 +165,14 @@ namespace backend.Controllers
                         .Where(_ => _.RegistrationId == targetRegistration.RegistrationId)
                         .Select(_ => _.StudentEnrollments)
                         .Count() < targetRegistration.EnrollmentLimit)
-                        {
-                            _context.Add(newEnrollment);
-                            _context.SaveChanges();
-                            return CreatedAtAction(
+                    {
+                        _context.Add(newEnrollment);
+                        _context.SaveChanges();
+                        return CreatedAtAction(
                                 nameof(GetEnrollmentsById),
-                                new { enrollmentId = newEnrollment.StudentEnrollmentId},
+                                new { enrollmentId = newEnrollment.StudentEnrollmentId },
                                 newEnrollment);
-                        }
+                    }
                     ModelState.AddModelError("Errors", "The enrollment limit has been reached");
                     return BadRequest(ModelState);
                 }
@@ -210,4 +210,4 @@ namespace backend.Controllers
             return NotFound();
         }
     }
-} 
+}

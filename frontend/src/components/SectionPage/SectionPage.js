@@ -7,6 +7,7 @@ import getHeaders from "../../helpers/getHeaders";
 import { isAdmin, isInstructor } from "../../helpers/jwtHelpers";
 
 import DocumentGroup from "./DocumentGroup";
+import CloudinaryButton from "../Upload/CloudinaryButton";
 
 import { makeStyles } from "@material-ui/core/styles";
 import {
@@ -102,12 +103,23 @@ export default function SectionPage(props) {
       )}
       {havedata && (
         <>
-          <Typography variant="h2" style={{ marginBottom: ".5em" }}>
-            <span role="img" aria-label="notebook emoji">
-              📓
-            </span>
-            Materials for {regInfo[0].section}
-          </Typography>
+          <div style={{ width: "100%", display: "flex" }}>
+            <Typography
+              variant="h2"
+              style={{ marginBottom: ".5em", width: "80%" }}
+            >
+              <span role="img" aria-label="notebook emoji">
+                📓
+              </span>
+              Materials for {regInfo[0].section}
+            </Typography>
+            <div style={{ flexGrow: 1 }} />
+            {isAdmin() && (
+              <div style={{ maxHeight: "1em", marginTop: ".4em" }}>
+                <CloudinaryButton style={{ maxWidth: ".6em" }} />
+              </div>
+            )}
+          </div>
           <Paper className={classes.root}>
             <Tabs
               value={tabValue}

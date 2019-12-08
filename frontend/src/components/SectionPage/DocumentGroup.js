@@ -2,21 +2,13 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { isAdmin, isInstructor } from "../../helpers/jwtHelpers";
 import { makeStyles } from "@material-ui/core/styles";
-import {
-  Typography,
-  CircularProgress,
-  Grid,
-  Tabs,
-  Tab,
-  Paper
-} from "@material-ui/core";
+import { Typography, Grid, Paper } from "@material-ui/core";
 
 const useStyles = makeStyles({
   root: {
     flexGrow: 1,
     marginTop: "1em",
-    paddingLeft: "1em",
-    paddingRight: "1em"
+    paddingLeft: "1em"
   }
 });
 

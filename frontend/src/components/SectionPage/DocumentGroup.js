@@ -9,7 +9,9 @@ const useStyles = makeStyles({
   root: {
     flexGrow: 1,
     marginTop: "1em",
-    paddingLeft: "1em"
+    paddingLeft: "3em",
+    paddingRight: "3em",
+    paddingBottom: "5em"
   }
 });
 

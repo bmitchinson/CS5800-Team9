@@ -411,13 +411,17 @@ namespace backend.Data.Startup
                             {
                                 StudentId = 1,
                                 StudentEnrollmentId = 1,
-                                RegistrationId = 1
+                                RegistrationId = 1,
+                                IsCompleted = true,
+                                Grade = "A-"
                             },
                             new StudentEnrollment
                             {
                                 StudentId = 1,
                                 StudentEnrollmentId = 2,
-                                RegistrationId = 3
+                                RegistrationId = 3,
+                                IsCompleted = true,
+                                Grade = "C+"
                             },
                             new StudentEnrollment
                             {

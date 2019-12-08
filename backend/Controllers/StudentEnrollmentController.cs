@@ -148,6 +148,8 @@ namespace backend.Controllers
                         Student = targetStudent
                     };
 
+                    // Checking for existing enrollment
+
                     var enrollmentExists = await _context
                         .StudentEnrollment
                         .Where(_ => _.RegistrationId == targetRegistration.RegistrationId
@@ -158,6 +160,31 @@ namespace backend.Controllers
                     {
                         ModelState.AddModelError("Errors", "You are already enrolled in this course");
                         return BadRequest(ModelState);
+                    }
+
+                    // verify that prereqs are met
+
+                    var preRequesites = await _context
+                        .Registrations
+                        .Where(_ => _.RegistrationId == studentEnrollment.RegistrationId)
+                        .Select(_ => _.Prerequisites)
+                        .FirstOrDefaultAsync();
+
+                    var completedCourses = await _context
+                        .StudentEnrollment
+                        .Where(_ => _.StudentId == studentEnrollment.StudentId)
+                        .QueryCompletedCourses()
+                        .ToListAsync();
+
+                    foreach (StudentEnrollment completedCourse in completedCourses)
+                    {
+                        if(!preRequesites
+                            .Where(_ => _.CourseId == completedCourse.Registration.Course.CourseId)
+                            .Any())
+                            {
+                                ModelState.AddModelError("Errors", "You do not meet the prerequesites for this course");
+                                return BadRequest(ModelState);
+                            }
                     }
 
                     if (_context

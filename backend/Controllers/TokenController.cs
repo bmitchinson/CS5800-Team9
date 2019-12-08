@@ -106,7 +106,7 @@ namespace JWT.Controllers
 
             if (studentClaim != null)
             {
-                if (PasswordSecurity.CompareHashedPasswords(login.Password, studentClaim.Password))
+                if (PasswordSecurity.CompareHashedPasswords(login.Password, studentClaim.Password) && studentClaim.EmailConfirmed)
                 {
                     user.Roles.Add("Student");
                     user.IsAuthenticated = true;
@@ -115,7 +115,7 @@ namespace JWT.Controllers
             }
             else if (instructorClaim != null)
             {
-                if (PasswordSecurity.CompareHashedPasswords(login.Password, instructorClaim.Password))
+                if (PasswordSecurity.CompareHashedPasswords(login.Password, instructorClaim.Password) && instructorClaim.EmailConfirmed)
                 {
                     user.Roles.Add("Instructor");
                     user.IsAuthenticated = true;

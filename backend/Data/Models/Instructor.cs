@@ -13,7 +13,7 @@ namespace backend.Data.Models
         public string Email { get; set; }
 
         public string Password { get; set; }
-
+        public bool EmailConfirmed { get; set; }
         public ICollection<Registration> Registrations { get; set; }
     }
 }

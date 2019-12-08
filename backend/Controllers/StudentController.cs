@@ -83,20 +83,10 @@ namespace backend.Controllers
                 }
                 student.Password = PasswordSecurity
                     .HashPassword(student.Password);
-                try
-                {
-                    _emailManager.Send(student.Email, "Account Created",  "Thank you for creating your student " +
-                        "account with tutoring services!");  
-                    
-                    await _context.AddAsync(student);
-                    await _context.SaveChangesAsync();
-                    return CreatedAtAction(nameof(Get), new { id = student.StudentId }, student);
-                }
-                catch (Exception e)
-                {
-                    ModelState.AddModelError("Errors", "There was a problem with the email client");
-                    throw(e);
-                }
+                student.EmailConfirmed = false;
+                await _context.AddAsync(student);
+                await _context.SaveChangesAsync();
+                return CreatedAtAction(nameof(Get), new { id = student.StudentId }, student);
             }
             return BadRequest();
         }

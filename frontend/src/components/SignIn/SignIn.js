@@ -1,8 +1,10 @@
 import React from "react";
 import "date-fns";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import DateFnsUtils from "@date-io/date-fns";
 import axios from "axios";
 import { store } from "react-notifications-component";
+import ConfirmEmail from "./ConfirmEmail";
 
 import {
   MuiPickersUtilsProvider,
@@ -101,6 +103,7 @@ export default function SignIn(props) {
       }
     })
       .then(function() {
+        sendConfirmationEmail();
         setSignUp(false);
         store.addNotification(
           notificationPrefs("Account created!", "Login Now", "success")
@@ -138,6 +141,28 @@ export default function SignIn(props) {
       });
   };
 
+  const sendConfirmationEmail = () => {
+    axios({
+      method: "post",
+      url: "https://localhost:5001/api/email/sendconfirmation",
+      data: {
+        Email: document.getElementById("signupemail").value,
+        Password: document.getElementById("signuppassword").value
+      }
+    })
+      .then(function(response) {
+        store.addNotification(
+          notificationPrefs("Email confirmation sent!", "Please check your email and confirm your email address", "success")
+        );
+      })
+      .catch(function(e) {
+        console.log("Error:", e);
+        store.addNotification(
+          notificationPrefs("Error sending email", "Please try again", "danger")
+        );
+      });
+  };
+
   return (
     <Grid container component="main" className={classes.root}>
       <Grid item xs={false} sm={4} md={7} className={classes.image} />
@@ -146,181 +171,211 @@ export default function SignIn(props) {
           <Avatar className={classes.avatar}>
             <SchoolIcon />
           </Avatar>
-          {!signUp && (
-            <>
+          <Switch>
+            <Route path="/confirm">
               <Typography component="h1" variant="h5">
-                Sign in
+                Email Confirmed
               </Typography>
-              <form className={classes.form} noValidate>
-                <TextField
-                  variant="outlined"
-                  margin="normal"
-                  required
-                  fullWidth
-                  id="loginemail"
-                  label="Email Address"
-                  name="loginemail"
-                  autoComplete="email"
-                  autoFocus
-                />
-                <TextField
-                  variant="outlined"
-                  margin="normal"
-                  required
-                  fullWidth
-                  name="loginpassword"
-                  label="Password"
-                  type="password"
-                  id="loginpassword"
-                  autoComplete="current-password"
-                />
-                <Button
-                  fullWidth
-                  variant="contained"
-                  color="primary"
-                  className={classes.submit}
-                  onClick={postLogin}
-                >
-                  Sign In
-                </Button>
-                <Grid container>
-                  <Grid item>
-                    <Link
-                      href="#"
-                      variant="body2"
-                      color="textPrimary"
-                      onClick={openSignUp}
-                    >
-                      {"Don't have an account? Sign Up"}
-                    </Link>
-                  </Grid>
+              <Grid container>
+                <Grid item>
+                  <Link
+                    href="/#"
+                    variant="body2"
+                    color="textPrimary"
+                  >
+                    {"Click here to Sign in"}
+                  </Link>
                 </Grid>
-              </form>
-            </>
-          )}
-          {signUp && (
-            <>
-              <Typography component="h1" variant="h5">
-                Sign Up
-              </Typography>
-              <form className={classes.form} noValidate>
-                <Grid container spacing={1}>
-                  <Grid item xs={12} sm={6}>
+              </Grid>
+            </Route>
+            <Route exact path="/">
+              {!signUp && (
+                <>
+                  <Typography component="h1" variant="h5">
+                    Sign in
+                  </Typography>
+                  <form className={classes.form} noValidate>
                     <TextField
                       variant="outlined"
                       margin="normal"
                       required
                       fullWidth
-                      id="signupfirstname"
-                      label="First Name"
-                      name="signupfirstname"
-                      autoComplete="first name"
+                      id="loginemail"
+                      label="Email Address"
+                      name="loginemail"
+                      autoComplete="email"
                       autoFocus
                     />
-                  </Grid>
-                  <Grid item xs={12} sm={6}>
                     <TextField
                       variant="outlined"
                       margin="normal"
                       required
                       fullWidth
-                      id="signuplastname"
-                      label="Last Name"
-                      name="signuplastname"
-                      autoComplete="last name"
+                      name="loginpassword"
+                      label="Password"
+                      type="password"
+                      id="loginpassword"
+                      autoComplete="current-password"
                     />
-                  </Grid>
-                </Grid>
-                <TextField
-                  variant="outlined"
-                  margin="normal"
-                  required
-                  fullWidth
-                  id="signupemail"
-                  label="Email Address"
-                  name="signupemail"
-                  autoComplete="email"
-                />
-                <TextField
-                  variant="outlined"
-                  margin="normal"
-                  required
-                  fullWidth
-                  name="signuppassword"
-                  label="Password"
-                  type="password"
-                  id="signuppassword"
-                  autoComplete="current-password"
-                />
-                <Grid container justify="space-around">
-                  <Grid item xm={6} sm={4} style={{ paddingTop: "1.8em" }}>
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          checked={studentCheck}
-                          onChange={checkStudent}
-                          value="studentCheck"
-                          color="primary"
-                        />
-                      }
-                      label="Student"
-                    />
-                  </Grid>
-                  <Grid item xm={6} sm={4} style={{ paddingTop: "1.8em" }}>
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          checked={instructorCheck}
-                          onChange={checkInstructor}
-                          value="instructorCheck"
-                          color="primary"
-                        />
-                      }
-                      label="Instructor"
-                    />
-                  </Grid>
-                  <Grid item xs={12} sm={4}>
-                    <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                      <KeyboardDatePicker
-                        disableToolbar
-                        variant="inline"
-                        format="MM/dd/yyyy"
-                        margin="normal"
-                        id="birthday"
-                        label="Date of birth"
-                        value={birthday}
-                        onChange={handleDateChange}
-                        KeyboardButtonProps={{
-                          "aria-label": "change date"
-                        }}
-                      />
-                    </MuiPickersUtilsProvider>
-                  </Grid>
-                </Grid>
-                <Button
-                  fullWidth
-                  variant="contained"
-                  color="primary"
-                  className={classes.submit}
-                  onClick={postSignUp}
-                >
-                  Sign Up
-                </Button>
-                <Grid container>
-                  <Grid item>
-                    <Link
-                      href="#"
-                      variant="body2"
-                      color="textPrimary"
-                      onClick={closeSignUp}
+                    <Button
+                      fullWidth
+                      variant="contained"
+                      color="primary"
+                      className={classes.submit}
+                      onClick={postLogin}
                     >
-                      {"Already have an account? Log In"}
-                    </Link>
-                  </Grid>
-                </Grid>
-              </form>
-            </>
-          )}
+                      Sign In
+                    </Button>
+                    <Grid container>
+                      <Grid item xs={12} sm={6}>
+                        <Link
+                          href="#"
+                          variant="body2"
+                          color="textPrimary"
+                          onClick={openSignUp}
+                        >
+                          {"Don't have an account? Sign Up"}
+                        </Link>
+                      </Grid>
+                      <Grid item xs={12} sm={6}>
+                        <Link
+                          href="#"
+                          variant="body2"
+                          color="textPrimary"
+                          alignItems="flex-end"
+                        >
+                          {"Forgot your password?"}
+                        </Link>
+                      </Grid>
+                    </Grid>
+                  </form>
+                </>
+              )}
+              {signUp && (
+                <>
+                  <Typography component="h1" variant="h5">
+                    Sign Up
+                  </Typography>
+                  <form className={classes.form} noValidate>
+                    <Grid container spacing={1}>
+                      <Grid item xs={12} sm={6}>
+                        <TextField
+                          variant="outlined"
+                          margin="normal"
+                          required
+                          fullWidth
+                          id="signupfirstname"
+                          label="First Name"
+                          name="signupfirstname"
+                          autoComplete="first name"
+                          autoFocus
+                        />
+                      </Grid>
+                      <Grid item xs={12} sm={6}>
+                        <TextField
+                          variant="outlined"
+                          margin="normal"
+                          required
+                          fullWidth
+                          id="signuplastname"
+                          label="Last Name"
+                          name="signuplastname"
+                          autoComplete="last name"
+                        />
+                      </Grid>
+                    </Grid>
+                    <TextField
+                      variant="outlined"
+                      margin="normal"
+                      required
+                      fullWidth
+                      id="signupemail"
+                      label="Email Address"
+                      name="signupemail"
+                      autoComplete="email"
+                    />
+                    <TextField
+                      variant="outlined"
+                      margin="normal"
+                      required
+                      fullWidth
+                      name="signuppassword"
+                      label="Password"
+                      type="password"
+                      id="signuppassword"
+                      autoComplete="current-password"
+                    />
+                    <Grid container justify="space-around">
+                      <Grid item xm={6} sm={4} style={{ paddingTop: "1.8em" }}>
+                        <FormControlLabel
+                          control={
+                            <Checkbox
+                              checked={studentCheck}
+                              onChange={checkStudent}
+                              value="studentCheck"
+                              color="primary"
+                            />
+                          }
+                          label="Student"
+                        />
+                      </Grid>
+                      <Grid item xm={6} sm={4} style={{ paddingTop: "1.8em" }}>
+                        <FormControlLabel
+                          control={
+                            <Checkbox
+                              checked={instructorCheck}
+                              onChange={checkInstructor}
+                              value="instructorCheck"
+                              color="primary"
+                            />
+                          }
+                          label="Instructor"
+                        />
+                      </Grid>
+                      <Grid item xs={12} sm={4}>
+                        <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                          <KeyboardDatePicker
+                            disableToolbar
+                            variant="inline"
+                            format="MM/dd/yyyy"
+                            margin="normal"
+                            id="birthday"
+                            label="Date of birth"
+                            value={birthday}
+                            onChange={handleDateChange}
+                            KeyboardButtonProps={{
+                              "aria-label": "change date"
+                            }}
+                          />
+                        </MuiPickersUtilsProvider>
+                      </Grid>
+                    </Grid>
+                    <Button
+                      fullWidth
+                      variant="contained"
+                      color="primary"
+                      className={classes.submit}
+                      onClick={postSignUp}
+                    >
+                      Sign Up
+                    </Button>
+                    <Grid container>
+                      <Grid item>
+                        <Link
+                          href="#"
+                          variant="body2"
+                          color="textPrimary"
+                          onClick={closeSignUp}
+                        >
+                          {"Already have an account? Log In"}
+                        </Link>
+                      </Grid>
+                    </Grid>
+                  </form>
+                </>
+              )}
+            </Route>
+          </Switch>
         </div>
       </Grid>
     </Grid>

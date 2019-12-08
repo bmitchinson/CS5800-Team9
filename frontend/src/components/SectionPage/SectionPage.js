@@ -29,7 +29,7 @@ export default function SectionPage(props) {
   const classes = useStyles();
   const [tabValue, setTabValue] = React.useState(0);
   const [regInfo, setRegInfo] = useState(null);
-  const [documents, setDocuments] = useState(null);
+  const [documents, setDocuments] = useState([]);
 
   const { registrationid } = props.match.params;
 
@@ -63,6 +63,7 @@ export default function SectionPage(props) {
         headers: getHeaders()
       })
         .then(response => {
+          console.log("docs:", response.data);
           return response.data;
         })
         .catch(e => {
@@ -132,13 +133,29 @@ export default function SectionPage(props) {
             >
               <Tab label="Notes" />
               <Tab label="Assignments" />
-              <Tab label="Exam" />
-              <Tab label="Quiz" />
+              <Tab label="Exams" />
+              <Tab label="Quizes" />
             </Tabs>
-            <DocumentGroup tabValue={tabValue} index={0} />
-            <DocumentGroup tabValue={tabValue} index={1} />
-            <DocumentGroup tabValue={tabValue} index={2} />
-            <DocumentGroup tabValue={tabValue} index={3} />
+            <DocumentGroup
+              tabValue={tabValue}
+              index={0}
+              documents={documents.filter(doc => doc.docType === "Notes")}
+            />
+            <DocumentGroup
+              tabValue={tabValue}
+              index={1}
+              documents={documents.filter(doc => doc.docType === "Assignment")}
+            />
+            <DocumentGroup
+              tabValue={tabValue}
+              index={2}
+              documents={documents.filter(doc => doc.docType === "Exam")}
+            />
+            <DocumentGroup
+              tabValue={tabValue}
+              index={3}
+              documents={documents.filter(doc => doc.docType === "Quiz")}
+            />
           </Paper>
         </>
       )}

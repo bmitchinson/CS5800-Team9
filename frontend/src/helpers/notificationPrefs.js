@@ -4,7 +4,6 @@ export default function notificationPrefs(
   type,
   response = null
 ) {
-  console.log("notif given", response);
   if (
     response &&
     response.data &&

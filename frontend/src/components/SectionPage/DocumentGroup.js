@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import { isAdmin, isInstructor } from "../../helpers/jwtHelpers";
 import { makeStyles } from "@material-ui/core/styles";
 import { Typography, Grid, Paper } from "@material-ui/core";
+
+import Document from "./Document";
 
 const useStyles = makeStyles({
   root: {
@@ -15,7 +16,7 @@ const useStyles = makeStyles({
 export default function DocumentGroup(props) {
   const classes = useStyles();
 
-  const { tabValue, index } = props;
+  const { tabValue, index, documents } = props;
 
   const activeTab = tabValue === index;
 
@@ -44,6 +45,9 @@ export default function DocumentGroup(props) {
             <Grid item xs={12}>
               <Typography variant="h4">{doctype}</Typography>
             </Grid>
+            {documents.map(doc => (
+              <Document document={doc} />
+            ))}
           </Grid>
         </Paper>
       )}

@@ -4,17 +4,31 @@ import { store } from "react-notifications-component";
 
 import notificationPrefs from "../../helpers/notificationPrefs";
 import getHeaders from "../../helpers/getHeaders";
-import { isAdmin } from "../../helpers/jwtHelpers";
+import { isAdmin, isInstructor } from "../../helpers/jwtHelpers";
 
-import ConfirmDelete from "../../components/ConfirmDelete";
+import DocumentGroup from "./DocumentGroup";
 
-import { Typography, CircularProgress, Grid } from "@material-ui/core";
-import { bool } from "prop-types";
+import { makeStyles } from "@material-ui/core/styles";
+import {
+  Typography,
+  CircularProgress,
+  Grid,
+  Tabs,
+  Tab,
+  Paper
+} from "@material-ui/core";
+
+const useStyles = makeStyles({
+  root: {
+    flexGrow: 1
+  }
+});
 
 export default function SectionPage(props) {
-  const [regInfo, setRegInfo] = useState([]);
-  const [documents, setDocuments] = useState([]);
-  const [deleteName, setDeleteName] = useState("");
+  const classes = useStyles();
+  const [tabValue, setTabValue] = React.useState(0);
+  const [regInfo, setRegInfo] = useState(null);
+  const [documents, setDocuments] = useState(null);
 
   const { registrationid } = props.match.params;
 
@@ -64,12 +78,9 @@ export default function SectionPage(props) {
     };
     fetchDocuments();
     fetchRegistration();
-  }, []);
+  }, [registrationid]);
 
-  console.log("regInfo:", regInfo.length);
-  console.log("documents:", documents.length);
-
-  const havedata = regInfo.length && documents.length;
+  const havedata = regInfo && documents;
 
   return (
     <>
@@ -91,9 +102,32 @@ export default function SectionPage(props) {
       )}
       {havedata && (
         <>
-          <Typography variant="h2">📓 Course</Typography>
-          <Typography>Course ID: {registrationid}</Typography>
-          <p>got data :)</p>
+          <Typography variant="h2" style={{ marginBottom: ".5em" }}>
+            <span role="img" aria-label="notebook emoji">
+              📓
+            </span>
+            Materials for {regInfo[0].section}
+          </Typography>
+          <Paper className={classes.root}>
+            <Tabs
+              value={tabValue}
+              onChange={(e, val) => {
+                setTabValue(val);
+              }}
+              indicatorColor="primary"
+              textColor="primary"
+              centered
+            >
+              <Tab label="Notes" />
+              <Tab label="Assignments" />
+              <Tab label="Exam" />
+              <Tab label="Quiz" />
+            </Tabs>
+            <DocumentGroup tabValue={tabValue} index={0} />
+            <DocumentGroup tabValue={tabValue} index={1} />
+            <DocumentGroup tabValue={tabValue} index={2} />
+            <DocumentGroup tabValue={tabValue} index={3} />
+          </Paper>
         </>
       )}
     </>

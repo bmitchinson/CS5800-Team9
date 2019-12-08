@@ -24,7 +24,7 @@ const useStyles = makeStyles(theme => ({
 
 export default function CloudinaryButton() {
   const classes = useStyles();
-  const [classifyModalState, setClassifyModalState] = useState(true);
+  const [classifyModalState, setClassifyModalState] = useState(false);
   const [fileURL, setFileURL] = useState(
     "https://res.cloudinary.com/dkfj0xfet/image/upload/v1574969958/classroom/test_qpwosk.pdf"
   );
@@ -52,7 +52,7 @@ export default function CloudinaryButton() {
 
   return (
     <>
-      <Button variant="contained" color="secondary" onClick={showWidget}>
+      <Button variant="contained" color="primary" onClick={showWidget}>
         Upload Document
       </Button>
       <Modal

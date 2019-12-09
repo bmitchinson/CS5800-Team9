@@ -4,7 +4,6 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import DateFnsUtils from "@date-io/date-fns";
 import axios from "axios";
 import { store } from "react-notifications-component";
-import ConfirmEmail from "./ConfirmEmail";
 
 import {
   MuiPickersUtilsProvider,

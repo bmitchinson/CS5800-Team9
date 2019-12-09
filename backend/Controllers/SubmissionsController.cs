@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
 using backend.Data.Contexts;
-using backend.Data.Models;
 using Microsoft.AspNetCore.Authorization;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
@@ -8,6 +7,8 @@ using System.Linq;
 using backend.Infrastructure.ClaimsManager;
 using System;
 using backend.Data.QueryObjects;
+using backend.Data.Models;
+using backend.Models;
 
 namespace backend.Controllers
 {
@@ -21,6 +22,23 @@ namespace backend.Controllers
         public SubmissionController(ApplicationDbContext context)
         {
             _context = context;
+        }
+
+        [HttpPost("creategrade"), Authorize(Roles = "Instructor")]
+        public async Task<ActionResult> CreateGrade([FromBody]SubmissionGradeModel newSubmission)
+        {
+            var claimsManager = new ClaimsManager(HttpContext.User);
+            
+            if (ModelState.IsValid)
+            {
+                var targetSubmission = await _context
+                        .Submissions
+                        .Where(_ => _.SubmissionId == newSubmission.Id)
+                        .FirstOrDefaultAsync();
+
+                return Ok();
+            }
+            return BadRequest();
         }
 
         [HttpPost, Authorize(Roles = "Student")]

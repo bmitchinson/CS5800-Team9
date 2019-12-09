@@ -24,7 +24,7 @@ namespace backend.Controllers
             _context = context;
         }
 
-        [HttpPost("creategrade"), Authorize(Roles = "Instructor")]
+        [HttpPost("{submissionId}"), Authorize(Roles = "Instructor")]
         public async Task<ActionResult> CreateGrade([FromBody]SubmissionGradeModel newSubmission)
         {
             var claimsManager = new ClaimsManager(HttpContext.User);
@@ -33,7 +33,7 @@ namespace backend.Controllers
             {
                 var targetSubmission = await _context
                         .Submissions
-                        .Where(_ => _.SubmissionId == newSubmission.Id)
+                        .Where(_ => _.SubmissionId == newSubmission.submissionId)
                         .FirstOrDefaultAsync();
                 targetSubmission.Grade = newSubmission.Grade;
                 _context.Submissions.Update(targetSubmission);

@@ -1,4 +1,9 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { store } from "react-notifications-component";
+import notificationPrefs from "../../helpers/notificationPrefs";
+import getHeaders from "../../helpers/getHeaders";
+
 import { isAdmin, isInstructor, isStudent } from "../../helpers/jwtHelpers";
 import { Grid, Typography, Paper, Button } from "@material-ui/core";
 import { getTitle, getThumbnailURL } from "../../helpers/cloudinaryHelpers";
@@ -6,7 +11,35 @@ import { CloudinaryButton } from "../Upload/CloudinaryButton";
 
 export default function Document(props) {
   const [submitModal, setSubmitModal] = useState(false);
+  const [submission, setSubmission] = useState([]);
   const { document } = props;
+
+  useEffect(() => {
+    const fetchSubmission = async () => {
+      const submission = await axios({
+        method: "get",
+        url: "https://localhost:5001/api/submission/" + document.documentId,
+        headers: getHeaders()
+      })
+        .then(res => {
+          return res.data;
+        })
+        .catch(e => {
+          store.addNotification(
+            notificationPrefs(
+              "Error fetching submission info",
+              "Please try again",
+              "danger"
+            )
+          );
+          return [];
+        });
+      setSubmission(submission);
+    };
+    if (document.docType !== "Notes") {
+      fetchSubmission();
+    }
+  }, []);
 
   const getActionAppropriatePadding = () => {
     return document.docType !== "Notes" ? "9em" : "4em";
@@ -63,7 +96,14 @@ export default function Document(props) {
             </Grid>
             {document.docType !== "Notes" && isStudent() && (
               <Grid item>
-                <CloudinaryButton buttonText={"Turn In"} />
+                {!submission.length && (
+                  <CloudinaryButton buttonText={"Turn In"} />
+                )}
+                {submission.length !== 0 && (
+                  <Button color="primary" variant="contained" disabled>
+                    Submitted
+                  </Button>
+                )}
               </Grid>
             )}
           </Grid>

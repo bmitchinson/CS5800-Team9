@@ -63,7 +63,6 @@ export default function SectionPage(props) {
         headers: getHeaders()
       })
         .then(response => {
-          console.log("docs:", response.data);
           return response.data;
         })
         .catch(e => {

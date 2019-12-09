@@ -20,8 +20,6 @@ export default function SubmitDocument(props) {
     : "Submit Course Material";
   let uploadButtonText = props.doctype ? `Upload ${props.doctype}` : "Submit";
 
-  console.log(getThumbnailURL(props.fileURL));
-
   return (
     <>
       <Grid

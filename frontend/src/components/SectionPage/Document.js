@@ -11,6 +11,7 @@ import { CloudinaryButton } from "../Upload/CloudinaryButton";
 
 export default function Document(props) {
   const [submitModal, setSubmitModal] = useState(false);
+  const [refresh, setRefresh] = useState(false);
   const [submissions, setSubmissions] = useState([]);
   const { document } = props;
   const grade = {
@@ -51,7 +52,7 @@ export default function Document(props) {
     if (document.docType !== "Notes") {
       fetchSubmissions();
     }
-  }, []);
+  }, [refresh]);
 
   const getActionAppropriatePadding = () => {
     return document.docType !== "Notes" ? "9em" : "4em";
@@ -70,6 +71,34 @@ export default function Document(props) {
 
   const ungradedSubmissions = () => {
     return submissions.filter(submission => !submission.grade);
+  };
+
+  const postGrade = async () => {
+    await axios({
+      method: "POST",
+      url: "https://localhost:5001/api/submission/" + "7",
+      headers: getHeaders(),
+      data: {
+        grade: "A",
+        submissionId: 7
+      }
+    })
+      .then(() => {
+        store.addNotification(
+          notificationPrefs("Assignment graded!", "Thanks", "success")
+        );
+        setRefresh(!refresh);
+      })
+      .catch(e => {
+        console.log(e);
+        store.addNotification(
+          notificationPrefs(
+            "Problem submitting grade",
+            "Please try again",
+            "danger"
+          )
+        );
+      });
   };
 
   return (
@@ -144,7 +173,10 @@ export default function Document(props) {
             {document.docType !== "Notes" && isStudent() && (
               <Grid item>
                 {!submissions.length && (
-                  <CloudinaryButton buttonText={"Turn In"} />
+                  <CloudinaryButton
+                    buttonText={"Turn In"}
+                    refresh={() => setRefresh(!refresh)}
+                  />
                 )}
                 {submissions.length !== 0 && (
                   <Button color="primary" variant="contained" disabled>
@@ -161,7 +193,11 @@ export default function Document(props) {
                   </Button>
                 )}
                 {ungradedSubmissions().length !== 0 && (
-                  <Button color="primary" variant="contained">
+                  <Button
+                    color="primary"
+                    variant="contained"
+                    onClick={postGrade}
+                  >
                     Grade
                   </Button>
                 )}

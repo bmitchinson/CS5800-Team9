@@ -11,7 +11,7 @@ import { CloudinaryButton } from "../Upload/CloudinaryButton";
 
 export default function Document(props) {
   const [submitModal, setSubmitModal] = useState(false);
-  const [submission, setSubmission] = useState([]);
+  const [submissions, setSubmissions] = useState([]);
   const { document } = props;
   const grade = {
     A:
@@ -27,8 +27,8 @@ export default function Document(props) {
   };
 
   useEffect(() => {
-    const fetchSubmission = async () => {
-      const submission = await axios({
+    const fetchSubmissions = async () => {
+      const submissions = await axios({
         method: "get",
         url: "https://localhost:5001/api/submission/" + document.documentId,
         headers: getHeaders()
@@ -46,10 +46,10 @@ export default function Document(props) {
           );
           return [];
         });
-      setSubmission(submission);
+      setSubmissions(submissions);
     };
     if (document.docType !== "Notes") {
-      fetchSubmission();
+      fetchSubmissions();
     }
   }, []);
 
@@ -62,10 +62,14 @@ export default function Document(props) {
   };
 
   const getGradeImg = () => {
-    if (submission[0]) {
-      return grade[submission[0].grade];
+    if (submissions[0]) {
+      return grade[submissions[0].grade];
     }
     return "";
+  };
+
+  const ungradedSubmissions = () => {
+    return submissions.filter(submission => !submission.grade);
   };
 
   return (
@@ -81,12 +85,25 @@ export default function Document(props) {
         }}
         elevation={4}
       >
-        {docIsNotNote() && (
+        {docIsNotNote() && isStudent() && (
           <img
             width="50px"
             src={getGradeImg()}
             style={{ zIndex: 112, top: -20, left: -15, position: "absolute" }}
           />
+        )}
+        {docIsNotNote() && isInstructor() && ungradedSubmissions().length > 0 && (
+          <p
+            style={{
+              zIndex: 112,
+              top: -50,
+              left: -15,
+              position: "absolute",
+              fontSize: "250%"
+            }}
+          >
+            🔔
+          </p>
         )}
         <Paper
           style={{
@@ -126,12 +143,26 @@ export default function Document(props) {
             </Grid>
             {document.docType !== "Notes" && isStudent() && (
               <Grid item>
-                {!submission.length && (
+                {!submissions.length && (
                   <CloudinaryButton buttonText={"Turn In"} />
                 )}
-                {submission.length !== 0 && (
+                {submissions.length !== 0 && (
                   <Button color="primary" variant="contained" disabled>
                     Submitted
+                  </Button>
+                )}
+              </Grid>
+            )}
+            {document.docType !== "Notes" && isInstructor() && (
+              <Grid item>
+                {!ungradedSubmissions().length && (
+                  <Button variant="contained" disabled>
+                    All Graded
+                  </Button>
+                )}
+                {ungradedSubmissions().length !== 0 && (
+                  <Button color="primary" variant="contained">
+                    Grade
                   </Button>
                 )}
               </Grid>

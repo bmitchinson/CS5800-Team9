@@ -28,17 +28,22 @@ namespace backend.Controllers
         public async Task<ActionResult> CreateGrade([FromBody]SubmissionGradeModel newSubmission)
         {
             var claimsManager = new ClaimsManager(HttpContext.User);
-            
+
             if (ModelState.IsValid)
             {
                 var targetSubmission = await _context
                         .Submissions
                         .Where(_ => _.SubmissionId == newSubmission.submissionId)
                         .FirstOrDefaultAsync();
-                targetSubmission.Grade = newSubmission.Grade;
-                _context.Submissions.Update(targetSubmission);
-                await _context.SaveChangesAsync();
-                return Ok();
+
+                if (targetSubmission != null)
+                {
+                    targetSubmission.Grade = newSubmission.Grade;
+                    _context.Submissions.Update(targetSubmission);
+                    await _context.SaveChangesAsync();
+                    return Ok();
+                }
+                return BadRequest();
             }
             return BadRequest();
         }
@@ -50,7 +55,7 @@ namespace backend.Controllers
 
             if (ModelState.IsValid)
             {
-                
+
                 if (claimsManager.GetRoleClaim() == "Student")
                 {
                     var targetDocument = await _context

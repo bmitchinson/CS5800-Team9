@@ -39,7 +39,7 @@ export default function NonAdminLinks(props) {
           let enrollments = response.data[0];
           let courses = [];
           let ids = [];
-          console.log(enrollments);
+          console.log('res:', response);
           enrollments.forEach(enrolment => {
             if (!ids.includes(enrolment.registration.course.courseId)) {
               ids.push(enrolment.registration.course.courseId);

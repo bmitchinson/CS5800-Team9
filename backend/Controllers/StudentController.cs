@@ -19,11 +19,9 @@ namespace backend.Controllers
     public class StudentController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
-        private readonly IEmailManager _emailManager;
-        public StudentController(ApplicationDbContext context, IEmailManager emailManager)
+        public StudentController(ApplicationDbContext context)
         {
             _context = context;
-            _emailManager = emailManager;
         }
 
         [HttpGet]
@@ -66,6 +64,7 @@ namespace backend.Controllers
             return Unauthorized();
         }
 
+
         [HttpPost]
         public async Task<ActionResult> Post([FromBody]Student student)
         {
@@ -91,7 +90,6 @@ namespace backend.Controllers
             return BadRequest();
         }
         
-
         [HttpDelete, Authorize(Roles = "Admin")]
         public async Task<ActionResult> Delete(int id)
         {

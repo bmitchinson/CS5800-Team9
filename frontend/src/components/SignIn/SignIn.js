@@ -62,6 +62,7 @@ const useStyles = makeStyles(theme => ({
 export default function SignIn(props) {
   const classes = useStyles();
   const [signUp, setSignUp] = React.useState(false);
+  const [forgotPassword, setForgotPassword] = React.useState(false);
   const [birthday, setBirthday] = React.useState(new Date());
   const [studentCheck, setStudentCheck] = React.useState(true);
   const [instructorCheck, setInstructorCheck] = React.useState(false);
@@ -86,6 +87,14 @@ export default function SignIn(props) {
 
   const closeSignUp = () => {
     setSignUp(false);
+  };
+
+  const openForgotPassword = () => {
+    setForgotPassword(true);
+  };
+
+  const closeForgotPassword = () => {
+    setForgotPassword(false);
   };
 
   const postSignUp = () => {
@@ -163,6 +172,29 @@ export default function SignIn(props) {
       });
   };
 
+  const sendForgotPasswordEmail = () => {
+    axios({
+      method: "post",
+      url: "https://localhost:5001/api/email/forgotpassword",
+      data: {
+        Email: document.getElementById("resetpasswordemail").value,
+        ResetPassword: document.getElementById("resetpasswordpassword").value
+      }
+    })
+      .then(function(response) {
+        setForgotPassword(false)
+        store.addNotification(
+          notificationPrefs("Email sent!", "Please check your email to reset your password", "success")
+        );
+      })
+      .catch(function(e) {
+        console.log("Error:", e);
+        store.addNotification(
+          notificationPrefs("Error sending email", "Please try again", "danger")
+        );
+      });
+  };
+
   return (
     <Grid container component="main" className={classes.root}>
       <Grid item xs={false} sm={4} md={7} className={classes.image} />
@@ -188,8 +220,56 @@ export default function SignIn(props) {
                 </Grid>
               </Grid>
             </Route>
+            <Route path="/resetpassword">
+              <Typography component="h1" variant="h5">
+                Password Reset
+              </Typography>
+              <Grid container>
+                <Grid item>
+                  <Link
+                    href="/#"
+                    variant="body2"
+                    color="textPrimary"
+                  >
+                    {"Click here to Sign in"}
+                  </Link>
+                </Grid>
+              </Grid>
+            </Route>
+            <Route path="/cancelreset">
+              <Typography component="h1" variant="h5">
+                Password Reset Cancelled
+              </Typography>
+              <Grid container>
+                <Grid item>
+                  <Link
+                    href="/#"
+                    variant="body2"
+                    color="textPrimary"
+                  >
+                    {"Click here to Sign in"}
+                  </Link>
+                </Grid>
+              </Grid>
+            </Route>
+            <Route path="/error">
+              <Typography component="h1" variant="h5">
+                Error
+              </Typography>
+              <Grid container>
+                <Grid item>
+                  <Link
+                    href="/#"
+                    variant="body2"
+                    color="textPrimary"
+                  >
+                    {"An error occurred. Click here to Sign in"}
+                  </Link>
+                </Grid>
+              </Grid>
+            </Route>
             <Route exact path="/">
-              {!signUp && (
+              {!signUp && !forgotPassword && (
                 <>
                   <Typography component="h1" variant="h5">
                     Sign in
@@ -243,6 +323,7 @@ export default function SignIn(props) {
                           variant="body2"
                           color="textPrimary"
                           alignItems="flex-end"
+                          onClick={openForgotPassword}
                         >
                           {"Forgot your password?"}
                         </Link>
@@ -251,7 +332,7 @@ export default function SignIn(props) {
                   </form>
                 </>
               )}
-              {signUp && (
+              {signUp && !forgotPassword &&(
                 <>
                   <Typography component="h1" variant="h5">
                     Sign Up
@@ -372,6 +453,59 @@ export default function SignIn(props) {
                       </Grid>
                     </Grid>
                   </form>
+                </>
+              )}
+              {forgotPassword && (
+                <>
+                  <Typography component="h1" variant="h5">
+                    Forgot Password
+                  </Typography>
+                  <form className={classes.form} noValidate>
+                    <TextField
+                      variant="outlined"
+                      margin="normal"
+                      required
+                      fullWidth
+                      id="resetpasswordemail"
+                      label="Email Address"
+                      name="resetpasswordemail"
+                      autoComplete="email"
+                      autoFocus
+                    />
+                    <TextField
+                      variant="outlined"
+                      margin="normal"
+                      required
+                      fullWidth
+                      id="resetpasswordpassword"
+                      label="New Password"
+                      name="resetpasswordpassword"
+                      type="password"
+                      autoComplete="resetpassword"
+                    />
+                    
+                    <Button
+                      fullWidth
+                      variant="contained"
+                      color="primary"
+                      className={classes.submit}
+                      onClick={sendForgotPasswordEmail}
+                    >
+                      Send Email
+                    </Button>
+                    <Grid container>
+                      <Grid item>
+                        <Link
+                          href="#"
+                          variant="body2"
+                          color="textPrimary"
+                          onClick={closeForgotPassword}
+                        >
+                          {"Back to sign up"}
+                        </Link>
+                      </Grid>
+                    </Grid>
+                </form>
                 </>
               )}
             </Route>

@@ -13,6 +13,18 @@ export default function Document(props) {
   const [submitModal, setSubmitModal] = useState(false);
   const [submission, setSubmission] = useState([]);
   const { document } = props;
+  const grade = {
+    A:
+      "https://res.cloudinary.com/dkfj0xfet/image/upload/v1575883408/classroom/grades/a_wcm6x0.png",
+    B:
+      "https://res.cloudinary.com/dkfj0xfet/image/upload/v1575883409/classroom/grades/b_gkwr0r.png",
+    C:
+      "https://res.cloudinary.com/dkfj0xfet/image/upload/v1575883409/classroom/grades/c_u0rqh2.png",
+    D:
+      "https://res.cloudinary.com/dkfj0xfet/image/upload/v1575883409/classroom/grades/d_k0o7uh.png",
+    F:
+      "https://res.cloudinary.com/dkfj0xfet/image/upload/v1575883409/classroom/grades/f_bb5uj1.png"
+  };
 
   useEffect(() => {
     const fetchSubmission = async () => {
@@ -45,19 +57,38 @@ export default function Document(props) {
     return document.docType !== "Notes" ? "9em" : "4em";
   };
 
+  const docIsNotNote = () => {
+    return document.docType !== "Notes";
+  };
+
+  const getGradeImg = () => {
+    if (submission[0]) {
+      console.log("sub", submission);
+      return grade[submission[0].grade];
+    }
+    return "";
+  };
+
   return (
     <Grid item xs={3}>
       <Paper
         style={{
           display: "flex",
+          position: "relative",
           flexDirection: "column",
           width: "100%",
           height: "15em",
-          zIndex: 111,
-          overflow: "hidden"
+          zIndex: 111
         }}
         elevation={4}
       >
+        {docIsNotNote() && (
+          <img
+            width="50px"
+            src={getGradeImg()}
+            style={{ zIndex: 112, top: -20, left: -15, position: "absolute" }}
+          />
+        )}
         <Paper
           style={{
             flexGrow: 1,

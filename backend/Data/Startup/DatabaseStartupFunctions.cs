@@ -593,30 +593,36 @@ namespace backend.Data.Startup
                         {
                             new Submission {
                                 DocumentId = 5,
+                                Grade = "B",
                                 StudentEnrollmentId = 4,
                                 ResourceLink = "1ttps://res.cloudinary.com/dkfj0xfet/image/upload/v1575184547/classroom/seed/chem/Assignment/chem_hw1_bmpymy.pdf"
                             },
                             new Submission {
+                                Grade = "A",
                                 DocumentId = 5,
                                 StudentEnrollmentId = 1,
-                                ResourceLink = "1ttps://res.cloudinary.com/dkfj0xfet/image/upload/v1575184547/classroom/seed/chem/Assignment/chem_hw1_bmpymy.pdf"
+                                ResourceLink = "https://res.cloudinary.com/dkfj0xfet/image/upload/v1575184547/classroom/seed/chem/Assignment/chem_hw1_bmpymy.pdf"
                             },
                             new Submission {
+                                Grade = "B",
                                 DocumentId = 6,
                                 StudentEnrollmentId = 1,
                                 ResourceLink = "https://res.cloudinary.com/dkfj0xfet/image/upload/v1575184547/classroom/seed/chem/Assignment/chem_hw1_bmpymy.pdf"
                             },
                             new Submission {
+                                Grade = "D",
                                 DocumentId = 7,
                                 StudentEnrollmentId = 1,
                                 ResourceLink = "https://res.cloudinary.com/dkfj0xfet/image/upload/v1575184547/classroom/seed/chem/Assignment/chem_hw1_bmpymy.pdf"
                             },
                             new Submission {
+                                Grade = "A",
                                 DocumentId = 8,
                                 StudentEnrollmentId = 1,
                                 ResourceLink = "https://res.cloudinary.com/dkfj0xfet/image/upload/v1575184547/classroom/seed/chem/Assignment/chem_hw1_bmpymy.pdf"
                             },
                             new Submission {
+                                Grade = "C",
                                 DocumentId = 9,
                                 StudentEnrollmentId = 1,
                                 ResourceLink = "https://res.cloudinary.com/dkfj0xfet/image/upload/v1575184547/classroom/seed/chem/Assignment/chem_hw1_bmpymy.pdf"

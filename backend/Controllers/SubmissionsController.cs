@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
 using backend.Data.Contexts;
-using backend.Data.Models;
 using Microsoft.AspNetCore.Authorization;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
@@ -8,6 +7,8 @@ using System.Linq;
 using backend.Infrastructure.ClaimsManager;
 using System;
 using backend.Data.QueryObjects;
+using backend.Data.Models;
+using backend.Models;
 
 namespace backend.Controllers
 {
@@ -23,6 +24,30 @@ namespace backend.Controllers
             _context = context;
         }
 
+        [HttpPost("{submissionId}"), Authorize(Roles = "Instructor")]
+        public async Task<ActionResult> CreateGrade([FromBody]SubmissionGradeModel newSubmission)
+        {
+            var claimsManager = new ClaimsManager(HttpContext.User);
+
+            if (ModelState.IsValid)
+            {
+                var targetSubmission = await _context
+                        .Submissions
+                        .Where(_ => _.SubmissionId == newSubmission.submissionId)
+                        .FirstOrDefaultAsync();
+
+                if (targetSubmission != null)
+                {
+                    targetSubmission.Grade = newSubmission.Grade;
+                    _context.Submissions.Update(targetSubmission);
+                    await _context.SaveChangesAsync();
+                    return Ok();
+                }
+                return BadRequest();
+            }
+            return BadRequest();
+        }
+
         [HttpPost, Authorize(Roles = "Student")]
         public async Task<ActionResult> CreateSubmission(Submission newSubmission)
         {
@@ -30,7 +55,7 @@ namespace backend.Controllers
 
             if (ModelState.IsValid)
             {
-                
+
                 if (claimsManager.GetRoleClaim() == "Student")
                 {
                     var targetDocument = await _context

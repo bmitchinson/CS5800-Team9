@@ -89,10 +89,6 @@ function App() {
                 />
                 <Route exact path="/">
                   <Typography variant="h2">Welcome to Classroom™</Typography>
-                  <p>
-                    What should go here? Maybe we just take them to their first
-                    course
-                  </p>
                 </Route>
                 <Route>
                   <FourOFour />

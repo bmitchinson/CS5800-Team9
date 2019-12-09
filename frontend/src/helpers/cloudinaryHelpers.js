@@ -6,3 +6,7 @@ export function getThumbnailURL(baseurl) {
     .replace("/upload/", "/upload/w_340,h_440/")
     .replace(".pdf", ".png");
 }
+
+export function getTitle(doc) {
+  return doc.resourceLink.split("/")[11].slice(0, -11);
+}

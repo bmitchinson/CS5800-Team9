@@ -17,7 +17,6 @@ import Header from "./components/Header/Header";
 import SignIn from "./components/SignIn/SignIn";
 import SectionPage from "./components/SectionPage/SectionPage";
 import MyAccount from "./components/MyAccount/MyAccount";
-import CloudinaryButton from "./components/Upload/CloudinaryButton";
 import FourOFour from "./components/FourOFour";
 
 import { isAdmin, isLoggedIn } from "./helpers/jwtHelpers";
@@ -67,9 +66,6 @@ function App() {
             <Header clearJWT={clearJWT} />
             <MainView>
               <Switch>
-                <Route path="/upload">
-                  <CloudinaryButton />
-                </Route>
                 <Route path="/myaccount">
                   <MyAccount />
                 </Route>

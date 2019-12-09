@@ -48,7 +48,7 @@ export default function DocumentGroup(props) {
               <Typography variant="h4">{doctype}</Typography>
             </Grid>
             {documents.map(doc => (
-              <Document document={doc} />
+              <Document key={doc.documentId} document={doc} />
             ))}
           </Grid>
         </Paper>

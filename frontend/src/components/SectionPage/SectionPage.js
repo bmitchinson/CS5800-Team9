@@ -4,10 +4,10 @@ import { store } from "react-notifications-component";
 
 import notificationPrefs from "../../helpers/notificationPrefs";
 import getHeaders from "../../helpers/getHeaders";
-import { isAdmin, isInstructor } from "../../helpers/jwtHelpers";
+import { isInstructor } from "../../helpers/jwtHelpers";
 
 import DocumentGroup from "./DocumentGroup";
-import CloudinaryButton from "../Upload/CloudinaryButton";
+import { CloudinaryButton } from "../Upload/CloudinaryButton";
 
 import { makeStyles } from "@material-ui/core/styles";
 import {
@@ -115,9 +115,12 @@ export default function SectionPage(props) {
               Materials for {regInfo[0].section}
             </Typography>
             <div style={{ flexGrow: 1 }} />
-            {isAdmin() && (
+            {isInstructor() && (
               <div style={{ maxHeight: "1em", marginTop: ".4em" }}>
-                <CloudinaryButton style={{ maxWidth: ".6em" }} />
+                <CloudinaryButton
+                  style={{ maxWidth: ".6em" }}
+                  buttonText={"Add a document"}
+                />
               </div>
             )}
           </div>

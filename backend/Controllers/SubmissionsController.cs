@@ -43,7 +43,7 @@ namespace backend.Controllers
                         .Where(_ => _.StudentEnrollmentId == newSubmission.StudentEnrollmentId)
                         .FirstOrDefaultAsync();
 
-                    if (targetEnrollment == null || targetEnrollment.StudentId != claimsManager.GetUserIdClaim()) 
+                    if (targetEnrollment == null || targetEnrollment.StudentId != claimsManager.GetUserIdClaim())
                         return Unauthorized();
 
                     if (targetDocument == null)
@@ -62,26 +62,36 @@ namespace backend.Controllers
             return Ok();
         }
 
-        [HttpGet("{documentId}"), Authorize(Roles = "Instructor")]
+        [HttpGet("{documentId}"), Authorize(Roles = "Instructor, Student")]
         public async Task<ActionResult> Get(int documentId)
         {
             var claimsManager = new ClaimsManager(HttpContext.User);
 
+            // TODO move all this into a query object
+            var targetDocument = await _context
+                .Documents
+                .GetDocumentsWithSubmissions(documentId)
+                .FirstOrDefaultAsync();
+
             if (claimsManager.GetRoleClaim() == "Instructor")
             {
-
-                // TODO move all this into a query object
-                var targetDocument = await _context
-                    .Documents
-                    .GetDocumentsWithSubmissions(documentId)
-                    .FirstOrDefaultAsync();
-
                 if (targetDocument.Registration.InstructorId == claimsManager.GetUserIdClaim())
                 {
                     return Ok(targetDocument.Submissions);
                 }
                 return Unauthorized();
             }
+
+            if (claimsManager.GetRoleClaim() == "Student")
+            {
+                var studentSubmission = targetDocument.Submissions.Where(_ => _.StudentEnrollment.StudentId == claimsManager.GetUserIdClaim());
+                if (studentSubmission != null)
+                {
+                    return Ok(studentSubmission);
+                }
+                return Unauthorized();
+            }
+
             return Unauthorized();
         }
     }

@@ -38,7 +38,7 @@ namespace backend.Controllers
 
                 if (targetSubmission != null)
                 {
-                    targetSubmission.Grade = newSubmission.Grade;
+                    targetSubmission.Grade = newSubmission.grade;
                     _context.Submissions.Update(targetSubmission);
                     await _context.SaveChangesAsync();
                     return Ok();

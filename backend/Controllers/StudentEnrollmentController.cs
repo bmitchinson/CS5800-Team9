@@ -170,19 +170,16 @@ namespace backend.Controllers
                         .Select(_ => _.Prerequisites)
                         .FirstOrDefaultAsync();
 
-                    var completedCourses = await _context
-                        .StudentEnrollment
-                        .Where(_ => _.StudentId == studentEnrollment.StudentId)
-                        .QueryCompletedCourses()
-                        .ToListAsync();
-
-                    foreach (StudentEnrollment completedCourse in completedCourses)
+                    foreach (Prerequisite pre in preRequesites)
                     {
-                        if(!preRequesites
-                            .Where(_ => _.CourseId == completedCourse.Registration.Course.CourseId)
-                            .Any())
+                        if (!await _context
+                            .StudentEnrollment
+                            .Where(_ => _.Registration.CourseId == pre.CourseId
+                                    && _.StudentId == studentEnrollment.StudentId)
+                            .AnyAsync())
                             {
-                                ModelState.AddModelError("Errors", "You do not meet the prerequesites for this course");
+                                ModelState.AddModelError("Errors", 
+                                    "You have not met the requirements to enroll in this course");
                                 return BadRequest(ModelState);
                             }
                     }

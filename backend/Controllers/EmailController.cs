@@ -100,13 +100,13 @@ namespace backend.Controllers
                     .Where(_ => _.Email == user.Email)
                     .FirstOrDefaultAsync();
                 
-                if (studentClaim != null && studentClaim.EmailConfirmed)
+                if (studentClaim != null )
                 {
                     studentClaim.EmailConfirmed = true;
                     _context.Students.Update(studentClaim);
                     await _context.SaveChangesAsync();
                 }
-                else if (instructorClaim != null && instructorClaim.EmailConfirmed)
+                else if (instructorClaim != null)
                 {
                     instructorClaim.EmailConfirmed = true;
                     _context.Instructors.Update(instructorClaim);

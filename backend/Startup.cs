@@ -17,6 +17,15 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using backend.Data.Contexts;
 using Newtonsoft.Json;
+using backend.Infrastructure.EmailManager;
+using Microsoft.AspNetCore.Identity;
+using backend.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.SpaServices.Webpack;
+using System.IdentityModel.Tokens.Jwt;
+using Microsoft.AspNetCore.HttpOverrides;
+using Newtonsoft.Json.Serialization;
+
 
 namespace backend
 {
@@ -50,6 +59,10 @@ namespace backend
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
                 .AddJsonOptions(options =>
                     options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
+            services.AddSingleton<IEmailConfiguration>(
+                Configuration.GetSection("EmailConfiguration").Get<EmailConfiguration>());
+
+            services.AddTransient<IEmailManager, EmailManager>();
 
             services.AddSwaggerGen(c =>
             {
@@ -60,11 +73,20 @@ namespace backend
                 });
             });
 
+            // Configure Entity Framework Identity for Auth
+            services.AddIdentity<IdentityUser, IdentityRole>()
+            .AddEntityFrameworkStores<ApplicationDbContext>()
+            .AddDefaultTokenProviders();
+
+            
+
             var dbConnection = Configuration
                 .GetConnectionString("DefaultConnection");
 
             services.AddDbContext<ApplicationDbContext>(
                 options => options.UseMySql(dbConnection));
+
+            
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>

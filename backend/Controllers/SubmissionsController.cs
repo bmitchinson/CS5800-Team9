@@ -35,7 +35,9 @@ namespace backend.Controllers
                         .Submissions
                         .Where(_ => _.SubmissionId == newSubmission.Id)
                         .FirstOrDefaultAsync();
-
+                targetSubmission.Grade = newSubmission.Grade;
+                _context.Submissions.Update(targetSubmission);
+                await _context.SaveChangesAsync();
                 return Ok();
             }
             return BadRequest();

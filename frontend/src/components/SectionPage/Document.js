@@ -63,7 +63,6 @@ export default function Document(props) {
 
   const getGradeImg = () => {
     if (submission[0]) {
-      console.log("sub", submission);
       return grade[submission[0].grade];
     }
     return "";

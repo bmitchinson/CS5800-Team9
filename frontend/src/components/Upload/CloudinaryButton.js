@@ -10,7 +10,7 @@ const useStyles = makeStyles(theme => ({
     position: "absolute",
     width: "30em",
     marginLeft: "-15em",
-    height: "40em",
+    height: "35em",
     marginTop: "-20em",
     left: "50%",
     top: "50%",
@@ -64,7 +64,12 @@ export function CloudinaryButton(props) {
         }}
       >
         <div className={classes.paper}>
-          <SubmitDocument fileURL={fileURL} />
+          <SubmitDocument
+            fileURL={fileURL}
+            close={() => {
+              setClassifyModalState(false);
+            }}
+          />
         </div>
       </Modal>
     </>

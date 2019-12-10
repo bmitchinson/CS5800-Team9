@@ -74,17 +74,17 @@ export default function PostGrade(props) {
           <Typography variant="h5">Grading {doctype}</Typography>
         </Grid>
         <Grid item xs={12}>
-          <center>
-            <Paper style={{ width: "70%" }} elevation={5}>
-              <a href={submissionUrl} rel="noopener noreferrer" target="_blank">
+          <a href={submissionUrl} rel="noopener noreferrer" target="_blank">
+            <center>
+              <Paper style={{ width: "70%" }} elevation={5}>
                 <img
                   style={{ width: "70%" }}
                   src={submissionThumbnail}
                   alt="Document Preview"
                 />
-              </a>
-            </Paper>
-          </center>
+              </Paper>
+            </center>
+          </a>
         </Grid>
         <Grid item xs={12}>
           <div

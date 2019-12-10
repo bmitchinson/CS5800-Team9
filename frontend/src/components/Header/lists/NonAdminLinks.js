@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { store } from "react-notifications-component";
 import { Link } from "react-router-dom";
 
 import { makeStyles } from "@material-ui/core/styles";
@@ -8,6 +9,7 @@ import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import SchoolIcon from "@material-ui/icons/School";
 
 import getHeaders from "../../../helpers/getHeaders";
+import notificationPrefs from "../../../helpers/notificationPrefs";
 
 import {
   List,
@@ -39,21 +41,26 @@ export default function NonAdminLinks(props) {
           let enrollments = response.data[0];
           let courses = [];
           let ids = [];
-          console.log('res:', response);
           enrollments.forEach(enrolment => {
             if (!ids.includes(enrolment.registration.course.courseId)) {
               ids.push(enrolment.registration.course.courseId);
               courses.push([
                 enrolment.registration.section,
                 enrolment.registration.course.courseName,
-                enrolment.registration.course.courseId
+                enrolment.registrationId
               ]);
             }
           });
           return courses;
         })
         .catch(function(e) {
-          console.log("Error Getting Enrollments");
+          store.addNotification(
+            notificationPrefs(
+              "Error getting your enrollments",
+              "Please try again",
+              "danger"
+            )
+          );
           return [];
         });
       setCourses(courses);
@@ -84,10 +91,10 @@ export default function NonAdminLinks(props) {
       </Link>
       <Divider />
       <ListItem>
-        <ListItemText primary={"Enrolled Courses:"} />
+        <ListItemText primary={"Courses:"} />
       </ListItem>
       {courses.map(c => (
-        <Link to={`/course/${c[2]}`} className={classes.link} key={c[2]}>
+        <Link to={`/section/${c[2]}`} className={classes.link} key={c[2]}>
           <ListItem button key={c[0]} onClick={props.closeDrawer}>
             <ListItemIcon>
               <SchoolIcon />

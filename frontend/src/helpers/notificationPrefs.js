@@ -1,4 +1,17 @@
-export default function notificationPrefs(title, message, type) {
+export default function notificationPrefs(
+  title,
+  message,
+  type,
+  response = null
+) {
+  if (
+    response &&
+    response.data &&
+    response.data.Errors &&
+    response.data.Errors.length
+  ) {
+    message = "Server msg: " + response.data.Errors[0];
+  }
   return {
     title,
     message,

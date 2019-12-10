@@ -29,7 +29,7 @@ export function CloudinaryButton(props) {
     "https://res.cloudinary.com/dkfj0xfet/image/upload/v1574969958/classroom/test_qpwosk.pdf"
   );
 
-  const { buttonText, refresh } = props;
+  const { buttonText, refresh, documentId } = props;
 
   let widget = window.cloudinary.createUploadWidget(
     {
@@ -68,8 +68,9 @@ export function CloudinaryButton(props) {
             fileURL={fileURL}
             close={() => {
               setClassifyModalState(false);
-              refresh();
             }}
+            documentId={documentId}
+            refresh={refresh}
           />
         </div>
       </Modal>

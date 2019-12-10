@@ -9,7 +9,7 @@ import { getThumbnailURL } from "../../helpers/cloudinaryHelpers";
 import { Typography, Grid, Button } from "@material-ui/core";
 
 export default function SubmitDocument(props) {
-  const { fileURL, close } = props;
+  const { fileURL, close, documentId, refresh } = props;
 
   let headerText = "Confirm Submission:";
   let uploadButtonText = "Submit";
@@ -20,8 +20,7 @@ export default function SubmitDocument(props) {
       url: "https://localhost:5001/api/submission",
       headers: getHeaders(),
       data: {
-        DocumentId: 10,
-        StudentEnrollmentId: 1,
+        DocumentId: documentId,
         ResourceLink: fileURL
       }
     })
@@ -29,6 +28,7 @@ export default function SubmitDocument(props) {
         store.addNotification(
           notificationPrefs("Assignment submitted!", "Good Work", "success")
         );
+        refresh();
       })
       .catch(e => {
         console.log(e);

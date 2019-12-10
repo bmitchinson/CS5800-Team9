@@ -74,13 +74,14 @@ export default function Document(props) {
   };
 
   const postGrade = async () => {
+    const submissionIdToGrade = ungradedSubmissions()[0].submissionId;
     await axios({
       method: "POST",
-      url: "https://localhost:5001/api/submission/" + "7",
+      url: "https://localhost:5001/api/submission/" + submissionIdToGrade,
       headers: getHeaders(),
       data: {
         grade: "A",
-        submissionId: 7
+        submissionId: submissionIdToGrade
       }
     })
       .then(() => {
@@ -110,7 +111,7 @@ export default function Document(props) {
           flexDirection: "column",
           width: "100%",
           height: "15em",
-          zIndex: 111
+          zIndex: 90
         }}
         elevation={4}
       >
@@ -118,13 +119,13 @@ export default function Document(props) {
           <img
             width="50px"
             src={getGradeImg()}
-            style={{ zIndex: 112, top: -20, left: -15, position: "absolute" }}
+            style={{ zIndex: 95, top: -20, left: -15, position: "absolute" }}
           />
         )}
         {docIsNotNote() && isInstructor() && ungradedSubmissions().length > 0 && (
           <p
             style={{
-              zIndex: 112,
+              zIndex: 95,
               top: -50,
               left: -15,
               position: "absolute",
@@ -176,6 +177,7 @@ export default function Document(props) {
                   <CloudinaryButton
                     buttonText={"Turn In"}
                     refresh={() => setRefresh(!refresh)}
+                    documentId={document.documentId}
                   />
                 )}
                 {submissions.length !== 0 && (

@@ -622,7 +622,6 @@ namespace backend.Data.Startup
                                 ResourceLink = "https://res.cloudinary.com/dkfj0xfet/image/upload/v1575184547/classroom/seed/chem/Assignment/chem_hw1_bmpymy.pdf"
                             },
                             new Submission {
-                                Grade = "C",
                                 DocumentId = 9,
                                 StudentEnrollmentId = 1,
                                 ResourceLink = "https://res.cloudinary.com/dkfj0xfet/image/upload/v1575184547/classroom/seed/chem/Assignment/chem_hw1_bmpymy.pdf"

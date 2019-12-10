@@ -65,7 +65,8 @@ namespace backend.Controllers
 
                     var targetEnrollment = await _context
                         .StudentEnrollment
-                        .Where(_ => _.StudentEnrollmentId == newSubmission.StudentEnrollmentId)
+                        .Where(_ => _.StudentId == claimsManager.GetUserIdClaim())
+                        .Where(_ => _.RegistrationId == targetDocument.RegistrationId)
                         .FirstOrDefaultAsync();
 
                     if (targetEnrollment == null || targetEnrollment.StudentId != claimsManager.GetUserIdClaim())
@@ -78,6 +79,7 @@ namespace backend.Controllers
                     }
 
                     newSubmission.SubmissionTime = DateTime.UtcNow;
+                    newSubmission.StudentEnrollmentId = targetEnrollment.StudentEnrollmentId;
                     await _context.AddAsync(newSubmission);
                     await _context.SaveChangesAsync();
                     return Ok();

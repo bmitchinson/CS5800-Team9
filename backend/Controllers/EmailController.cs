@@ -15,15 +15,12 @@ namespace backend.Controllers
 {
     public class EmailController : Controller
     {
-        private readonly UserManager<IdentityUser> _userManager;
         private readonly IEmailManager _emailManager;
         private readonly ApplicationDbContext _context;
         public EmailController(
-            UserManager<IdentityUser> userManager,
             IEmailManager emailManager,
             ApplicationDbContext context)
         {
-            _userManager = userManager;
             _emailManager = emailManager;
             _context = context;
         }
@@ -38,10 +35,10 @@ namespace backend.Controllers
             {
                 try
                 {
-                    var user = new IdentityUser { UserName = signup.Email, Email = signup.Email };
-                    var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                    var callbackUrl = Url.Action(nameof(Confirm), "Email", new { userId = user.Id, code = code }, protocol: HttpContext.Request.Scheme);
-                    var applicationUser = new ApplicationUser {UserId = user.Id, Email = signup.Email, Code = code};
+                    var id = PasswordSecurity.HashEmail(signup.Email);
+                    var code = PasswordSecurity.HashEmail(signup.Password);
+                    var callbackUrl = Url.Action(nameof(Confirm), "Email", new { userId = id, code = code }, protocol: HttpContext.Request.Scheme);
+                    var applicationUser = new ApplicationUser {UserId = id, Email = signup.Email, Code = code};
                     await _context.AddAsync(applicationUser);
                     await _context.SaveChangesAsync();
                     _emailManager.Send(signup.Email, "Confirm your account", $"Please confirm your account by clicking this here: <a href='{callbackUrl}'>link</a>");
@@ -152,8 +149,7 @@ namespace backend.Controllers
                         return Ok();
                     }
         
-                    var user = new IdentityUser { UserName = forgotPassword.Email, Email = forgotPassword.Email };
-                    var code = await _userManager.GeneratePasswordResetTokenAsync(user);
+                    var code = PasswordSecurity.HashPassword(forgotPassword.ResetPassword);
                     applicationuser.Code = code;
                     applicationuser.ResetPassword = PasswordSecurity
                         .HashPassword(forgotPassword.ResetPassword);

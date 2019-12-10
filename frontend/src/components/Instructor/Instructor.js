@@ -12,11 +12,11 @@ import {
 
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 
-export default function Student(props) {
+export default function Instructor(props) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
 
-  const { firstName, lastName, enrollments, studentId } = props.student;
+  const { firstName, lastName, registrations, instructorId } = props.instructor;
 
   const handleClick = event => {
     setAnchorEl(event.currentTarget);
@@ -28,9 +28,9 @@ export default function Student(props) {
     setAnchorEl(null);
     axios({
       method: "delete",
-      url: "https://localhost:5001/api/student",
+      url: "https://localhost:5001/api/instructor",
       params: {
-        id: studentId
+        id: instructorId
       }
     })
       .then(function(response) {
@@ -53,12 +53,12 @@ export default function Student(props) {
             >
               {lastName}, {firstName}
             </Typography>
-            <Typography
+            { <Typography
               variant={"body2"}
               style={{ textAlign: "left", paddingLeft: "1%" }}
             >
-              Enrolled Courses: {enrollments.length}
-            </Typography>
+              Courses: {registrations.length}
+            </Typography> }
           </Grid>
           <Grid item xs={1}>
             <IconButton
@@ -82,7 +82,7 @@ export default function Student(props) {
               }}
             >
               <MenuItem key={"delete"} onClick={handleDelete}>
-                Delete Student
+                Delete Instructor
               </MenuItem>
             </Menu>
           </Grid>

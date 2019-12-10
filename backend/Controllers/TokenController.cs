@@ -66,8 +66,6 @@ namespace JWT.Controllers
               claims: claims);
 
             token.Payload["roles"] = roles;
-            token.Payload["email"] = user.Email;
-            // token.Payload["uId"] = user.Id;
 
             return new JwtSecurityTokenHandler().WriteToken(token);
         }

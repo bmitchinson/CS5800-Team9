@@ -2,8 +2,7 @@ import React from "react";
 import ReactNotification from "react-notifications-component";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
-import { Typography } from "@material-ui/core";
-import CssBaseline from "@material-ui/core/CssBaseline";
+import { Typography, Grid, CssBaseline } from "@material-ui/core";
 import { createMuiTheme, responsiveFontSizes } from "@material-ui/core/styles";
 import { ThemeProvider } from "@material-ui/styles";
 import "react-notifications-component/dist/theme.css";
@@ -94,7 +93,17 @@ function App() {
                   render={props => <SectionPage {...props} />}
                 />
                 <Route exact path="/">
-                  <Typography variant="h2">Welcome to Classroom™</Typography>
+                  <Grid
+                    container
+                    spacing={3}
+                    direction="column"
+                    alignItems="center"
+                    justify="center"
+                  >
+                    <Typography variant="h2" style={{ marginTop: "2em" }}>
+                      Welcome to Classroom™
+                    </Typography>
+                  </Grid>
                 </Route>
                 <Route>
                   <FourOFour />

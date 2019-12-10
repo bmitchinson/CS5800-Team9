@@ -1,6 +1,6 @@
 import React from "react";
 import "date-fns";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { Switch, Route } from "react-router-dom";
 import DateFnsUtils from "@date-io/date-fns";
 import axios from "axios";
 import { store } from "react-notifications-component";

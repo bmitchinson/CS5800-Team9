@@ -27,7 +27,7 @@ const useStyles = makeStyles(theme => ({
     position: "absolute",
     width: "30em",
     marginLeft: "-15em",
-    height: "35em",
+    height: "38em",
     marginTop: "-20em",
     left: "50%",
     top: "50%",
@@ -120,6 +120,13 @@ export default function Document(props) {
                 setShowPostGrade(false);
                 setRefresh(!refresh);
               }}
+              submissionIdToGrade={
+                ungradedSubmissions().length
+                  ? ungradedSubmissions()[0].submissionId
+                  : null
+              }
+              documentThumbnail={getThumbnailURL(document.resourceLink)}
+              doctype={document.docType}
             />
           </div>
         </Modal>
@@ -136,7 +143,7 @@ export default function Document(props) {
           }}
           elevation={4}
         >
-          {docIsNotNote() && isStudent() && (
+          {docIsNotNote() && isStudent() && getGradeImg() && (
             <img
               alt="letter grade"
               width="50px"

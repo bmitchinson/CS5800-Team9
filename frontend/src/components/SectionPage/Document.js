@@ -125,7 +125,7 @@ export default function Document(props) {
                   ? ungradedSubmissions()[0].submissionId
                   : null
               }
-              sumbissionUrl={ungradedSubmissions()[0].resourceLink}
+              submissionUrl={ungradedSubmissions()[0].resourceLink}
               submissionThumbnail={getThumbnailURL(
                 ungradedSubmissions()[0].resourceLink
               )}

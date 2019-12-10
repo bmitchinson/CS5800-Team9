@@ -41,7 +41,7 @@ namespace backend.Controllers
                     var applicationUser = new ApplicationUser {UserId = id, Email = signup.Email, Code = code};
                     await _context.AddAsync(applicationUser);
                     await _context.SaveChangesAsync();
-                    _emailManager.Send(signup.Email, "Confirm your account", $"Please confirm your account by clicking this here: <a href='{callbackUrl}'>link</a>");
+                    _emailManager.Send(signup.Email, "Confirm your account", $"Please confirm your account by clicking <a href='{callbackUrl}'>here</a>");
                     return Ok();
                 }
                 catch (Exception e)

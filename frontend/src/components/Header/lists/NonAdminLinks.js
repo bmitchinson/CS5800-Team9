@@ -91,7 +91,7 @@ export default function NonAdminLinks(props) {
       </Link>
       <Divider />
       <ListItem>
-        <ListItemText primary={"Enrolled Courses:"} />
+        <ListItemText primary={"Courses:"} />
       </ListItem>
       {courses.map(c => (
         <Link to={`/section/${c[2]}`} className={classes.link} key={c[2]}>

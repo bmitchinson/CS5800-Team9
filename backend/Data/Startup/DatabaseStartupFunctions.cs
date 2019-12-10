@@ -84,7 +84,8 @@ namespace backend.Data.Startup
                                 LastName = "Smith",
                                 BirthDate = new DateTime(1997, 7, 23),
                                 Email = "email2@test.com",
-                                Password = PasswordSecurity.HashPassword("secret")
+                                Password = PasswordSecurity.HashPassword("secret"),
+                                EmailConfirmed = true
                             },
                             new Student
                             {
@@ -93,7 +94,8 @@ namespace backend.Data.Startup
                                 LastName = "Jackson",
                                 BirthDate = new DateTime(2001, 1, 13),
                                 Email = "email3@test.com",
-                                Password = PasswordSecurity.HashPassword("secret")
+                                Password = PasswordSecurity.HashPassword("secret"),
+                                EmailConfirmed = true
                             },
                             new Student
                             {
@@ -102,7 +104,8 @@ namespace backend.Data.Startup
                                 LastName = "Mitchinson",
                                 BirthDate = new DateTime(2001, 1, 13),
                                 Email = "email4@test.com",
-                                Password = PasswordSecurity.HashPassword("secret")
+                                Password = PasswordSecurity.HashPassword("secret"),
+                                EmailConfirmed = true
                             },
                             new Student
                             {
@@ -111,7 +114,8 @@ namespace backend.Data.Startup
                                 LastName = "Watters",
                                 BirthDate = new DateTime(2001, 1, 13),
                                 Email = "email5@test.com",
-                                Password = PasswordSecurity.HashPassword("secret")
+                                Password = PasswordSecurity.HashPassword("secret"),
+                                EmailConfirmed = true
                             },
                             new Student
                             {
@@ -120,7 +124,8 @@ namespace backend.Data.Startup
                                 LastName = "Mich",
                                 BirthDate = new DateTime(2001, 1, 13),
                                 Email = "email6@test.com",
-                                Password = PasswordSecurity.HashPassword("secret")
+                                Password = PasswordSecurity.HashPassword("secret"),
+                                EmailConfirmed = true
                             },
                             new Student
                             {
@@ -129,7 +134,8 @@ namespace backend.Data.Startup
                                 LastName = "Powers",
                                 BirthDate = new DateTime(2001, 1, 13),
                                 Email = "email7@test.com",
-                                Password = PasswordSecurity.HashPassword("secret")
+                                Password = PasswordSecurity.HashPassword("secret"),
+                                EmailConfirmed = true
                             },
                             new Student
                             {
@@ -138,7 +144,8 @@ namespace backend.Data.Startup
                                 LastName = "Grove",
                                 BirthDate = new DateTime(2001, 1, 13),
                                 Email = "email8@test.com",
-                                Password = PasswordSecurity.HashPassword("secret")
+                                Password = PasswordSecurity.HashPassword("secret"),
+                                EmailConfirmed = true
                             },
                             new Student
                             {
@@ -147,7 +154,8 @@ namespace backend.Data.Startup
                                 LastName = "Fox",
                                 BirthDate = new DateTime(2001, 1, 13),
                                 Email = "email9@test.com",
-                                Password = PasswordSecurity.HashPassword("secret")
+                                Password = PasswordSecurity.HashPassword("secret"),
+                                EmailConfirmed = true
                             },
                             new Student
                             {
@@ -156,7 +164,8 @@ namespace backend.Data.Startup
                                 LastName = "Stogs",
                                 BirthDate = new DateTime(2001, 1, 13),
                                 Email = "email10@test.com",
-                                Password = PasswordSecurity.HashPassword("secret")
+                                Password = PasswordSecurity.HashPassword("secret"),
+                                EmailConfirmed = true
                             },
                             new Student
                             {
@@ -165,7 +174,8 @@ namespace backend.Data.Startup
                                 LastName = "Mitchinson",
                                 BirthDate = new DateTime(2001, 1, 13),
                                 Email = "email11@test.com",
-                                Password = PasswordSecurity.HashPassword("secret")
+                                Password = PasswordSecurity.HashPassword("secret"),
+                                EmailConfirmed = true
                             },
                             new Student
                             {
@@ -174,7 +184,8 @@ namespace backend.Data.Startup
                                 LastName = "Jones",
                                 BirthDate = new DateTime(2001, 1, 13),
                                 Email = "email12@test.com",
-                                Password = PasswordSecurity.HashPassword("secret")
+                                Password = PasswordSecurity.HashPassword("secret"),
+                                EmailConfirmed = true
                             },
                             new Student
                             {
@@ -183,7 +194,8 @@ namespace backend.Data.Startup
                                 LastName = "William",
                                 BirthDate = new DateTime(2001, 1, 13),
                                 Email = "email13@test.com",
-                                Password = PasswordSecurity.HashPassword("secret")
+                                Password = PasswordSecurity.HashPassword("secret"),
+                                EmailConfirmed = true
                             },
                             new Student
                             {
@@ -192,7 +204,8 @@ namespace backend.Data.Startup
                                 LastName = "Nance",
                                 BirthDate = new DateTime(2001, 1, 13),
                                 Email = "email14@test.com",
-                                Password = PasswordSecurity.HashPassword("secret")
+                                Password = PasswordSecurity.HashPassword("secret"),
+                                EmailConfirmed = true
                             },
                             new Student
                             {
@@ -201,7 +214,8 @@ namespace backend.Data.Startup
                                 LastName = "Sandvold",
                                 BirthDate = new DateTime(2001, 1, 13),
                                 Email = "email15@test.com",
-                                Password = PasswordSecurity.HashPassword("secret")
+                                Password = PasswordSecurity.HashPassword("secret"),
+                                EmailConfirmed = true
                             }
                         };
 
@@ -214,7 +228,8 @@ namespace backend.Data.Startup
                                 LastName = "Crawford",
                                 BirthDate = new DateTime(1975, 1, 13),
                                 Email = "jcrawford@test.com",
-                                Password = PasswordSecurity.HashPassword("secret")
+                                Password = PasswordSecurity.HashPassword("secret"),
+                                EmailConfirmed = true
                             },
                             new Instructor
                             {
@@ -223,7 +238,8 @@ namespace backend.Data.Startup
                                 LastName = "Ellis",
                                 BirthDate = new DateTime(1975, 1, 13),
                                 Email = "mellis@test.com",
-                                Password = PasswordSecurity.HashPassword("secret")
+                                Password = PasswordSecurity.HashPassword("secret"),
+                                EmailConfirmed = true
                             },
                             new Instructor
                             {
@@ -232,7 +248,8 @@ namespace backend.Data.Startup
                                 LastName = "Smith",
                                 BirthDate = new DateTime(1975, 1, 13),
                                 Email = "smith@test.com",
-                                Password = PasswordSecurity.HashPassword("secret")
+                                Password = PasswordSecurity.HashPassword("secret"),
+                                EmailConfirmed = true
                             },
                             new Instructor
                             {
@@ -241,7 +258,8 @@ namespace backend.Data.Startup
                                 LastName = "Johnson",
                                 BirthDate = new DateTime(1975, 1, 13),
                                 Email = "johnson@test.com",
-                                Password = PasswordSecurity.HashPassword("secret")
+                                Password = PasswordSecurity.HashPassword("secret"),
+                                EmailConfirmed = true
                             },
                             new Instructor
                             {
@@ -250,7 +268,8 @@ namespace backend.Data.Startup
                                 LastName = "Lim",
                                 BirthDate = new DateTime(1975, 1, 13),
                                 Email = "lim@test.com",
-                                Password = PasswordSecurity.HashPassword("secret")
+                                Password = PasswordSecurity.HashPassword("secret"),
+                                EmailConfirmed = true
                             },
                             new Instructor
                             {
@@ -259,7 +278,8 @@ namespace backend.Data.Startup
                                 LastName = "Dorothy",
                                 BirthDate = new DateTime(1975, 1, 13),
                                 Email = "dorothy@test.com",
-                                Password = PasswordSecurity.HashPassword("secret")
+                                Password = PasswordSecurity.HashPassword("secret"),
+                                EmailConfirmed = true
                             }
                         };
 

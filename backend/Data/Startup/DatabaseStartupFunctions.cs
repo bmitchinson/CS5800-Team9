@@ -74,7 +74,8 @@ namespace backend.Data.Startup
                                 LastName = "Gallagher",
                                 BirthDate = new DateTime(1993,12,21),
                                 Email = "email1@test.com",
-                                Password = PasswordSecurity.HashPassword("secret")
+                                Password = PasswordSecurity.HashPassword("secret"),
+                                EmailConfirmed = true
                             },
                             new Student
                             {

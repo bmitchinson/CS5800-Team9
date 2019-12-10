@@ -5,17 +5,11 @@ export function getRole(_jwt) {
 }
 
 export function getEmail(_jwt) {
-  if (isLoggedIn(_jwt)) {
-    return getRoleAndEmailAndIDFromJWT(_jwt)[1];
-  }
   const jwt = _jwt ? _jwt : localStorage.getItem("userJWT");
   return isLoggedIn(jwt) ? getRoleAndEmailAndIDFromJWT(jwt)[1] : null;
 }
 
 export function getId(_jwt) {
-  if (isLoggedIn(_jwt)) {
-    return getRoleAndEmailAndIDFromJWT(_jwt)[2];
-  }
   const jwt = _jwt ? _jwt : localStorage.getItem("userJWT");
   return isLoggedIn(jwt) ? getRoleAndEmailAndIDFromJWT(jwt)[2] : null;
 }

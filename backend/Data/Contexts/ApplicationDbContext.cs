@@ -3,6 +3,9 @@ using System.Threading.Tasks;
 using System;
 using backend.Data.Models;
 using backend.Data.Configs;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+
 
 namespace backend.Data.Contexts
 {
@@ -21,7 +24,8 @@ namespace backend.Data.Contexts
         public DbSet<StudentEnrollment> StudentEnrollment { get; set; }
         public DbSet<Document> Documents { get; set; }
         public DbSet<Submission> Submissions { get; set; }
-
+        public DbSet<ApplicationUser> ApplicationUsers{ get; set; }
+    
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new StudentEntityConfiguration());

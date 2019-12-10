@@ -52,6 +52,8 @@ export default function Header(props) {
   const classes = useStyles();
   const [drawerState, setDrawerState] = React.useState(false);
 
+  const { clearJWT, jwt } = props;
+
   const closeDrawer = () => {
     drawerState && setDrawerState(false);
   };
@@ -78,16 +80,12 @@ export default function Header(props) {
           </Link>
           <div className={classes.grow} />
           <Typography variant="subtitle1" style={{ paddingRight: ".4em" }}>
-            {getEmail()}
+            {getEmail(jwt)}
           </Typography>
           <Typography variant="subtitle1" style={{ paddingRight: ".8em" }}>
-            ({getRole()})
+            {getRole(jwt) ? `(${getRole(jwt)})` : ""}
           </Typography>
-          <Button
-            variant="contained"
-            color="secondary"
-            onClick={props.clearJWT}
-          >
+          <Button variant="contained" color="secondary" onClick={clearJWT}>
             Sign Out
           </Button>
         </Toolbar>

@@ -30,8 +30,6 @@ export default function RegistrationIndex(props) {
         icon: "add",
         tooltip: "Enroll",
         onClick: (e, rowData) => {
-          console.log("id:", getId());
-          console.log("regId:", rowData.registrationId);
           axios({
             method: "POST",
             url: "https://localhost:5001/api/studentenrollment",

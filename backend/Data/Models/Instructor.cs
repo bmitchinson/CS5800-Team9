@@ -20,7 +20,7 @@ namespace backend.Data.Models
         public DateTime? BirthDate { get; set; }
 
         public string Password { get; set; }
-
+        public bool EmailConfirmed { get; set; }
         public ICollection<Registration> Registrations { get; set; }
     }
 }

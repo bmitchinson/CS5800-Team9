@@ -1,39 +1,29 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using backend.Models;
 using backend.Data.Contexts;
 using backend.Data.Models;
 using Microsoft.EntityFrameworkCore;
-using backend.Data.QueryObjects;
 using backend.Infrastructure.EmailManager;
 using backend.Infrastructure.PasswordSecurity;
-using backend.Infrastructure.ClaimsManager;
 namespace backend.Controllers
-{
 
+{
     public class EmailController : Controller
     {
         private readonly UserManager<IdentityUser> _userManager;
-        private readonly SignInManager<IdentityUser> _signInManager;
         private readonly IEmailManager _emailManager;
         private readonly ApplicationDbContext _context;
         public EmailController(
             UserManager<IdentityUser> userManager,
-            SignInManager<IdentityUser> signInManager,
             IEmailManager emailManager,
             ApplicationDbContext context)
         {
             _userManager = userManager;
-            _signInManager = signInManager;
             _emailManager = emailManager;
             _context = context;
         }

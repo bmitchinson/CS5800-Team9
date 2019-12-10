@@ -73,11 +73,7 @@ namespace backend
                 });
             });
 
-            // Configure Entity Framework Identity for Auth
-            services.AddIdentity<IdentityUser, IdentityRole>()
-            .AddEntityFrameworkStores<ApplicationDbContext>()
-            .AddDefaultTokenProviders();
-
+            
             
 
             var dbConnection = Configuration

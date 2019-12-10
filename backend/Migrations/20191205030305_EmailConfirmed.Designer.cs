@@ -2,20 +2,38 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using backend.Data.Contexts;
 
 namespace backend.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20191205030305_EmailConfirmed")]
+    partial class EmailConfirmed
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "2.2.3-servicing-35854")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("ClaimType");
+
+                    b.Property<string>("ClaimValue");
+
+                    b.Property<string>("UserId");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("IdentityUserClaim");
+                });
 
             modelBuilder.Entity("backend.Data.Models.Administrator", b =>
                 {
@@ -33,24 +51,6 @@ namespace backend.Migrations
                     b.HasKey("AdministratorId");
 
                     b.ToTable("Administrators");
-                });
-
-            modelBuilder.Entity("backend.Data.Models.ApplicationUser", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Code");
-
-                    b.Property<string>("Email");
-
-                    b.Property<string>("ResetPassword");
-
-                    b.Property<string>("UserId");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("ApplicationUsers");
                 });
 
             modelBuilder.Entity("backend.Data.Models.Course", b =>
@@ -100,13 +100,7 @@ namespace backend.Migrations
                     b.Property<int>("InstructorId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<DateTime?>("BirthDate")
-                        .IsRequired()
-                        .HasColumnType("date");
-
                     b.Property<string>("Email");
-
-                    b.Property<bool>("EmailConfirmed");
 
                     b.Property<string>("FirstName");
 

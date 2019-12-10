@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace backend.Data.Models
 {
-    public class Student
+    public class Student 
     {
         [BindNever]
         public int StudentId { get; set; }
@@ -25,7 +25,7 @@ namespace backend.Data.Models
 
         [Required]
         public string Password { get; set; }
-
+        public bool EmailConfirmed { get; set; }
         public ICollection<StudentEnrollment> Enrollments { get; set; }
     }
 }

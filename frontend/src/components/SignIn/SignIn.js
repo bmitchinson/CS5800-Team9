@@ -143,9 +143,6 @@ export default function SignIn(props) {
       })
       .catch(function(e) {
         console.log("Error:", e);
-        store.addNotification(
-          notificationPrefs("Problem Logging In", "Please try again", "danger")
-        );
       });
   };
 

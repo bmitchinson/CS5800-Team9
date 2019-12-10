@@ -19,7 +19,7 @@ export default function CourseIndex(props) {
   const [deleteName, setDeleteName] = useState("");
 
   useEffect(() => {
-    const fetchCourses = async props => {
+    const fetchCourses = async () => {
       const courses = await axios({
         method: "get",
         url: "https://localhost:5001/api/course",
@@ -52,7 +52,7 @@ export default function CourseIndex(props) {
         refresh={() => setRefreshToggle(!refreshToggle)}
       />
       <Typography variant="h2">
-        <span role="img" aria-label="sad">
+        <span role="img" aria-label="school logo">
           🎓
         </span>
         Browse Courses

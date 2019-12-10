@@ -10,7 +10,7 @@ const useStyles = makeStyles(theme => ({
     position: "absolute",
     width: "30em",
     marginLeft: "-15em",
-    height: "40em",
+    height: "35em",
     marginTop: "-20em",
     left: "50%",
     top: "50%",
@@ -22,12 +22,14 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function CloudinaryButton() {
+export function CloudinaryButton(props) {
   const classes = useStyles();
-  const [classifyModalState, setClassifyModalState] = useState(true);
+  const [classifyModalState, setClassifyModalState] = useState(false);
   const [fileURL, setFileURL] = useState(
     "https://res.cloudinary.com/dkfj0xfet/image/upload/v1574969958/classroom/test_qpwosk.pdf"
   );
+
+  const { buttonText, refresh, documentId } = props;
 
   let widget = window.cloudinary.createUploadWidget(
     {
@@ -52,8 +54,8 @@ export default function CloudinaryButton() {
 
   return (
     <>
-      <Button variant="contained" color="secondary" onClick={showWidget}>
-        Upload Document
+      <Button variant="contained" color="primary" onClick={showWidget}>
+        {buttonText}
       </Button>
       <Modal
         open={classifyModalState}
@@ -62,7 +64,14 @@ export default function CloudinaryButton() {
         }}
       >
         <div className={classes.paper}>
-          <SubmitDocument fileURL={fileURL} />
+          <SubmitDocument
+            fileURL={fileURL}
+            close={() => {
+              setClassifyModalState(false);
+            }}
+            documentId={documentId}
+            refresh={refresh}
+          />
         </div>
       </Modal>
     </>

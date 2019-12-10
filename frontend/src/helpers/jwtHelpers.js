@@ -1,16 +1,23 @@
-export function getRole() {
-  const jwt = localStorage.getItem("userJWT");
-  return isLoggedIn() ? getRoleAndEmailAndIDFromJWT(jwt)[0] : null;
+// This is so gross for no reason avert your eyes lol
+export function getRole(_jwt) {
+  const jwt = _jwt ? _jwt : localStorage.getItem("userJWT");
+  return isLoggedIn(jwt) ? getRoleAndEmailAndIDFromJWT(jwt)[0] : null;
 }
 
-export function getEmail() {
-  const jwt = localStorage.getItem("userJWT");
-  return isLoggedIn() ? getRoleAndEmailAndIDFromJWT(jwt)[1] : null;
+export function getEmail(_jwt) {
+  if (isLoggedIn(_jwt)) {
+    return getRoleAndEmailAndIDFromJWT(_jwt)[1];
+  }
+  const jwt = _jwt ? _jwt : localStorage.getItem("userJWT");
+  return isLoggedIn(jwt) ? getRoleAndEmailAndIDFromJWT(jwt)[1] : null;
 }
 
-export function getId() {
-  const jwt = localStorage.getItem("userJWT");
-  return isLoggedIn() ? getRoleAndEmailAndIDFromJWT(jwt)[2] : null;
+export function getId(_jwt) {
+  if (isLoggedIn(_jwt)) {
+    return getRoleAndEmailAndIDFromJWT(_jwt)[2];
+  }
+  const jwt = _jwt ? _jwt : localStorage.getItem("userJWT");
+  return isLoggedIn(jwt) ? getRoleAndEmailAndIDFromJWT(jwt)[2] : null;
 }
 
 export function isAdmin() {
@@ -25,8 +32,8 @@ export function isStudent() {
   return getRole() === "Student";
 }
 
-export function isLoggedIn() {
-  const jwt = localStorage.getItem("userJWT");
+export function isLoggedIn(value) {
+  const jwt = value ? value : localStorage.getItem("userJWT");
   return !(jwt === "null" || jwt === null || jwt === "");
 }
 

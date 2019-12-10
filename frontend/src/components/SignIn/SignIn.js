@@ -58,6 +58,8 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function SignIn(props) {
+  const { setUserJWT } = props;
+
   const classes = useStyles();
   const [signUp, setSignUp] = React.useState(false);
   const [birthday, setBirthday] = React.useState(new Date());
@@ -128,7 +130,7 @@ export default function SignIn(props) {
       }
     })
       .then(function(response) {
-        props.setUserJWT(response.data.token);
+        setUserJWT(response.data.token);
       })
       .catch(function(e) {
         console.log("Error:", e);

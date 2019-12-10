@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from "react";
-import { isAdmin, isInstructor } from "../../helpers/jwtHelpers";
+import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Typography, Grid, Paper } from "@material-ui/core";
 
@@ -37,6 +36,8 @@ export default function DocumentGroup(props) {
     case 3:
       doctype = "Quizes:";
       break;
+    default:
+      doctype = "Notes:";
   }
 
   return (

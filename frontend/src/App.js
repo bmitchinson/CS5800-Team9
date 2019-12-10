@@ -60,10 +60,16 @@ function App() {
       <ReactNotification />
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        {!isLoggedIn() && <SignIn setUserJWT={setUserJWT} />}
-        {isLoggedIn() && (
+        {!isLoggedIn(userJWT) && (
+          <SignIn
+            setUserJWT={jwt => {
+              setUserJWT(jwt);
+            }}
+          />
+        )}
+        {isLoggedIn(userJWT) && (
           <>
-            <Header clearJWT={clearJWT} />
+            <Header clearJWT={clearJWT} jwt={userJWT} />
             <MainView>
               <Switch>
                 <Route path="/myaccount">

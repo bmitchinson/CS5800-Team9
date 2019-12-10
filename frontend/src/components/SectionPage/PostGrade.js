@@ -4,7 +4,6 @@ import { store } from "react-notifications-component";
 
 import notificationPrefs from "../../helpers/notificationPrefs";
 import getHeaders from "../../helpers/getHeaders";
-import { getThumbnailURL } from "../../helpers/cloudinaryHelpers";
 
 import {
   Typography,
@@ -17,7 +16,13 @@ import {
 } from "@material-ui/core";
 
 export default function PostGrade(props) {
-  const { submissionIdToGrade, documentThumbnail, doctype, close } = props;
+  const {
+    submissionIdToGrade,
+    submissionThumbnail,
+    doctype,
+    close,
+    submissionUrl
+  } = props;
   const [choosenGrade, setChoosenGrade] = useState("C");
 
   const postGrade = async () => {
@@ -71,11 +76,13 @@ export default function PostGrade(props) {
         <Grid item xs={12}>
           <center>
             <Paper style={{ width: "70%" }} elevation={5}>
-              <img
-                style={{ width: "70%" }}
-                src={documentThumbnail}
-                alt="Document Preview"
-              />
+              <a href={submissionUrl} rel="noopener noreferrer" target="_blank">
+                <img
+                  style={{ width: "70%" }}
+                  src={submissionThumbnail}
+                  alt="Document Preview"
+                />
+              </a>
             </Paper>
           </center>
         </Grid>

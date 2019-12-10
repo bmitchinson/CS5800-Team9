@@ -144,7 +144,14 @@ export default function SignIn(props) {
         setUserJWT(response.data.token);
       })
       .catch(function(e) {
-        console.log("Error:", e);
+        console.log(e);
+        store.addNotification(
+          notificationPrefs(
+            "Invalid Login",
+            "Please check your credentials or create a new account",
+            "danger"
+          )
+        );
       });
   };
 
@@ -159,7 +166,11 @@ export default function SignIn(props) {
     })
       .then(function(response) {
         store.addNotification(
-          notificationPrefs("Email confirmation sent!", "Please check your email and confirm your email address", "success")
+          notificationPrefs(
+            "Email confirmation sent!",
+            "Please check your email and confirm your email address",
+            "success"
+          )
         );
       })
       .catch(function(e) {
@@ -180,9 +191,13 @@ export default function SignIn(props) {
       }
     })
       .then(function(response) {
-        setForgotPassword(false)
+        setForgotPassword(false);
         store.addNotification(
-          notificationPrefs("Email sent!", "Please check your email to reset your password", "success")
+          notificationPrefs(
+            "Email sent!",
+            "Please check your email to reset your password",
+            "success"
+          )
         );
       })
       .catch(function(e) {
@@ -208,11 +223,7 @@ export default function SignIn(props) {
               </Typography>
               <Grid container>
                 <Grid item>
-                  <Link
-                    href="/#"
-                    variant="body2"
-                    color="textPrimary"
-                  >
+                  <Link href="/#" variant="body2" color="textPrimary">
                     {"Click here to Sign in"}
                   </Link>
                 </Grid>
@@ -224,11 +235,7 @@ export default function SignIn(props) {
               </Typography>
               <Grid container>
                 <Grid item>
-                  <Link
-                    href="/#"
-                    variant="body2"
-                    color="textPrimary"
-                  >
+                  <Link href="/#" variant="body2" color="textPrimary">
                     {"Click here to Sign in"}
                   </Link>
                 </Grid>
@@ -240,11 +247,7 @@ export default function SignIn(props) {
               </Typography>
               <Grid container>
                 <Grid item>
-                  <Link
-                    href="/#"
-                    variant="body2"
-                    color="textPrimary"
-                  >
+                  <Link href="/#" variant="body2" color="textPrimary">
                     {"Click here to Sign in"}
                   </Link>
                 </Grid>
@@ -256,11 +259,7 @@ export default function SignIn(props) {
               </Typography>
               <Grid container>
                 <Grid item>
-                  <Link
-                    href="/#"
-                    variant="body2"
-                    color="textPrimary"
-                  >
+                  <Link href="/#" variant="body2" color="textPrimary">
                     {"An error occurred. Click here to Sign in"}
                   </Link>
                 </Grid>
@@ -320,7 +319,7 @@ export default function SignIn(props) {
                           href="#"
                           variant="body2"
                           color="textPrimary"
-                          alignItems="flex-end"
+                          alignitems="flex-end"
                           onClick={openForgotPassword}
                         >
                           {"Forgot your password?"}
@@ -330,7 +329,7 @@ export default function SignIn(props) {
                   </form>
                 </>
               )}
-              {signUp && !forgotPassword &&(
+              {signUp && !forgotPassword && (
                 <>
                   <Typography component="h1" variant="h5">
                     Sign Up
@@ -481,7 +480,7 @@ export default function SignIn(props) {
                       type="password"
                       autoComplete="resetpassword"
                     />
-                    
+
                     <Button
                       fullWidth
                       variant="contained"
@@ -503,7 +502,7 @@ export default function SignIn(props) {
                         </Link>
                       </Grid>
                     </Grid>
-                </form>
+                  </form>
                 </>
               )}
             </Route>
